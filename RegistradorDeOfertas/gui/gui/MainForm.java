@@ -69,7 +69,7 @@ public class MainForm {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				 
-				AgregarOferta agregador = new AgregarOferta(frame);
+				OfertaForm agregador = new OfertaForm(frame);
 				agregador.setVisible(true);
 				agregaOferta(agregador.data);
 				frame.validate();
@@ -98,7 +98,7 @@ public class MainForm {
 	
 	private void agregaOferta(OfertaData ofertaData){
 		
-			OfferField newOffer = new OfferField(ofertaData.nombre);
+			OfferField newOffer = new OfferField(ofertaData);
 			newOffer.setPreferredSize(new Dimension(630,50));
 			columnpanel.add(newOffer);
             newOffer.setLayout(null);
