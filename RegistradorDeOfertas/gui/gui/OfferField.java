@@ -26,17 +26,14 @@ public class OfferField extends JPanel {
 		setLayout(null);
 		
 		//Labels de info
-		JLabel lblNombre = new JLabel(data.nombre);
-		JLabel lblApellido = new JLabel(data.apellido);
-		JLabel lblFecha = new JLabel(data.fecha.toString());
+		JLabel lblNombreApellido = new JLabel(data.nombre+ " " + data.apellido);
+		JLabel lblTiempos = new JLabel("De " + data.inicio.getHourOfDay()+ "hs" + " a " + data.fin.getHourOfDay() + "hs");
 		
-		lblNombre.setBounds(10, 19, 111, 14);
-		lblApellido.setBounds(129, 19, 111, 14);
-		lblFecha.setBounds(250, 19, 97, 14);
+		lblNombreApellido.setBounds(10, 19, 111, 14);
+		lblTiempos.setBounds(182, 19, 165, 14);
 	
-		add(lblNombre);
-		add(lblApellido);
-		add(lblFecha);
+		add(lblNombreApellido);
+		add(lblTiempos);
 		
 		//Acciones
 		JCheckBox chckbxAgregar = new JCheckBox("Agregar");

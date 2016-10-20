@@ -6,13 +6,30 @@ import java.awt.Dimension;
 
 import javax.swing.JDialog;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
+import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
+
 import javax.swing.JFormattedTextField;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JPanel;
+import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.SpinnerModel;
+
+import org.joda.time.DateTime;
 
 public class OfertaForm extends JDialog{
 	
@@ -22,102 +39,147 @@ public class OfertaForm extends JDialog{
 	private static final long serialVersionUID = 1L;
 	public OfertaData data = new OfertaData();
 	private JTextField nombreField;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField apellidoField;
+	private JFormattedTextField emailField;
+	private JFormattedTextField dniField;
+	private JFormattedTextField telField;
+	private JFormattedTextField mntoField;
+	private JDateChooser fecha;
+	private JSpinner tiempoFin;
+	private JSpinner tiempoInicio;
 	
 	public OfertaForm(Component parent){
 		getContentPane().setLayout(null);
 		this.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
 		
-		super.setSize(new Dimension(300, 360));
+		super.setSize(new Dimension(500, 300));
 		super.setLocationRelativeTo(parent);
 		
-		
-		nombreField = new JTextField();
-		nombreField.setToolTipText("Nombre");
-		nombreField.setBounds(125, 11, 149, 20);
-		getContentPane().add(nombreField);
-		nombreField.setColumns(10);
-		
 		JButton btnOk = new JButton("Ok!");
+		JButton btnCancelar = new JButton("Cancelar");
+		btnOk.setBounds(84, 220, 89, 23);
+		btnCancelar.setBounds(318, 220, 89, 23);
+		getContentPane().add(btnOk);
+		getContentPane().add(btnCancelar);
+		
+		//Acciones de botones
 		btnOk.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mouseClicked(MouseEvent event) {
 				data.setNombre( nombreField.getText());
+				data.setApellido(apellidoField.getText());
+				data.setEmail(emailField.getText());
+				data.setPrecio( Double.valueOf(mntoField.getText()) );
+				data.setTelefono( Long.valueOf(telField.getText()));
+				data.setDNI(Long.valueOf(dniField.getText()));
+				data.setFecha(fecha.getDate());
+				
+				
+				data.setInicio((Date)tiempoInicio.getValue());
+				data.setFin((Date)tiempoFin.getValue());
 				dispose();
 				
 			}
 		});
-		btnOk.setBounds(32, 279, 89, 23);
-		getContentPane().add(btnOk);
+
+		btnCancelar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+				
+			}
+		});
 		
-		textField = new JTextField();
-		textField.setToolTipText("Apellido");
-		textField.setBounds(125, 43, 149, 20);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		//Fields
 		
-		JFormattedTextField formattedTextField = new JFormattedTextField();
-		formattedTextField.setBounds(125, 74, 149, 20);
-		getContentPane().add(formattedTextField);
+		nombreField = new JTextField();
+		apellidoField = new JTextField();
+		emailField = new JFormattedTextField( new RegexFormatter("\\b([\\w\\.]+)@([\\w\\.]+)\\.(\\w+)\\b"));//Email Regex
+		telField = new JFormattedTextField(new RegexFormatter("\\d{8,}"));//Telefono Regex. 8 o mas?
+		mntoField = new JFormattedTextField(new RegexFormatter("\\d*(\\.|,)?\\d{2}"));//Cualquier cantidad de digitos
+		dniField = new JFormattedTextField(new RegexFormatter("\\d{8}")); //Regex de DNI, sin puntos
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(125, 105, 149, 20);
-		getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+		fecha = new JDateChooser(new Date());
 		
-		JFormattedTextField formattedTextField_1 = new JFormattedTextField();
-		formattedTextField_1.setBounds(125, 136, 149, 20);
-		getContentPane().add(formattedTextField_1);
 		
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(125, 238, 149, 20);
-		getContentPane().add(dateChooser);
+		tiempoInicio = new JSpinner( new SpinnerDateModel() );
+		JSpinner.DateEditor de_tiempoInicio = new JSpinner.DateEditor(tiempoInicio, "HH");//Formato de hora
+		tiempoFin = new JSpinner( new SpinnerDateModel() );
+		JSpinner.DateEditor de_tiempoFin = new JSpinner.DateEditor(tiempoFin, "HH");//Formato de hora
 		
-		JFormattedTextField formattedTextField_2 = new JFormattedTextField();
-		formattedTextField_2.setBounds(125, 167, 149, 20);
-		getContentPane().add(formattedTextField_2);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(125, 198, 149, 20);
-		getContentPane().add(comboBox);
+		nombreField.setBounds(84, 11, 149, 20);
+		apellidoField.setBounds(318, 11, 149, 20);
+		dniField.setBounds(84, 42, 149, 20);
+		emailField.setBounds(318, 42, 149, 20);
+		telField.setBounds(84, 73, 149, 20);
+		fecha.setBounds(318, 104, 149, 20);
+		mntoField.setBounds(318, 73, 149, 20);
+		tiempoInicio.setBounds(359, 135, 46, 20);
+		tiempoFin.setBounds(359, 166, 46, 20);
 		
+		tiempoInicio.setEditor(de_tiempoInicio);
+		tiempoInicio.setValue(new Date());
+		tiempoFin.setEditor(de_tiempoFin);
+		tiempoFin.setValue(new Date());
+		
+		getContentPane().add(nombreField);
+		getContentPane().add(apellidoField);
+		getContentPane().add(dniField);
+		getContentPane().add(emailField);
+		getContentPane().add(telField);
+		getContentPane().add(fecha);
+		getContentPane().add(mntoField);
+		getContentPane().add(tiempoInicio);
+		getContentPane().add(tiempoFin);
+		
+		//Labels
 		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setBounds(10, 14, 46, 14);
-		getContentPane().add(lblNombre);
-		
 		JLabel lblApellido = new JLabel("Apellido:");
-		lblApellido.setBounds(10, 46, 46, 14);
-		getContentPane().add(lblApellido);
-		
 		JLabel lblDni = new JLabel("DNI:");
-		lblDni.setBounds(10, 77, 46, 14);
-		getContentPane().add(lblDni);
-		
 		JLabel lblEmail = new JLabel("Email:");
-		lblEmail.setBounds(10, 108, 46, 14);
-		getContentPane().add(lblEmail);
-		
 		JLabel lblTelefono = new JLabel("Telefono:");
-		lblTelefono.setBounds(10, 139, 46, 14);
-		getContentPane().add(lblTelefono);
-		
 		JLabel lblMonto = new JLabel("Monto: ");
-		lblMonto.setBounds(10, 170, 46, 14);
-		getContentPane().add(lblMonto);
-		
-		JLabel lblEquipamento = new JLabel("Equipamento: ");
-		lblEquipamento.setBounds(10, 201, 78, 14);
-		getContentPane().add(lblEquipamento);
-		
+		JLabel lblEquipamento = new JLabel("Equip.:");
 		JLabel lblFecha = new JLabel("Fecha:");
-		lblFecha.setBounds(10, 238, 46, 14);
+		JLabel lblInicio = new JLabel("Inicio:");
+		JLabel lblFin = new JLabel("Fin:");
+		
+		
+		
+		lblNombre.setBounds(10, 14, 64, 14);
+		lblApellido.setBounds(262, 14, 59, 14);
+		lblDni.setBounds(10, 39, 46, 14);
+		lblEmail.setBounds(262, 45, 46, 14);
+		lblTelefono.setBounds(10, 76, 59, 14);
+		lblMonto.setBounds(262, 76, 46, 14);
+		lblEquipamento.setBounds(10, 101, 82, 14);
+		lblFecha.setBounds(262, 104, 46, 14);
+		lblInicio.setBounds(262, 138, 46, 14);
+		lblFin.setBounds(262, 169, 46, 14);
+		
+		getContentPane().add(lblNombre);
+		getContentPane().add(lblApellido);
+		getContentPane().add(lblDni);
+		getContentPane().add(lblEmail);
+		getContentPane().add(lblTelefono);
+		getContentPane().add(lblMonto);
+		getContentPane().add(lblEquipamento);
 		getContentPane().add(lblFecha);
+		getContentPane().add(lblInicio);
+		getContentPane().add(lblFin);
 		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(151, 279, 89, 23);
-		getContentPane().add(btnCancelar);
+		//TODO: equipamento
+		JPanel panel = new JPanel();
+		JScrollPane scroll = new JScrollPane();
+		scroll.setBounds(84, 103, 149, 80);
+		getContentPane().add(scroll);
 		
+		
+		scroll.setViewportView(panel);
+		panel.setLayout(new GridLayout(0, 1, 0, 1));
+	
 		
 		
 		

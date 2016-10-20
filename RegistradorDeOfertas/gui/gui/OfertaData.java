@@ -2,6 +2,9 @@ package gui;
 
 import java.util.Date;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
+
 public class OfertaData {
 	
 	//Clase contenedora de datos, carente de inteligencia
@@ -12,7 +15,10 @@ public class OfertaData {
 	long DNI;
 	long telefono;
 	Date fecha;
+	LocalTime inicio;
+	LocalTime fin;
 	double precio;
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -54,6 +60,18 @@ public class OfertaData {
 	}
 	public void setPrecio(double precio) {
 		this.precio = precio;
+	}
+	public LocalTime getInicio() {
+		return inicio;
+	}
+	public void setInicio(Date inicio) {
+		this.inicio = new LocalTime(inicio.getTime());//Solo la hora
+	}
+	public LocalTime getFin() {
+		return fin;
+	}
+	public void setFin(Date fin) {
+		this.fin = new LocalTime(fin.getTime());//Solo la hora
 	}
 	
 	

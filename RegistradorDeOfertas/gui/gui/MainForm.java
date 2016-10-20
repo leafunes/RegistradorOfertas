@@ -53,7 +53,6 @@ public class MainForm {
 		
 		JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(124, 11, 650, 539);
-        //scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         frame.getContentPane().add(scrollPane);
         
         borderlaoutpanel = new JPanel();
