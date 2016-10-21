@@ -5,31 +5,27 @@ import java.awt.Dialog;
 import java.awt.Dimension;
 
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
-import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JButton;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Date;
 
 import javax.swing.JFormattedTextField;
+
 import com.toedter.calendar.JDateChooser;
-import javax.swing.JComboBox;
+
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.AbstractListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import java.awt.BorderLayout;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.SpinnerModel;
-
-import org.joda.time.DateTime;
 
 public class OfertaForm extends JDialog{
 	
@@ -66,18 +62,12 @@ public class OfertaForm extends JDialog{
 		btnOk.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
-				data.setNombre( nombreField.getText());
-				data.setApellido(apellidoField.getText());
-				data.setEmail(emailField.getText());
-				data.setPrecio( Double.valueOf(mntoField.getText()) );
-				data.setTelefono( Long.valueOf(telField.getText()));
-				data.setDNI(Long.valueOf(dniField.getText()));
-				data.setFecha(fecha.getDate());
 				
+				if(isDataValid()){
 				
-				data.setInicio((Date)tiempoInicio.getValue());
-				data.setFin((Date)tiempoFin.getValue());
-				dispose();
+					fillData();
+					dispose();
+				}
 				
 			}
 		});
@@ -179,9 +169,64 @@ public class OfertaForm extends JDialog{
 		
 		scroll.setViewportView(panel);
 		panel.setLayout(new GridLayout(0, 1, 0, 1));
+
+	}
 	
+	private boolean isDataValid(){
+		
+		return isFieldOk() && isDateOk() && isHourOk();
+
+	}
+	
+	
+	private boolean isFieldOk() {
+
+		if(nombreField.getText().equals("") ||
+			apellidoField.getText().equals("") ||
+			emailField.getText().equals("") ||
+			mntoField.getText().equals("") ||
+			telField.getText().equals("") ||
+			dniField.getText().equals("") 
+		){
+			
+			JOptionPane.showMessageDialog(this, "Hay campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean isDateOk(){
+		if(fecha.getDate().before(new Date())){
+			JOptionPane.showMessageDialog(this, "Debe ser una fecha posterior a hoy",  "Error",JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean isHourOk(){
+		Date inicioDate = (Date)tiempoInicio.getValue();
+		Date finDate = (Date)tiempoFin.getValue();
+		
+		if(inicioDate.compareTo(finDate) <= 0){
+			
+			JOptionPane.showMessageDialog(this, "La hora de inicio es posterior a la hora de fin", "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+
+	private void fillData(){
+		
+		data.setNombre( nombreField.getText());
+		data.setApellido(apellidoField.getText());
+		data.setEmail(emailField.getText());
+		data.setPrecio( Double.valueOf(mntoField.getText()) );
+		data.setTelefono( Long.valueOf(telField.getText()));
+		data.setDNI(Long.valueOf(dniField.getText()));
+		data.setFecha(fecha.getDate());
 		
 		
-		
+		data.setInicio((Date)tiempoInicio.getValue());
+		data.setFin((Date)tiempoFin.getValue());
 	}
 }
