@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
+import org.json.simple.JSONObject;
 
 public class OfertaData {
 	
@@ -18,6 +19,36 @@ public class OfertaData {
 	LocalTime inicio;
 	LocalTime fin;
 	double precio;
+	
+	private Exportador exportador;
+	
+	private class Exportador implements Exportable<OfertaData>{
+
+		@Override
+		public OfertaData clone(OfertaData other) {
+			throw new RuntimeException("No implementado");
+		}
+
+		@Override
+		public OfertaData fromJSON(JSONObject obj) {
+			throw new RuntimeException("No implementado");
+		}
+
+		@Override
+		public JSONObject toJSON(OfertaData data) {
+			JSONObject ret = new JSONObject();
+			
+			ret.put("nombre", data.nombre);
+			ret.put("apellido", data.apellido);
+			ret.put("email", data.email);
+			
+			return ret;
+		
+		}
+
+	
+		
+	}
 	
 	public String getNombre() {
 		return nombre;

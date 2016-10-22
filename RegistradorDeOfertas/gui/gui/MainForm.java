@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -15,6 +17,7 @@ import proc.OfertaData;
 
 import java.awt.event.MouseAdapter;
 import javax.swing.JPanel;
+import com.toedter.calendar.JDateChooser;
 
 public class MainForm {
 
@@ -54,6 +57,11 @@ public class MainForm {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+
+		JDateChooser dateChooser = new JDateChooser(new Date());
+		dateChooser.setBounds(10, 93, 104, 23);
+		frame.getContentPane().add(dateChooser);
+		
 		JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(124, 11, 650, 539);
         frame.getContentPane().add(scrollPane);
@@ -71,28 +79,27 @@ public class MainForm {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				 
-				OfertaForm agregador = new OfertaForm(frame);
+				OfertaForm agregador = new OfertaForm(frame, dateChooser.getDate());
 				agregador.setVisible(true);
 				agregaOferta(agregador.data);
 				frame.validate();
 			}
 		});
-		btnNueva.setBounds(10, 43, 89, 23);
+		btnNueva.setBounds(10, 43, 104, 23);
 		frame.getContentPane().add(btnNueva);
 		
-		JButton btnFecha = new JButton("Fecha");
-		btnFecha.setBounds(10, 77, 89, 23);
-		frame.getContentPane().add(btnFecha);
-		
-		
-		
 		JButton btnEquipamento = new JButton("Equip.");
-		btnEquipamento.setBounds(10, 452, 89, 23);
+		btnEquipamento.setBounds(10, 395, 104, 23);
 		frame.getContentPane().add(btnEquipamento);
 		
-		JButton btnOk = new JButton("OK!");
-		btnOk.setBounds(10, 510, 89, 23);
-		frame.getContentPane().add(btnOk);
+		JButton btnCerrar = new JButton("Cerrar dia");
+		btnCerrar.setBounds(10, 510, 104, 23);
+		frame.getContentPane().add(btnCerrar);
+		
+		JButton btnVerCierre = new JButton("Ver Cierre");
+		btnVerCierre.setBounds(10, 476, 104, 23);
+		frame.getContentPane().add(btnVerCierre);
+		
 		
 		
 		
@@ -100,7 +107,7 @@ public class MainForm {
 	
 	private void agregaOferta(OfertaData ofertaData){
 		
-			OfferField newOffer = new OfferField(ofertaData);
+			OfertaField newOffer = new OfertaField(frame, ofertaData);
 			newOffer.setPreferredSize(new Dimension(630,50));
 			columnpanel.add(newOffer);
             newOffer.setLayout(null);

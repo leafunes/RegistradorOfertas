@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Component;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -10,8 +11,10 @@ import proc.OfertaData;
 
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class OfferField extends JPanel {
+public class OfertaField extends JPanel {
 
 	/**
 	 * 
@@ -21,7 +24,7 @@ public class OfferField extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public OfferField(OfertaData data) {
+	public OfertaField(Component parent, OfertaData data) {
 		//Diseño
 		setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		this.setBounds(0, 0, 650, 50);
@@ -50,6 +53,16 @@ public class OfferField extends JPanel {
 		add(btnEliminar);
 		
 		JButton btnDetalles = new JButton("Detalles...");
+		btnDetalles.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				DetallesOfertaForm detalles = new DetallesOfertaForm(parent, data);
+				detalles.setVisible(true);
+				
+				
+			}
+		});
 		btnDetalles.setBackground(new Color(204, 204, 102));
 		btnDetalles.setBounds(357, 15, 89, 23);
 		add(btnDetalles);

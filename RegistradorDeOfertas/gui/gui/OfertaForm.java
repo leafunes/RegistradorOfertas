@@ -42,11 +42,14 @@ public class OfertaForm extends JDialog{
 	private JFormattedTextField dniField;
 	private JFormattedTextField telField;
 	private JFormattedTextField mntoField;
-	private JDateChooser fecha;
 	private JSpinner tiempoFin;
 	private JSpinner tiempoInicio;
 	
-	public OfertaForm(Component parent){
+	private Date date;
+	
+	public OfertaForm(Component parent, Date date){
+		
+		this.date = date;
 		getContentPane().setLayout(null);
 		this.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
 		
@@ -90,9 +93,7 @@ public class OfertaForm extends JDialog{
 		emailField = new JFormattedTextField( new RegexFormatter("\\b([\\w\\.]+)@([\\w\\.]+)\\.(\\w+)\\b"));//Email Regex
 		telField = new JFormattedTextField(new RegexFormatter("\\d{8,}"));//Telefono Regex. 8 o mas?
 		mntoField = new JFormattedTextField(new RegexFormatter("\\d*(\\.|,)?\\d{2}"));//Cualquier cantidad de digitos
-		dniField = new JFormattedTextField(new RegexFormatter("\\d{8}")); //Regex de DNI, sin puntos
-		
-		fecha = new JDateChooser(new Date());
+		dniField = new JFormattedTextField(new RegexFormatter("\\d{8}"));
 		
 		
 		tiempoInicio = new JSpinner( new SpinnerDateModel() );
@@ -106,10 +107,9 @@ public class OfertaForm extends JDialog{
 		dniField.setBounds(84, 42, 149, 20);
 		emailField.setBounds(318, 42, 149, 20);
 		telField.setBounds(84, 73, 149, 20);
-		fecha.setBounds(318, 104, 149, 20);
 		mntoField.setBounds(318, 73, 149, 20);
-		tiempoInicio.setBounds(359, 135, 46, 20);
-		tiempoFin.setBounds(359, 166, 46, 20);
+		tiempoInicio.setBounds(359, 104, 46, 20);
+		tiempoFin.setBounds(359, 135, 46, 20);
 		
 		tiempoInicio.setEditor(de_tiempoInicio);
 		tiempoInicio.setValue(new Date());
@@ -121,7 +121,6 @@ public class OfertaForm extends JDialog{
 		getContentPane().add(dniField);
 		getContentPane().add(emailField);
 		getContentPane().add(telField);
-		getContentPane().add(fecha);
 		getContentPane().add(mntoField);
 		getContentPane().add(tiempoInicio);
 		getContentPane().add(tiempoFin);
@@ -134,7 +133,6 @@ public class OfertaForm extends JDialog{
 		JLabel lblTelefono = new JLabel("Telefono:");
 		JLabel lblMonto = new JLabel("Monto: ");
 		JLabel lblEquipamento = new JLabel("Equip.:");
-		JLabel lblFecha = new JLabel("Fecha:");
 		JLabel lblInicio = new JLabel("Inicio:");
 		JLabel lblFin = new JLabel("Fin:");
 		
@@ -142,14 +140,13 @@ public class OfertaForm extends JDialog{
 		
 		lblNombre.setBounds(10, 14, 64, 14);
 		lblApellido.setBounds(262, 14, 59, 14);
-		lblDni.setBounds(10, 39, 46, 14);
+		lblDni.setBounds(10, 45, 46, 14);
 		lblEmail.setBounds(262, 45, 46, 14);
 		lblTelefono.setBounds(10, 76, 59, 14);
 		lblMonto.setBounds(262, 76, 46, 14);
 		lblEquipamento.setBounds(10, 101, 82, 14);
-		lblFecha.setBounds(262, 104, 46, 14);
-		lblInicio.setBounds(262, 138, 46, 14);
-		lblFin.setBounds(262, 169, 46, 14);
+		lblInicio.setBounds(262, 107, 46, 14);
+		lblFin.setBounds(262, 138, 46, 14);
 		
 		getContentPane().add(lblNombre);
 		getContentPane().add(lblApellido);
@@ -158,7 +155,6 @@ public class OfertaForm extends JDialog{
 		getContentPane().add(lblTelefono);
 		getContentPane().add(lblMonto);
 		getContentPane().add(lblEquipamento);
-		getContentPane().add(lblFecha);
 		getContentPane().add(lblInicio);
 		getContentPane().add(lblFin);
 		
@@ -198,7 +194,8 @@ public class OfertaForm extends JDialog{
 	}
 	
 	private boolean isDateOk(){
-		if(fecha.getDate().before(new Date())){
+		//TODO: verificar si la fecha no esta cerrada
+		if(date.before(new Date())){
 			JOptionPane.showMessageDialog(this, "Debe ser una fecha posterior a hoy",  "Error",JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
@@ -225,7 +222,7 @@ public class OfertaForm extends JDialog{
 		data.setPrecio( Double.valueOf(mntoField.getText()) );
 		data.setTelefono( Long.valueOf(telField.getText()));
 		data.setDNI(Long.valueOf(dniField.getText()));
-		data.setFecha(fecha.getDate());
+		data.setFecha(date);
 		
 		
 		data.setInicio((Date)tiempoInicio.getValue());
