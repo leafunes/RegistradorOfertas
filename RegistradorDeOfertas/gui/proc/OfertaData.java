@@ -9,7 +9,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.json.simple.JSONObject;
 
-public class OfertaData {
+public class OfertaData{
 	
 	//Clase contenedora de datos, carente de inteligencia
 	
@@ -23,9 +23,9 @@ public class OfertaData {
 	LocalTime fin;
 	double precio;
 	
-	private static Exportador exportador;
+private static Exportador exportador;
 	
-	private static class Exportador implements Exportable<OfertaData>{
+	private static class Exportador implements Exportator<OfertaData>{
 
 		private SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
 	
@@ -86,13 +86,15 @@ public class OfertaData {
 	}
 	
 	
-	public static Exportable<OfertaData> exportador(){
+	public static Exportator<OfertaData> exportador(){
 		if(exportador == null){
 			exportador = new Exportador();
 		}
 		
 		return exportador;
 	}
+	
+	
 	
 	public String getNombre() {
 		return nombre;

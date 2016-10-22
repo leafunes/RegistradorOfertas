@@ -20,13 +20,12 @@ import javax.swing.JScrollPane;
 
 import org.json.simple.parser.ParseException;
 
+import proc.CurrentOfertas;
 import proc.OfertaData;
 
 import java.awt.event.MouseAdapter;
 import javax.swing.JPanel;
 import com.toedter.calendar.JDateChooser;
-
-import data.CurrentOfertas;
 
 public class MainForm {
 

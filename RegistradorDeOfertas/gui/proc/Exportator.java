@@ -2,7 +2,7 @@ package proc;
 
 import org.json.simple.JSONObject;
 
-public interface Exportable <T>{
+public interface Exportator <T>{
 	
 	T clone(T other);
 	

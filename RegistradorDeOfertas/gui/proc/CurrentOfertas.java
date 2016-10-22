@@ -1,4 +1,4 @@
-package data;
+package proc;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,13 +15,15 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import proc.Exportable;
-import proc.OfertaData;
+import data.JsonData;
 
 public class CurrentOfertas {
 	
 
-	Exportable<OfertaData> exportador = OfertaData.exportador();
+	Exportator<OfertaData> exportador = OfertaData.exportador();
+	private JsonData jsonData = JsonData.getData();
+	
+	
 	private static CurrentOfertas current;
 
 	public static CurrentOfertas getCurrent(){
@@ -38,23 +40,12 @@ public class CurrentOfertas {
 	
 	public List<OfertaData> getOfertas(Date date) throws FileNotFoundException, IOException, ParseException{
 		
-		ArrayList<OfertaData> ret = new ArrayList<>();
+
 		File file = dateToFile(date);
 		
-		if (!file.exists()) return ret;
+		if (!file.exists()) return new ArrayList<>();
 		
-		JSONParser parser = new JSONParser();
-		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
-		JSONArray ofertas = (JSONArray) jsonObject.get("ofertas");
-		
-		if (ofertas == null) throw new IOException("El archivo " + file.getAbsolutePath() + " no tiene el formato esperado");
-		
-		for (Object object : ofertas) {
-			
-			JSONObject coord = (JSONObject)object;
-			ret.add(exportador.fromJSON(coord));
-			
-		}
+		List<OfertaData> ret = jsonData.getArray(file, exportador, "ofertas");
 		
 		return ret;
 		
