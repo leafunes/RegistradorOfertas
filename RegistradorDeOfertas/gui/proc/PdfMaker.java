@@ -15,7 +15,10 @@ public class PdfMaker {
 		
 	}
 	
-	private PdfMaker(){
+	private PdfMaker(String path){
+		
+		String nuevoPath= path;
+		
 		
 	}
 	
