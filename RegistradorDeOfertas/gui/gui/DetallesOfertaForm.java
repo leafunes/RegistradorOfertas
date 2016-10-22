@@ -12,10 +12,13 @@ import javax.swing.JLabel;
 import proc.OfertaData;
 
 import javax.swing.JButton;
+import javax.swing.JTextPane;
+import javax.swing.JTextField;
 
 public class DetallesOfertaForm extends JDialog{
 	
 	public DetallesOfertaForm(Component parent, OfertaData data) {
+		setTitle("Detalles");
 		getContentPane().setLayout(null);
 		super.setSize(new Dimension(450, 260));
 		super.setLocationRelativeTo(parent);
@@ -66,38 +69,45 @@ public class DetallesOfertaForm extends JDialog{
 		btnOk.setBounds(168, 170, 89, 23);
 		getContentPane().add(btnOk);
 		
-		JLabel lblNombre_1 = new JLabel(data.getNombre());
-		lblNombre_1.setBounds(87, 11, 132, 14);
+		JTextField lblNombre_1 = new JTextField(data.getNombre());
+		lblNombre_1.setEditable(false);
+		lblNombre_1.setBounds(87, 8, 132, 20);
 		getContentPane().add(lblNombre_1);
 		
-		JLabel lblDni_1 = new JLabel(data.getDNI() + "");
-		lblDni_1.setBounds(87, 36, 132, 14);
+		JTextField lblDni_1 = new JTextField(data.getDNI() + "");
+		lblDni_1.setEditable(false);
+		lblDni_1.setBounds(87, 36, 132, 20);
 		getContentPane().add(lblDni_1);
 		
-		JLabel lblTel_1 = new JLabel(data.getTelefono() + "");
-		lblTel_1.setBounds(87, 61, 132, 14);
+		JTextField lblTel_1 = new JTextField(data.getTelefono() + "");
+		lblTel_1.setEditable(false);
+		lblTel_1.setBounds(87, 61, 132, 20);
 		getContentPane().add(lblTel_1);
 		
-		JLabel lblApellido_1 = new JLabel(data.getApellido());
-		lblApellido_1.setBounds(299, 11, 125, 14);
+		JTextField lblApellido_1 = new JTextField(data.getApellido());
+		lblApellido_1.setEditable(false);
+		lblApellido_1.setBounds(299, 11, 125, 20);
 		getContentPane().add(lblApellido_1);
 		
-		JLabel lblEmail_1 = new JLabel(data.getEmail());
-		lblEmail_1.setBounds(299, 36, 125, 14);
+		JTextField lblEmail_1 = new JTextField(data.getEmail());
+		lblEmail_1.setEditable(false);
+		lblEmail_1.setBounds(299, 36, 125, 20);
 		getContentPane().add(lblEmail_1);
 		
-		JLabel lblMonto_1 = new JLabel(data.getPrecio() + "$");
-		lblMonto_1.setBounds(299, 61, 125, 14);
+		JTextField lblMonto_1 = new JTextField(data.getPrecio() + "$");
+		lblMonto_1.setEditable(false);
+		lblMonto_1.setBounds(299, 61, 125, 20);
 		getContentPane().add(lblMonto_1);
 		
-		JLabel lblInicio_1 = new JLabel(data.getInicio() + "hs");
-		lblInicio_1.setBounds(299, 92, 125, 14);
+		JTextField lblInicio_1 = new JTextField(data.getInicio().getHourOfDay() + "hs");
+		lblInicio_1.setEditable(false);
+		lblInicio_1.setBounds(299, 92, 125, 20);
 		getContentPane().add(lblInicio_1);
 		
-		JLabel lblFin_1 = new JLabel(data.getFin() + "hs");
-		lblFin_1.setBounds(299, 117, 125, 14);
+		JTextField lblFin_1 = new JTextField(data.getFin().getHourOfDay()  + "hs");
+		lblFin_1.setEditable(false);
+		lblFin_1.setBounds(299, 117, 125, 20);
 		getContentPane().add(lblFin_1);
 		
 	}
-
 }

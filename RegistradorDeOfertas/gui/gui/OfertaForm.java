@@ -206,7 +206,7 @@ public class OfertaForm extends JDialog{
 		Date inicioDate = (Date)tiempoInicio.getValue();
 		Date finDate = (Date)tiempoFin.getValue();
 		
-		if(inicioDate.compareTo(finDate) <= 0){
+		if(inicioDate.compareTo(finDate) >= 0){
 			
 			JOptionPane.showMessageDialog(this, "La hora de inicio es posterior a la hora de fin", "Error", JOptionPane.ERROR_MESSAGE);
 			return false;

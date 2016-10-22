@@ -6,12 +6,19 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
+
+import org.json.simple.parser.ParseException;
 
 import proc.OfertaData;
 
@@ -19,11 +26,16 @@ import java.awt.event.MouseAdapter;
 import javax.swing.JPanel;
 import com.toedter.calendar.JDateChooser;
 
+import data.CurrentOfertas;
+
 public class MainForm {
 
 	private JFrame frame;
 	private final JPanel columnpanel = new JPanel();
 	private JPanel borderlaoutpanel;
+	private List<OfertaData> ofertas;
+	private CurrentOfertas currentOfertas= CurrentOfertas.getCurrent();
+	private JDateChooser dateChooser;
 
 	/**
 	 * Launch the application.
@@ -57,9 +69,34 @@ public class MainForm {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-
-		JDateChooser dateChooser = new JDateChooser(new Date());
+		try {
+			ofertas = currentOfertas.getOfertas(new Date());
+		} catch (IOException | ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		dateChooser = new JDateChooser(new Date());
 		dateChooser.setBounds(10, 93, 104, 23);
+		
+		dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				
+				borrarOfertas();
+				try {
+					ofertas = currentOfertas.getOfertas(dateChooser.getDate());
+				} catch (IOException | ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				mostrarOfertas();
+				
+			}
+		});
+		
 		frame.getContentPane().add(dateChooser);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -82,7 +119,6 @@ public class MainForm {
 				OfertaForm agregador = new OfertaForm(frame, dateChooser.getDate());
 				agregador.setVisible(true);
 				agregaOferta(agregador.data);
-				frame.validate();
 			}
 		});
 		btnNueva.setBounds(10, 43, 104, 23);
@@ -111,6 +147,35 @@ public class MainForm {
 			newOffer.setPreferredSize(new Dimension(630,50));
 			columnpanel.add(newOffer);
             newOffer.setLayout(null);
+            frame.validate();
+            
+            try {
+				currentOfertas.putOferta(ofertaData, dateChooser.getDate());
+			} catch (IOException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
+	}
+	
+	private void mostrarOfertas(){
+		
+		for (OfertaData ofertaData : ofertas) {
+			
+			OfertaField newOffer = new OfertaField(frame, ofertaData);
+			newOffer.setPreferredSize(new Dimension(630,50));
+			columnpanel.add(newOffer);
+	        newOffer.setLayout(null);
+		}
+		
+		frame.validate();
+		
+	}
+	
+	private void borrarOfertas(){
+		ofertas.clear();
+		
+		columnpanel.removeAll();
+		
 	}
 }
