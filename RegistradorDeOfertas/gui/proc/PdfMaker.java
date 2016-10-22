@@ -10,7 +10,4 @@ public class PdfMaker {
 		
 	}
 	
-	private PdfMaker(){
-		//Constructor privado
-	}
 }
