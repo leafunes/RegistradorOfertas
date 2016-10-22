@@ -5,6 +5,9 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
+
+import proc.OfertaData;
+
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 
@@ -26,8 +29,8 @@ public class OfferField extends JPanel {
 		setLayout(null);
 		
 		//Labels de info
-		JLabel lblNombreApellido = new JLabel(data.nombre+ " " + data.apellido);
-		JLabel lblTiempos = new JLabel("De " + data.inicio.getHourOfDay()+ "hs" + " a " + data.fin.getHourOfDay() + "hs");
+		JLabel lblNombreApellido = new JLabel(data.getNombre()+ " " + data.getApellido());
+		JLabel lblTiempos = new JLabel("De " + data.getInicio().getHourOfDay()+ "hs" + " a " + data.getFin().getHourOfDay() + "hs");
 		
 		lblNombreApellido.setBounds(10, 19, 111, 14);
 		lblTiempos.setBounds(182, 19, 165, 14);

@@ -18,6 +18,8 @@ import javax.swing.JFormattedTextField;
 
 import com.toedter.calendar.JDateChooser;
 
+import proc.OfertaData;
+
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;

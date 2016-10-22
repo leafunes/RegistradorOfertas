@@ -10,6 +10,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
+
+import proc.OfertaData;
+
 import java.awt.event.MouseAdapter;
 import javax.swing.JPanel;
 
