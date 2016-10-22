@@ -23,7 +23,7 @@ public class OfertaData{
 	LocalTime fin;
 	double precio;
 	
-private static Exportador exportador;
+	private static Exportador exportador;
 	
 	private static class Exportador implements Exportator<OfertaData>{
 
