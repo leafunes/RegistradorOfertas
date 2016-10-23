@@ -52,26 +52,10 @@ public class CurrentOfertas {
 	}
 	
 	public void putOferta(OfertaData oferta, Date date) throws IOException, ParseException{
-		List<OfertaData> ofertas = getOfertas(date);
-		
-		ofertas.add(oferta);
 		
 		File file = dateToFile(date);
 		
-		JSONObject obj = new JSONObject();
-
-		JSONArray list = new JSONArray();
-		
-		for(OfertaData ofertaData : ofertas){
-			list.add(exportador.toJSON(ofertaData));
-		}
-
-		obj.put("ofertas", list);
-
-		FileWriter finalFile = new FileWriter(file);
-		finalFile.write(obj.toJSONString());
-		finalFile.flush();
-		finalFile.close();
+		jsonData.putObjectInArray(file, exportador, oferta, "ofertas");
 		
 		
 	}
