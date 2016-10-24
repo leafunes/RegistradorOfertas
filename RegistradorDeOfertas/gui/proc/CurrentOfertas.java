@@ -52,11 +52,7 @@ public class CurrentOfertas {
 		
 		File file = dateToFile(date);
 		
-		if(!file.exists()){
-			jsonData.newFile(file);
-			jsonData.putArray(file, exportador, new ArrayList<>(), "ofertas");
-			jsonData.putField(file, "cerrado", false);
-		}
+		newData(file);
 		
 		jsonData.putObjectInArray(file, exportador, oferta, "ofertas");
 		
@@ -68,13 +64,20 @@ public class CurrentOfertas {
 			
 			File file = dateToFile(date);
 			
-			if(!file.exists())
-				jsonData.newFile(file);
+			newData(file);
 			
 			jsonData.putField(file, "cerrado", true);
 			
 		}
 		
+	}
+	
+	private void newData(File file) throws IOException, ParseException, FileNotFoundException {
+		if(!file.exists()){
+			jsonData.newFile(file);
+			jsonData.putArray(file, exportador, new ArrayList<>(), "ofertas");
+			jsonData.putField(file, "cerrado", false);
+		}
 	}
 	
 	public boolean isCerrado(DateTime date) throws IOException, ParseException{

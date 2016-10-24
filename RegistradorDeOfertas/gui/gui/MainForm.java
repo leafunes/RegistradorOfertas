@@ -40,7 +40,7 @@ public class MainForm {
 	private JButton btnNueva;
 	private JButton btnEquipamento;
 	private JButton btnCerrar;
-	private JButton btnVerCierre;
+	private JButton btnGeneraCierre;
 	
 	private DateTime dateSelected;
 
@@ -82,7 +82,7 @@ public class MainForm {
 		
 		actualizeButtons();
 		
-		frame.setBounds(100, 100, 800, 600);
+		frame.setBounds(100, 100, 815, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -100,9 +100,9 @@ public class MainForm {
 	private void initButtons(){
 		
 		btnNueva = new JButton("Nueva");
-		btnEquipamento = new JButton("Equip.");
+		btnEquipamento = new JButton("Equipamento");
 		btnCerrar = new JButton("Cerrar dia");
-		btnVerCierre = new JButton("Ver Cierre");
+		btnGeneraCierre = new JButton("Generar Cierre");
 		
 		btnNueva.addMouseListener(new MouseAdapter() {
 			@Override
@@ -116,16 +116,35 @@ public class MainForm {
 			}
 		});
 		
+		btnCerrar.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				if(btnCerrar.isEnabled()){
+					try {
+						currentOfertas.cerrarDia(dateSelected);
+					} catch (IOException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					actualizeButtons();
+				}
+			}
+			
+		});
 		
-		btnNueva.setBounds(10, 43, 104, 23);
-		btnEquipamento.setBounds(10, 395, 104, 23);
-		btnCerrar.setBounds(10, 510, 104, 23);
-		btnVerCierre.setBounds(10, 476, 104, 23);
+		
+		btnNueva.setBounds(10, 43, 119, 23);
+		btnEquipamento.setBounds(10, 395, 119, 23);
+		btnCerrar.setBounds(10, 510, 119, 23);
+		btnGeneraCierre.setBounds(10, 476, 119, 23);
 		
 		frame.getContentPane().add(btnEquipamento);
 		frame.getContentPane().add(btnCerrar);
 		frame.getContentPane().add(btnNueva);
-		frame.getContentPane().add(btnVerCierre);
+		frame.getContentPane().add(btnGeneraCierre);
 		
 		
 	}
@@ -154,7 +173,7 @@ public class MainForm {
 		});
 		
 
-		dateChooser.setBounds(10, 93, 104, 23);
+		dateChooser.setBounds(10, 93, 119, 23);
 		frame.getContentPane().add(dateChooser);
 		
 	}
@@ -165,11 +184,11 @@ public class MainForm {
 		JScrollPane scrollPane = new JScrollPane();
 		borderlaoutpanel = new JPanel();
 		
-        scrollPane.setBounds(124, 11, 650, 539);
+        scrollPane.setBounds(139, 11, 650, 539);
         frame.getContentPane().add(scrollPane);
         
         
-        scrollPane.setViewportView(borderlaoutpanel);
+        scrollPane.setColumnHeaderView(borderlaoutpanel);
         borderlaoutpanel.setLayout(new BorderLayout(0, 0));
 
         borderlaoutpanel.add(columnpanel, BorderLayout.NORTH);
@@ -187,11 +206,9 @@ public class MainForm {
 			e1.printStackTrace();
 		}
 		
-		System.out.println(cerrado);
-		
 		btnNueva.setEnabled(!cerrado);
 		btnCerrar.setEnabled(!cerrado);
-		btnVerCierre.setEnabled(cerrado);
+		btnGeneraCierre.setEnabled(cerrado);
 	}
 	
 	private void actualizeOfertas(){
