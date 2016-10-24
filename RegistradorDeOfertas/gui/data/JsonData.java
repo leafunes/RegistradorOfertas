@@ -43,10 +43,7 @@ public class JsonData {
 		
 		jsonObject.put(array, jsonArray);
 
-		FileWriter finalFile = new FileWriter(file);
-		finalFile.write(jsonObject.toJSONString());
-		finalFile.flush();
-		finalFile.close();
+		writeFile(file, jsonObject.toJSONString());
 		
 	}
 	
@@ -60,11 +57,9 @@ public class JsonData {
 			jsonArray.add(exportator.toJSON(ofertaData));
 		}
 
+		jsonObject.put(name, listToAdd);
 
-		FileWriter finalFile = new FileWriter(file);
-		finalFile.write(jsonObject.toJSONString());
-		finalFile.flush();
-		finalFile.close();
+		writeFile(file, jsonObject.toJSONString());
 		
 	}
 	
@@ -92,15 +87,30 @@ public class JsonData {
 	public <T> void putField(File file, String field, T value) throws FileNotFoundException, IOException, ParseException{
 		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
 		jsonObject.put(field, value);
+		
+		writeFile(file, jsonObject.toJSONString());
 	}
 	
 	public <T> T getField(File file, String field, Class<T> clase) throws FileNotFoundException, IOException, ParseException{
 		
 		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
-		
-			
 		return clase.cast(jsonObject.get(field));
 			
+	}
+	
+	public void newFile(File file) throws IOException{
+		
+		JSONObject jsonObject = new JSONObject();
+
+		writeFile(file, jsonObject.toJSONString());
+		
+	}
+	
+	private void writeFile(File file, String toWrite) throws IOException{
+		FileWriter finalFile = new FileWriter(file);
+		finalFile.write(toWrite);
+		finalFile.flush();
+		finalFile.close();
 	}
 	
 	private <T> T getObject (JSONObject obj, Exportator<T> exportator){
