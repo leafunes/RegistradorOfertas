@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,9 +32,6 @@ import com.toedter.calendar.JDateChooser;
 public class MainForm {
 
 	private JFrame frame;
-	private final JPanel columnpanel = new JPanel();
-	private JPanel borderlaoutpanel;
-	private List<OfertaData> ofertas;
 	private CurrentOfertas currentOfertas= CurrentOfertas.getCurrent();
 	private JDateChooser dateChooser;
 	
@@ -41,6 +39,8 @@ public class MainForm {
 	private JButton btnEquipamento;
 	private JButton btnCerrar;
 	private JButton btnGeneraCierre;
+	
+	private OfertasViewer viewer;
 	
 	private DateTime dateSelected;
 
@@ -77,24 +77,13 @@ public class MainForm {
 		initDateChooser();
 		initOfertasViewer();
 		
-		initOfertas();
-		mostrarOfertas();
-		
+		actualizeOfertas();
 		actualizeButtons();
 		
 		frame.setBounds(100, 100, 815, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-	}
-
-	private void initOfertas() {
-		try {
-			ofertas = currentOfertas.getOfertas(DateTime.now());
-		} catch (IOException | ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 	}
 	
 	private void initButtons(){
@@ -122,19 +111,13 @@ public class MainForm {
 			public void mouseClicked(MouseEvent arg0) {
 				
 				if(btnCerrar.isEnabled()){
-					try {
-						currentOfertas.cerrarDia(dateSelected);
-					} catch (IOException | ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					currentOfertas.cerrarDia(dateSelected);
 					
 					actualizeButtons();
 				}
 			}
 			
 		});
-		
 		
 		btnNueva.setBounds(10, 43, 119, 23);
 		btnEquipamento.setBounds(10, 395, 119, 23);
@@ -145,7 +128,6 @@ public class MainForm {
 		frame.getContentPane().add(btnCerrar);
 		frame.getContentPane().add(btnNueva);
 		frame.getContentPane().add(btnGeneraCierre);
-		
 		
 	}
 	
@@ -159,20 +141,15 @@ public class MainForm {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				
-				borrarOfertas();
-				
 				dateSelected = new DateTime(dateChooser.getDate());
 
 				actualizeButtons();
 				
 				actualizeOfertas();
 				
-				mostrarOfertas();
-				
 			}
 		});
 		
-
 		dateChooser.setBounds(10, 93, 119, 23);
 		frame.getContentPane().add(dateChooser);
 		
@@ -180,31 +157,15 @@ public class MainForm {
 	
 	private void initOfertasViewer(){
 		
+		viewer = new OfertasViewer(139, 11, 650, 539);
 
-		JScrollPane scrollPane = new JScrollPane();
-		borderlaoutpanel = new JPanel();
-		
-        scrollPane.setBounds(139, 11, 650, 539);
-        frame.getContentPane().add(scrollPane);
-        
-        
-        scrollPane.setColumnHeaderView(borderlaoutpanel);
-        borderlaoutpanel.setLayout(new BorderLayout(0, 0));
-
-        borderlaoutpanel.add(columnpanel, BorderLayout.NORTH);
-        columnpanel.setLayout(new GridLayout(0, 1, 0, 1));
-        columnpanel.setBackground(Color.gray);
+        frame.getContentPane().add(viewer);
 		
 	}
 	
 	private void actualizeButtons(){
 		boolean cerrado = false;
-		try {
-			cerrado = currentOfertas.isCerrado(dateSelected);
-		} catch (IOException | ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		cerrado = currentOfertas.isCerrado(dateSelected);
 		
 		btnNueva.setEnabled(!cerrado);
 		btnCerrar.setEnabled(!cerrado);
@@ -213,13 +174,25 @@ public class MainForm {
 	
 	private void actualizeOfertas(){
 		
-		try {
-			ofertas = currentOfertas.getOfertas(dateSelected);
+		viewer.removeAllOfertas();
+		
+		List<OfertaData> ofertas = currentOfertas.getOfertas(dateSelected);
+		
+		for (OfertaData ofertaData : ofertas) {
+			viewer.addOferta(ofertaData, new Dimension(630, 50));
 			
-		} catch (IOException | ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		
+		frame.validate();
+	}
+	
+	private void agregaOferta(OfertaData ofertaData){
+		
+		viewer.addOferta(ofertaData, new Dimension(630,50));
+        frame.validate();
+        
+		currentOfertas.putOferta(ofertaData, dateSelected);
+
 	}
 	
 	private boolean isDateOk(){
@@ -228,44 +201,6 @@ public class MainForm {
 			return true;
 		
 		return false;
-		
-	}
-	
-	private void agregaOferta(OfertaData ofertaData){
-		
-			OfertaField newOffer = new OfertaField(frame, ofertaData);
-			newOffer.setPreferredSize(new Dimension(630,50));
-			columnpanel.add(newOffer);
-            newOffer.setLayout(null);
-            frame.validate();
-            
-            try {
-				currentOfertas.putOferta(ofertaData, dateSelected);
-			} catch (IOException | ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-	}
-	
-	private void mostrarOfertas(){
-		
-		for (OfertaData ofertaData : ofertas) {
-			
-			OfertaField newOffer = new OfertaField(frame, ofertaData);
-			newOffer.setPreferredSize(new Dimension(630,50));
-			columnpanel.add(newOffer);
-	        newOffer.setLayout(null);
-		}
-		
-		frame.validate();
-		
-	}
-	
-	private void borrarOfertas(){
-		ofertas.clear();
-		
-		columnpanel.removeAll();
 		
 	}
 }

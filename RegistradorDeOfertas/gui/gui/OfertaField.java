@@ -24,7 +24,7 @@ public class OfertaField extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public OfertaField(Component parent, OfertaData data) {
+	public OfertaField(OfertasViewer parent, OfertaData data) {
 		//Diseño
 		setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		this.setBounds(0, 0, 650, 50);

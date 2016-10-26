@@ -32,41 +32,56 @@ public class CurrentOfertas {
 		
 	}
 	
-	public List<OfertaData> getOfertas(DateTime date) throws FileNotFoundException, IOException, ParseException{
+	public List<OfertaData> getOfertas(DateTime date){
 
 		File file = dateToFile(date);
 		
 		if (!file.exists()) 
 			return new ArrayList<>();
 		
-		List<OfertaData> ret = jsonData.getArray(file, exportador, "ofertas");
+		List<OfertaData> ret = null;
+		try {
+			ret = jsonData.getArray(file, exportador, "ofertas");
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
+		}
 		
 		return ret;
 		
 	}
 	
-	public void putOferta(OfertaData oferta, DateTime date) throws IOException, ParseException{
+	public void putOferta(OfertaData oferta, DateTime date){
 		
 		if(!isDateOk(date))
 			throw new IllegalArgumentException("La fecha " + date + " es posterior a hoy");
 		
 		File file = dateToFile(date);
 		
-		newData(file);
-		
-		jsonData.putObjectInArray(file, exportador, oferta, "ofertas");
+		try {
+			newData(file);
+			jsonData.putObjectInArray(file, exportador, oferta, "ofertas");
+			
+		} catch (IOException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
 		
 	}
 	
-	public void cerrarDia(DateTime date) throws IOException, ParseException{
+	public void cerrarDia(DateTime date){
 		
 		if(isDateOk(date)){
 			
 			File file = dateToFile(date);
 			
-			newData(file);
-			
-			jsonData.putField(file, "cerrado", true);
+			try {
+				newData(file);
+				jsonData.putField(file, "cerrado", true);
+			} catch (IOException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 		
@@ -80,7 +95,7 @@ public class CurrentOfertas {
 		}
 	}
 	
-	public boolean isCerrado(DateTime date) throws IOException, ParseException{
+	public boolean isCerrado(DateTime date){
 		
 		if(isDateOk(date)){
 			
@@ -89,7 +104,11 @@ public class CurrentOfertas {
 			if(!file.exists())
 				return false;
 			
-			return jsonData.getField(file, "cerrado", Boolean.class);
+			try {
+				return jsonData.getField(file, "cerrado", Boolean.class);
+			} catch (IOException | ParseException e) {
+				e.printStackTrace();
+			}
 			
 		}
 		
