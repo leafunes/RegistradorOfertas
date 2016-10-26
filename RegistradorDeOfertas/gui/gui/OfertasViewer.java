@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import proc.OfertaData;
+import javax.swing.ScrollPaneConstants;
 
 public class OfertasViewer extends JScrollPane{
 
@@ -28,7 +29,7 @@ public class OfertasViewer extends JScrollPane{
         borderlaoutpanel = new JPanel();
         borderlaoutpanel.setLayout(new BorderLayout(0, 0));
         
-        this.setColumnHeaderView(borderlaoutpanel);
+        this.setViewportView(borderlaoutpanel);
 
         columnpanel.setLayout(new GridLayout(0, 1, 0, 1));
         columnpanel.setBackground(Color.gray);
@@ -49,6 +50,8 @@ public class OfertasViewer extends JScrollPane{
  
         ofertas.add(oferta);
         ofertasFields.add(newOffer);
+        columnpanel.revalidate();
+        borderlaoutpanel.revalidate();
         
 	}
 

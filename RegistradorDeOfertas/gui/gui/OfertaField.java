@@ -45,7 +45,7 @@ public class OfertaField extends JPanel {
 		//Acciones
 		JCheckBox chckbxAgregar = new JCheckBox("Agregar");
 		chckbxAgregar.setBackground(new Color(204, 204, 153));
-		chckbxAgregar.setBounds(547, 15, 97, 23);
+		chckbxAgregar.setBounds(547, 15, 80, 23);
 		add(chckbxAgregar);
 		
 		JButton btnEliminar = new JButton("Eliminar");

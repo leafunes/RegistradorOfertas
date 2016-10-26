@@ -45,6 +45,7 @@ public class MainForm {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -91,6 +92,18 @@ public class MainForm {
 		btnEquipamento = new JButton("Equipamento");
 		btnCerrar = new JButton("Cerrar dia");
 		btnGeneraCierre = new JButton("Generar Cierre");
+		
+		
+		btnEquipamento.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				EquipamentoEdit edit = new EquipamentoEdit(frame);
+				
+				edit.setVisible(true);
+				
+			}
+		});
 		
 		btnNueva.addMouseListener(new MouseAdapter() {
 			@Override
