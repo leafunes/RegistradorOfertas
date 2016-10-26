@@ -111,6 +111,11 @@ public class JsonData {
 	
 	public void newFile(File file) throws IOException{
 		
+		File dir = file.getParentFile();
+		
+		dir.mkdirs();
+		file.createNewFile();
+		
 		JSONObject jsonObject = new JSONObject();
 
 		writeFile(file, jsonObject.toJSONString());
