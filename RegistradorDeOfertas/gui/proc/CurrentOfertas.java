@@ -85,18 +85,16 @@ public class CurrentOfertas {
 	
 	public void cerrarDia(DateTime date){
 		
-		if(isDateOk(date)){
 			
-			File file = dateToFile(date);
-			
-			try {
-				newData(file);
-				jsonData.putField(file, "cerrado", true);
-			} catch (IOException | ParseException e) {
-				e.printStackTrace();
-			}
-			
+		File file = dateToFile(date);
+		
+		try {
+			newData(file);
+			jsonData.putField(file, "cerrado", true);
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
 		}
+			
 		
 	}
 	

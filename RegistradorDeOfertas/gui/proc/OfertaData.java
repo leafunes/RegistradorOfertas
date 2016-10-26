@@ -65,7 +65,7 @@ public class OfertaData{
 			ret.put("email", data.email);
 			ret.put("DNI", data.DNI);
 			ret.put("telefono", data.telefono);
-			ret.put("fecha", data.getFecha().toString());
+			ret.put("fecha", data.getFecha().toString("yyyy-MM-dd"));
 			ret.put("inicio", data.inicio.getHourOfDay());
 			ret.put("fin", data.fin.getHourOfDay());
 			ret.put("precio", data.precio);

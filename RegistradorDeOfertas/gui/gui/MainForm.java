@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import javax.swing.JButton;
 
 import org.joda.time.DateTime;
@@ -16,6 +18,8 @@ import org.joda.time.DateTime;
 import proc.CurrentOfertas;
 import proc.OfertaData;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import com.toedter.calendar.JDateChooser;
 
@@ -32,7 +36,8 @@ public class MainForm {
 	
 	private OfertasViewer viewer;
 	
-	private DateTime dateSelected;
+	private DateTime selectedDate;
+	private DateTime currentDate = DateTime.now();
 	
 	private Dimension dimensionOfertaMain = new Dimension(630, 50);
 
@@ -69,6 +74,8 @@ public class MainForm {
 		initDateChooser();
 		initOfertasViewer();
 		
+		initTimer();
+		
 		actualizeOfertas();
 		actualizeButtons();
 		
@@ -90,7 +97,7 @@ public class MainForm {
 			public void mouseClicked(MouseEvent arg0) {
 				
 				if(isDateOk() && btnNueva.isEnabled()){
-					OfertaForm agregador = new OfertaForm(frame, dateSelected);
+					OfertaForm agregador = new OfertaForm(frame, selectedDate);
 					agregador.setVisible(true);
 					agregaOferta(agregador.data);
 				}
@@ -103,7 +110,7 @@ public class MainForm {
 			public void mouseClicked(MouseEvent arg0) {
 				
 				if(btnCerrar.isEnabled()){
-					currentOfertas.cerrarDia(dateSelected);
+					currentOfertas.cerrarDia(selectedDate);
 					
 					actualizeButtons();
 				}
@@ -126,14 +133,14 @@ public class MainForm {
 	private void initDateChooser(){
 		dateChooser = new JDateChooser(new Date());
 		
-		dateSelected = new DateTime(dateChooser.getDate());
+		selectedDate = new DateTime(dateChooser.getDate());
 		
 		dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				
-				dateSelected = new DateTime(dateChooser.getDate());
+				selectedDate = new DateTime(dateChooser.getDate());
 
 				actualizeButtons();
 				
@@ -155,9 +162,32 @@ public class MainForm {
 		
 	}
 	
+	private void initTimer(){
+		ActionListener chechkDate = new ActionListener() {
+			@Override
+            public void actionPerformed(ActionEvent evt) {
+				if(currentDate.getDayOfYear() != DateTime.now().getDayOfYear()){
+					
+					currentOfertas.cerrarDia(currentDate);
+					actualizeButtons();
+					dateChooser.setDate(new Date());
+					
+					JOptionPane.showMessageDialog(frame, "Se ha cerrado el dia " +  currentDate.toString("yyyy-MM-dd"), "Info", JOptionPane.INFORMATION_MESSAGE);
+					
+					currentDate = DateTime.now();
+					
+				}
+				
+            }
+        };
+        Timer timer = new Timer(1000 ,chechkDate);//Cada 1 segundo
+        timer.setRepeats(true);
+        timer.start();
+	}
+	
 	private void actualizeButtons(){
 		boolean cerrado = false;
-		cerrado = currentOfertas.isCerrado(dateSelected);
+		cerrado = currentOfertas.isCerrado(selectedDate);
 		
 		btnNueva.setEnabled(!cerrado);
 		btnCerrar.setEnabled(!cerrado);
@@ -168,7 +198,7 @@ public class MainForm {
 		
 		viewer.removeAllOfertas();
 		
-		List<OfertaData> ofertas = currentOfertas.getOfertas(dateSelected);
+		List<OfertaData> ofertas = currentOfertas.getOfertas(selectedDate);
 		
 		ofertas.forEach(oferta -> viewer.addOferta(oferta, dimensionOfertaMain));
 		
@@ -180,13 +210,13 @@ public class MainForm {
 		viewer.addOferta(ofertaData, dimensionOfertaMain);
         frame.validate();
         
-		currentOfertas.putOferta(ofertaData, dateSelected);
+		currentOfertas.putOferta(ofertaData, selectedDate);
 
 	}
 	
 	private boolean isDateOk(){
 		
-		if(currentOfertas.isDateOk(dateSelected))
+		if(currentOfertas.isDateOk(selectedDate))
 			return true;
 		
 		return false;
