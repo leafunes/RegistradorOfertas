@@ -8,6 +8,9 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
+
+import org.joda.time.DateTime;
+
 import javax.swing.JButton;
 
 import java.awt.event.MouseAdapter;
@@ -45,9 +48,9 @@ public class OfertaForm extends JDialog{
 	private JSpinner tiempoFin;
 	private JSpinner tiempoInicio;
 	
-	private Date date;
+	private DateTime date;
 	
-	public OfertaForm(Component parent, Date date){
+	public OfertaForm(Component parent, DateTime date){
 		
 		this.date = date;
 		getContentPane().setLayout(null);
@@ -195,7 +198,7 @@ public class OfertaForm extends JDialog{
 	
 	private boolean isDateOk(){
 		//TODO: verificar si la fecha no esta cerrada
-		if(date.before(new Date())){
+		if(date.isBeforeNow()){
 			JOptionPane.showMessageDialog(this, "Debe ser una fecha posterior a hoy",  "Error",JOptionPane.ERROR_MESSAGE);
 			return false;
 		}

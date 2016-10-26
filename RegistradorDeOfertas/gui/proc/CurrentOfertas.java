@@ -62,11 +62,25 @@ public class CurrentOfertas {
 			jsonData.putObjectInArray(file, exportador, oferta, "ofertas");
 			
 		} catch (IOException | ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	
 		
+	}
+	
+	public void removeOferta(OfertaData oferta, DateTime date) {
+		
+		File file = dateToFile(date);
+		
+		if(file.exists()){
+			
+			try {
+				jsonData.removeObjectInArray(file, exportador, oferta, "ofertas");
+			} catch (IOException | ParseException e) {
+				e.printStackTrace();
+			}
+			
+		}
 	}
 	
 	public void cerrarDia(DateTime date){
@@ -79,7 +93,6 @@ public class CurrentOfertas {
 				newData(file);
 				jsonData.putField(file, "cerrado", true);
 			} catch (IOException | ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -134,6 +147,8 @@ public class CurrentOfertas {
 		return file;
 		
 	}
+
+
 	
 
 }

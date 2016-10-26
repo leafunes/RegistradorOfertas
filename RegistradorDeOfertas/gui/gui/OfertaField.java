@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
+import proc.CurrentOfertas;
 import proc.OfertaData;
 
 import javax.swing.JCheckBox;
@@ -48,6 +49,15 @@ public class OfertaField extends JPanel {
 		add(chckbxAgregar);
 		
 		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				parent.removeOferta(data);
+				
+				CurrentOfertas.getCurrent().removeOferta(data, data.getFecha());
+				
+			}
+		});
 		btnEliminar.setBackground(new Color(204, 204, 102));
 		btnEliminar.setBounds(452, 15, 89, 23);
 		add(btnEliminar);

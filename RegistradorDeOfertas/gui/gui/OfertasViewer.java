@@ -19,6 +19,7 @@ public class OfertasViewer extends JScrollPane{
 	private JPanel borderlaoutpanel;
 	private final JPanel columnpanel = new JPanel();
 	private List<OfertaData> ofertas;
+	private List<OfertaField> ofertasFields;
 	
 	public OfertasViewer(int x, int y, int width, int height) {
 		
@@ -35,6 +36,7 @@ public class OfertasViewer extends JScrollPane{
         borderlaoutpanel.add(columnpanel, BorderLayout.NORTH);
         
         ofertas = new ArrayList<>();
+        ofertasFields = new ArrayList<>();
         
 	}
 	
@@ -44,10 +46,28 @@ public class OfertasViewer extends JScrollPane{
 		newOffer.setPreferredSize(dimensionOfOferta);
 		columnpanel.add(newOffer);
         newOffer.setLayout(null);
-        System.out.println(oferta);
  
         ofertas.add(oferta);
+        ofertasFields.add(newOffer);
         
+	}
+
+	public void removeOferta(OfertaData oferta){
+		
+		int index = ofertas.indexOf(oferta);
+		
+		if(index != -1){
+			
+			ofertas.remove(index);
+			OfertaField toRemove = ofertasFields.get(index);
+			
+			columnpanel.remove(toRemove);
+			ofertasFields.remove(index);
+			
+		}
+		
+		validate();
+		
 	}
 	
 	public List<OfertaData> getOfertas(){
@@ -57,6 +77,7 @@ public class OfertasViewer extends JScrollPane{
 	public void removeAllOfertas(){
 		
 		ofertas.clear();
+		ofertasFields.clear();
 		columnpanel.removeAll();
 		
 	}

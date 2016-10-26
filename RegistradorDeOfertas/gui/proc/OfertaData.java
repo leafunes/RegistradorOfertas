@@ -3,6 +3,7 @@ package proc;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import org.joda.time.DateTime;
@@ -18,7 +19,7 @@ public class OfertaData{
 	String email;
 	long DNI;
 	long telefono;
-	Date fecha;
+	DateTime fecha;
 	LocalTime inicio;
 	LocalTime fin;
 	double precio;
@@ -27,8 +28,6 @@ public class OfertaData{
 	
 	private static class Exportador implements Exportator<OfertaData>{
 
-		private SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
-	
 		@Override
 		public OfertaData clone(OfertaData other) {
 			throw new RuntimeException("No implementado");
@@ -45,12 +44,7 @@ public class OfertaData{
 			ret.setEmail((String)obj.get("email"));
 			ret.setDNI((long)obj.get("DNI"));
 			ret.setTelefono((long)obj.get("telefono"));
-			try {
-				ret.setFecha(parser.parse(fechaString));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			ret.setFecha(DateTime.parse(fechaString));
 			
 			int inicio = (int)(long)obj.get("inicio"); //Cosas de la libreria
 			int fin = (int)(long)obj.get("fin");
@@ -66,16 +60,12 @@ public class OfertaData{
 		public JSONObject toJSON(OfertaData data) {
 			JSONObject ret = new JSONObject();
 			
-			
-			
-			String dateParsed = parser.format(data.getFecha());
-			
 			ret.put("nombre", data.nombre);
 			ret.put("apellido", data.apellido);
 			ret.put("email", data.email);
 			ret.put("DNI", data.DNI);
 			ret.put("telefono", data.telefono);
-			ret.put("fecha", dateParsed);
+			ret.put("fecha", data.getFecha().toString());
 			ret.put("inicio", data.inicio.getHourOfDay());
 			ret.put("fin", data.fin.getHourOfDay());
 			ret.put("precio", data.precio);
@@ -126,10 +116,10 @@ public class OfertaData{
 	public void setTelefono(long telefono) {
 		this.telefono = telefono;
 	}
-	public Date getFecha() {
+	public DateTime getFecha() {
 		return fecha;
 	}
-	public void setFecha(Date fecha) {
+	public void setFecha(DateTime fecha) {
 		this.fecha = fecha;
 	}
 	public double getPrecio() {
@@ -156,6 +146,23 @@ public class OfertaData{
 	public void setFin(int fin) {
 		this.fin = new LocalTime(fin, 0, 0);//Solo la hora
 	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OfertaData other = (OfertaData) obj;
+		if (DNI != other.DNI)
+			return false;
+		return true;
+	}
+	
+	
 	
 	
 

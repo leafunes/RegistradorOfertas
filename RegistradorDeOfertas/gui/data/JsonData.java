@@ -39,6 +39,9 @@ public class JsonData {
 		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
 		JSONArray jsonArray = (JSONArray) jsonObject.get(array);
 		
+		if(jsonArray == null)
+			throw new IllegalArgumentException("El archivo " + file.getAbsolutePath() + " no contiene el array " + array);
+		
 		jsonArray.add(exportator.toJSON(toAdd));
 		
 		jsonObject.put(array, jsonArray);
@@ -47,16 +50,34 @@ public class JsonData {
 		
 	}
 	
+	public <T> void removeObjectInArray(File file, Exportator<T> exportator, T toRemove, String array) throws IOException, ParseException{
+		
+		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
+		JSONArray jsonArray = (JSONArray) jsonObject.get(array);
+		
+		if(jsonArray == null)
+			throw new IllegalArgumentException("El archivo " + file.getAbsolutePath() + " no contiene el array " + array);
+	
+		System.out.println(jsonArray.size());
+		
+		jsonArray.removeIf(json -> exportator.fromJSON( ( JSONObject )json).equals(toRemove));
+		
+		System.out.println(jsonArray.size());
+		
+		jsonObject.put(array, jsonArray);
+
+		writeFile(file, jsonObject.toJSONString());
+		
+	}
+	
+	
 	public <T> void putArray(File file, Exportator<T> exportator, List<T> listToAdd ,String name) throws IOException, ParseException{
 		
 		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
 		JSONArray jsonArray = new JSONArray();
 		
+		listToAdd.forEach(t -> jsonArray.add(exportator.toJSON(t)));
 		
-		for(T ofertaData : listToAdd){
-			jsonArray.add(exportator.toJSON(ofertaData));
-		}
-
 		jsonObject.put(name, listToAdd);
 
 		writeFile(file, jsonObject.toJSONString());
@@ -73,13 +94,7 @@ public class JsonData {
 		if(jsonArray == null)
 			throw new IOException("El archivo" + file.getPath() + " no contiene el campo " + array);
 		
-		for (Object object : jsonArray) {
-			
-			T toAdd = getObject((JSONObject) object, exportator);
-			
-			ret.add(toAdd);
-			
-		}
+		jsonArray.forEach(obj -> ret.add(getObject((JSONObject) obj, exportator)));
 		
 		return ret;
 	}

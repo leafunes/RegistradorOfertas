@@ -43,6 +43,8 @@ public class MainForm {
 	private OfertasViewer viewer;
 	
 	private DateTime dateSelected;
+	
+	private Dimension dimensionOfertaMain = new Dimension(630, 50);
 
 	/**
 	 * Launch the application.
@@ -98,7 +100,7 @@ public class MainForm {
 			public void mouseClicked(MouseEvent arg0) {
 				
 				if(isDateOk() && btnNueva.isEnabled()){
-					OfertaForm agregador = new OfertaForm(frame, dateChooser.getDate());
+					OfertaForm agregador = new OfertaForm(frame, dateSelected);
 					agregador.setVisible(true);
 					agregaOferta(agregador.data);
 				}
@@ -178,17 +180,14 @@ public class MainForm {
 		
 		List<OfertaData> ofertas = currentOfertas.getOfertas(dateSelected);
 		
-		for (OfertaData ofertaData : ofertas) {
-			viewer.addOferta(ofertaData, new Dimension(630, 50));
-			
-		}
+		ofertas.forEach(oferta -> viewer.addOferta(oferta, dimensionOfertaMain));
 		
 		frame.validate();
 	}
 	
 	private void agregaOferta(OfertaData ofertaData){
 		
-		viewer.addOferta(ofertaData, new Dimension(630,50));
+		viewer.addOferta(ofertaData, dimensionOfertaMain);
         frame.validate();
         
 		currentOfertas.putOferta(ofertaData, dateSelected);
