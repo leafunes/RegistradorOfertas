@@ -147,7 +147,6 @@ public class OfertaData{
 		this.fin = new LocalTime(fin, 0, 0);//Solo la hora
 	}
 
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -157,10 +156,27 @@ public class OfertaData{
 		if (getClass() != obj.getClass())
 			return false;
 		OfertaData other = (OfertaData) obj;
-		if (DNI != other.DNI)
-			return false;
+		
+		
+		if (DNI != other.DNI) return false;
+		if ((nombre == null && other.nombre != null) || !nombre.equals(other.nombre)) return false;
+		if ((apellido == null && other.apellido != null) || !apellido.equals(other.apellido)) return false;
+		if ((email == null && other.email != null) || !email.equals(other.email)) return false;
+		
+		
+		if ((fecha == null && other.fecha != null) || !fecha.equals(other.fecha)) return false;
+		if ((fin == null && other.fin != null)||!fin.equals(other.fin)) return false;
+		if ((inicio == null && other.inicio != null) || !inicio.equals(other.inicio)) return false;
+		
+		if (Double.doubleToLongBits(precio) != Double.doubleToLongBits(other.precio)) return false;
+		if (telefono != other.telefono)return false;
+		
+		
 		return true;
 	}
+
+
+
 	
 	
 	

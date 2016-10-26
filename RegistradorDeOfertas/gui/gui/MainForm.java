@@ -1,32 +1,22 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
-import javax.swing.JScrollPane;
 
 import org.joda.time.DateTime;
-import org.json.simple.parser.ParseException;
 
 import proc.CurrentOfertas;
 import proc.OfertaData;
 
 import java.awt.event.MouseAdapter;
-import javax.swing.JPanel;
 import com.toedter.calendar.JDateChooser;
 
 public class MainForm {

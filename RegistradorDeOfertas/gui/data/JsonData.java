@@ -57,12 +57,8 @@ public class JsonData {
 		
 		if(jsonArray == null)
 			throw new IllegalArgumentException("El archivo " + file.getAbsolutePath() + " no contiene el array " + array);
-	
-		System.out.println(jsonArray.size());
 		
 		jsonArray.removeIf(json -> exportator.fromJSON( ( JSONObject )json).equals(toRemove));
-		
-		System.out.println(jsonArray.size());
 		
 		jsonObject.put(array, jsonArray);
 
