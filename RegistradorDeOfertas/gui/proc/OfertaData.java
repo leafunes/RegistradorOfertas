@@ -4,10 +4,13 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class OfertaData{
@@ -24,7 +27,12 @@ public class OfertaData{
 	LocalTime fin;
 	double precio;
 	
-	private static Exportador exportador;
+	List<EquipData> equipamento = new ArrayList<>();
+	
+	//Exportador
+	private static Exportator<OfertaData> exportador;
+	
+	private static Exportator<EquipData> equipExportador = EquipData.exportador();
 	
 	private static class Exportador implements Exportator<OfertaData>{
 
@@ -46,12 +54,16 @@ public class OfertaData{
 			ret.setTelefono((long)obj.get("telefono"));
 			ret.setFecha(DateTime.parse(fechaString));
 			
-			int inicio = (int)(long)obj.get("inicio"); //Cosas de la libreria
-			int fin = (int)(long)obj.get("fin");
+			String inicio = (String)obj.get("inicio");
+			String fin = (String)obj.get("fin");
 			
-			ret.setInicio(inicio);
-			ret.setFin(fin);
+			ret.setInicio(LocalTime.parse(inicio));
+			ret.setFin(LocalTime.parse(fin));
 			ret.setPrecio((double)obj.get("precio"));
+			
+			JSONArray equipJson = (JSONArray)obj.get("equipamento");
+			
+			equipJson.forEach(json -> ret.agregaEquip(equipExportador.fromJSON( (JSONObject)json )) );
 			
 			return ret;
 		}
@@ -66,9 +78,15 @@ public class OfertaData{
 			ret.put("DNI", data.DNI);
 			ret.put("telefono", data.telefono);
 			ret.put("fecha", data.getFecha().toString("yyyy-MM-dd"));
-			ret.put("inicio", data.inicio.getHourOfDay());
-			ret.put("fin", data.fin.getHourOfDay());
+			ret.put("inicio", data.inicio.toString("hh:mm"));
+			ret.put("fin", data.fin.toString("hh:mm"));
 			ret.put("precio", data.precio);
+			
+			JSONArray equipamentoJson = new JSONArray();
+			
+			data.getEquip().forEach(equip -> equipamentoJson.add(equipExportador.toJSON(equip)) );
+			
+			ret.put("equipamento", equipamentoJson);
 			
 			return ret;
 		
@@ -84,7 +102,7 @@ public class OfertaData{
 		return exportador;
 	}
 	
-	
+	//Clase
 	
 	public String getNombre() {
 		return nombre;
@@ -131,8 +149,8 @@ public class OfertaData{
 	public LocalTime getInicio() {
 		return inicio;
 	}
-	public void setInicio(Date inicio) {
-		this.inicio = new LocalTime(inicio.getTime());//Solo la hora
+	public void setInicio(LocalTime inicio) {
+		this.inicio = inicio;//Solo la hora
 	}
 	public void setInicio(int inicio) {
 		this.inicio = new LocalTime(inicio, 0, 0);//Solo la hora
@@ -140,11 +158,23 @@ public class OfertaData{
 	public LocalTime getFin() {
 		return fin;
 	}
-	public void setFin(Date fin) {
-		this.fin = new LocalTime(fin.getTime());//Solo la hora
+	public void setFin(LocalTime fin) {
+		this.fin = fin;//Solo la hora
 	}
 	public void setFin(int fin) {
 		this.fin = new LocalTime(fin, 0, 0);//Solo la hora
+	}
+	
+	public void agregaEquip(EquipData toAdd){
+		this.equipamento.add(toAdd);
+	}
+	
+	public List<EquipData> getEquip(){
+		return this.equipamento;
+	}
+	
+	private boolean containsEquip(EquipData equipData) {
+		return this.equipamento.contains(equipData);
 	}
 
 	@Override
@@ -171,9 +201,16 @@ public class OfertaData{
 		if (Double.doubleToLongBits(precio) != Double.doubleToLongBits(other.precio)) return false;
 		if (telefono != other.telefono)return false;
 		
+		for (EquipData equipData : equipamento) {
+			if(!other.containsEquip(equipData))
+				return false;
+		}
+		
 		
 		return true;
 	}
+
+
 
 
 

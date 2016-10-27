@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Checkbox;
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
@@ -10,27 +11,35 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JFormattedTextField;
 
 import com.toedter.calendar.JDateChooser;
 
+import proc.CurrentEquipamento;
+import proc.EquipData;
 import proc.OfertaData;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import com.github.lgooddatepicker.components.TimePicker;
 
 public class OfertaForm extends JDialog{
 	
@@ -38,17 +47,22 @@ public class OfertaForm extends JDialog{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public OfertaData data = new OfertaData();
+	public OfertaData data;
 	private JTextField nombreField;
 	private JTextField apellidoField;
 	private JFormattedTextField emailField;
 	private JFormattedTextField dniField;
 	private JFormattedTextField telField;
 	private JFormattedTextField mntoField;
-	private JSpinner tiempoFin;
-	private JSpinner tiempoInicio;
 	
 	private DateTime date;
+	
+	
+	//TODO: mover al init
+	private List<EquipData> equipList = CurrentEquipamento.getCurrent().getEquipamento();
+	private List<JCheckBox> checksList = new ArrayList<>();
+	private TimePicker pickerFin;
+	private TimePicker pickerInicio;
 	
 	public OfertaForm(Component parent, DateTime date){
 		
@@ -66,13 +80,46 @@ public class OfertaForm extends JDialog{
 		getContentPane().add(btnOk);
 		getContentPane().add(btnCancelar);
 		
+		//Fields
+		
+		nombreField = new JTextField();
+		apellidoField = new JTextField();
+		emailField = new JFormattedTextField( new RegexFormatter("\\b([\\w\\.]+)@([\\w\\.]+)\\.(\\w+)\\b"));//Email Regex
+		telField = new JFormattedTextField(new RegexFormatter("\\d{8,}"));//Telefono Regex. 8 o mas?
+		mntoField = new JFormattedTextField(new RegexFormatter("\\d*(\\.|,)?\\d{2}"));//Cualquier cantidad de digitos
+		dniField = new JFormattedTextField(new RegexFormatter("\\d{8}"));
+		
+		
+		nombreField.setBounds(84, 11, 149, 20);
+		apellidoField.setBounds(318, 11, 149, 20);
+		dniField.setBounds(84, 42, 149, 20);
+		emailField.setBounds(318, 42, 149, 20);
+		telField.setBounds(84, 73, 149, 20);
+		mntoField.setBounds(318, 73, 149, 20);
+		
+		//TODO
+		pickerInicio = new TimePicker();
+		pickerInicio.setBounds(350, 104, 76, 23);
+		getContentPane().add(pickerInicio);
+		
+		pickerFin = new TimePicker();
+		pickerFin.setBounds(350, 138, 76, 23);
+		getContentPane().add(pickerFin);
+		
+		getContentPane().add(nombreField);
+		getContentPane().add(apellidoField);
+		getContentPane().add(dniField);
+		getContentPane().add(emailField);
+		getContentPane().add(telField);
+		getContentPane().add(mntoField);
+		
 		//Acciones de botones
 		btnOk.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
-				
+
 				if(isDataValid()){
-				
+					
 					fillData();
 					dispose();
 				}
@@ -88,45 +135,6 @@ public class OfertaForm extends JDialog{
 				
 			}
 		});
-		
-		//Fields
-		
-		nombreField = new JTextField();
-		apellidoField = new JTextField();
-		emailField = new JFormattedTextField( new RegexFormatter("\\b([\\w\\.]+)@([\\w\\.]+)\\.(\\w+)\\b"));//Email Regex
-		telField = new JFormattedTextField(new RegexFormatter("\\d{8,}"));//Telefono Regex. 8 o mas?
-		mntoField = new JFormattedTextField(new RegexFormatter("\\d*(\\.|,)?\\d{2}"));//Cualquier cantidad de digitos
-		dniField = new JFormattedTextField(new RegexFormatter("\\d{8}"));
-		
-		
-		tiempoInicio = new JSpinner( new SpinnerDateModel() );
-		JSpinner.DateEditor de_tiempoInicio = new JSpinner.DateEditor(tiempoInicio, "HH");//Formato de hora
-		tiempoFin = new JSpinner( new SpinnerDateModel() );
-		JSpinner.DateEditor de_tiempoFin = new JSpinner.DateEditor(tiempoFin, "HH");//Formato de hora
-		
-		
-		nombreField.setBounds(84, 11, 149, 20);
-		apellidoField.setBounds(318, 11, 149, 20);
-		dniField.setBounds(84, 42, 149, 20);
-		emailField.setBounds(318, 42, 149, 20);
-		telField.setBounds(84, 73, 149, 20);
-		mntoField.setBounds(318, 73, 149, 20);
-		tiempoInicio.setBounds(359, 104, 46, 20);
-		tiempoFin.setBounds(359, 135, 46, 20);
-		
-		tiempoInicio.setEditor(de_tiempoInicio);
-		tiempoInicio.setValue(new Date());
-		tiempoFin.setEditor(de_tiempoFin);
-		tiempoFin.setValue(new Date());
-		
-		getContentPane().add(nombreField);
-		getContentPane().add(apellidoField);
-		getContentPane().add(dniField);
-		getContentPane().add(emailField);
-		getContentPane().add(telField);
-		getContentPane().add(mntoField);
-		getContentPane().add(tiempoInicio);
-		getContentPane().add(tiempoFin);
 		
 		//Labels
 		JLabel lblNombre = new JLabel("Nombre:");
@@ -162,14 +170,23 @@ public class OfertaForm extends JDialog{
 		getContentPane().add(lblFin);
 		
 		//TODO: equipamento
-		JPanel panel = new JPanel();
+		JPanel equipPanel = new JPanel();
 		JScrollPane scroll = new JScrollPane();
 		scroll.setBounds(84, 103, 149, 80);
 		getContentPane().add(scroll);
 		
+		scroll.setViewportView(equipPanel);
+		equipPanel.setLayout(new GridLayout(0, 1, 0, 1));
 		
-		scroll.setViewportView(panel);
-		panel.setLayout(new GridLayout(0, 1, 0, 1));
+		
+		for(EquipData equip : equipList){
+			
+			JCheckBox button = new JCheckBox(equip.getNombre());
+			checksList.add(button);
+			equipPanel.add(button);
+			
+		}
+		
 
 	}
 	
@@ -197,7 +214,8 @@ public class OfertaForm extends JDialog{
 	}
 	
 	private boolean isDateOk(){
-		//TODO: verificar si la fecha no esta cerrada
+		//no hace falta verificar si la fecha esta cerrada, ya que
+		//si estaria cerrada, el boton para agregar ofertas esta deshabilitado
 		if(date.isBeforeNow()){
 			JOptionPane.showMessageDialog(this, "Debe ser una fecha posterior a hoy",  "Error",JOptionPane.ERROR_MESSAGE);
 			return false;
@@ -206,10 +224,13 @@ public class OfertaForm extends JDialog{
 	}
 	
 	private boolean isHourOk(){
-		Date inicioDate = (Date)tiempoInicio.getValue();
-		Date finDate = (Date)tiempoFin.getValue();
 		
-		if(inicioDate.compareTo(finDate) >= 0){
+		if(pickerInicio.getTime() == null || pickerFin.getTime() == null){
+			JOptionPane.showMessageDialog(this, "Debe ingresar la hora de inicio y fin", "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		if(!pickerInicio.getTime().isBefore(pickerFin.getTime())){
 			
 			JOptionPane.showMessageDialog(this, "La hora de inicio es posterior a la hora de fin", "Error", JOptionPane.ERROR_MESSAGE);
 			return false;
@@ -218,6 +239,8 @@ public class OfertaForm extends JDialog{
 	}
 
 	private void fillData(){
+		
+		data = new OfertaData();
 		
 		data.setNombre( nombreField.getText());
 		data.setApellido(apellidoField.getText());
@@ -228,7 +251,15 @@ public class OfertaForm extends JDialog{
 		data.setFecha(date);
 		
 		
-		data.setInicio((Date)tiempoInicio.getValue());
-		data.setFin((Date)tiempoFin.getValue());
+		data.setInicio(LocalTime.parse(pickerInicio.getTime().toString()));
+		data.setFin(LocalTime.parse(pickerFin.getTime().toString()));
+		
+		for(int i = 0; i < checksList.size(); i++){
+			
+			if(checksList.get(i).isSelected())
+				data.agregaEquip(equipList.get(i));
+			
+		}
+		
 	}
 }

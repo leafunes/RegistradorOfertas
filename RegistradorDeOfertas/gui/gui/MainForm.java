@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import com.toedter.calendar.JDateChooser;
+import com.github.lgooddatepicker.components.TimePicker;
 
 public class MainForm {
 
@@ -112,7 +113,7 @@ public class MainForm {
 				if(isDateOk() && btnNueva.isEnabled()){
 					OfertaForm agregador = new OfertaForm(frame, selectedDate);
 					agregador.setVisible(true);
-					agregaOferta(agregador.data);
+					if(agregador.data != null)agregaOferta(agregador.data);
 				}
 			}
 		});

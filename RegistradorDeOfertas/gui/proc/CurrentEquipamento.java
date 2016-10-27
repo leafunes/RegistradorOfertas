@@ -11,7 +11,7 @@ import data.JsonData;
 
 public class CurrentEquipamento {
 	
-	private Exportator<EquipData> exportador = new EquipData.Exportador();
+	private Exportator<EquipData> exportador = EquipData.exportador();
 	
 	private JsonData jsonData = JsonData.getData();
 	private File file = new File("Datos" + File.separatorChar + "equipamento" +

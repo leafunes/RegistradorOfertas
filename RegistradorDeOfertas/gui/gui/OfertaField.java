@@ -34,7 +34,7 @@ public class OfertaField extends JPanel {
 		
 		//Labels de info
 		JLabel lblNombreApellido = new JLabel(data.getNombre()+ " " + data.getApellido());
-		JLabel lblTiempos = new JLabel("De " + data.getInicio().getHourOfDay()+ "hs" + " a " + data.getFin().getHourOfDay() + "hs");
+		JLabel lblTiempos = new JLabel("De " + data.getInicio().toString("hh:mm")+ "hs" + " a " + data.getFin().toString("hh:mm") + "hs");
 		
 		lblNombreApellido.setBounds(10, 19, 111, 14);
 		lblTiempos.setBounds(182, 19, 165, 14);

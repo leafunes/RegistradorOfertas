@@ -1,6 +1,7 @@
 package gui;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -8,7 +9,10 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
+import proc.EquipData;
 import proc.OfertaData;
 
 import javax.swing.JButton;
@@ -66,7 +70,7 @@ public class DetallesOfertaForm extends JDialog{
 				dispose();
 			}
 		});
-		btnOk.setBounds(168, 170, 89, 23);
+		btnOk.setBounds(165, 185, 89, 23);
 		getContentPane().add(btnOk);
 		
 		JTextField lblNombre_1 = new JTextField(data.getNombre());
@@ -99,15 +103,33 @@ public class DetallesOfertaForm extends JDialog{
 		lblMonto_1.setBounds(299, 61, 125, 20);
 		getContentPane().add(lblMonto_1);
 		
-		JTextField lblInicio_1 = new JTextField(data.getInicio().getHourOfDay() + "hs");
+		JTextField lblInicio_1 = new JTextField(data.getInicio().toString("hh:mm") + "hs");
 		lblInicio_1.setEditable(false);
 		lblInicio_1.setBounds(299, 92, 125, 20);
 		getContentPane().add(lblInicio_1);
 		
-		JTextField lblFin_1 = new JTextField(data.getFin().getHourOfDay()  + "hs");
+		JTextField lblFin_1 = new JTextField(data.getFin().toString("hh:mm")  + "hs");
 		lblFin_1.setEditable(false);
 		lblFin_1.setBounds(299, 117, 125, 20);
 		getContentPane().add(lblFin_1);
+		
+		
+		//TODO: equip
+		JPanel equipPanel = new JPanel();
+		JScrollPane scroll = new JScrollPane();
+		scroll.setBounds(83, 92, 132, 80);
+		getContentPane().add(scroll);
+		
+		scroll.setViewportView(equipPanel);
+		equipPanel.setLayout(new GridLayout(0, 1, 0, 1));
+		
+		for(EquipData equip: data.getEquip()){
+			
+			JTextField equipTxt = new JTextField(equip.getNombre());
+			equipTxt.setSize(new Dimension(130, 5));
+			equipPanel.add(equipTxt);
+			
+		}
 		
 	}
 }

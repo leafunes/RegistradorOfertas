@@ -2,9 +2,15 @@ package proc;
 
 import org.json.simple.JSONObject;
 
+
 public class EquipData {
 	
-	public static class Exportador implements Exportator<EquipData>{
+	private String nombre;
+	
+	//Exportador
+	private static Exportator<EquipData>  exportador;
+	
+	private static class Exportador implements Exportator<EquipData>{
 
 		@Override
 		public EquipData clone(EquipData other) {
@@ -31,9 +37,16 @@ public class EquipData {
 		}
 		
 	}
+
+	public static Exportator<EquipData> exportador(){
+		if(exportador == null){
+			exportador = new Exportador();
+		}
+		
+		return exportador;
+	}
 	
-	private String nombre;
-	
+	//Clase
 	public EquipData(String nombre) {
 		this.nombre = nombre;
 	}
