@@ -94,7 +94,6 @@ public class MainForm {
 		btnCerrar = new JButton("Cerrar dia");
 		btnGeneraCierre = new JButton("Generar Cierre");
 		
-		
 		btnEquipamento.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

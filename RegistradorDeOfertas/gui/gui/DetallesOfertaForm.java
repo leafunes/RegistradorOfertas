@@ -21,100 +21,110 @@ import javax.swing.JTextField;
 
 public class DetallesOfertaForm extends JDialog{
 	
+	private OfertaData data;
+	
 	public DetallesOfertaForm(Component parent, OfertaData data) {
 		setTitle("Detalles");
 		getContentPane().setLayout(null);
 		super.setSize(new Dimension(450, 260));
 		super.setLocationRelativeTo(parent);
 		
+		this.data = data;
+		
+		initLabels();
+		initButton();
+		initFields();
+		initEquipViewer();
+		
+	}
+	
+	private void initLabels(){
 		JLabel lblNombre = new JLabel("Nombre: ");
-		lblNombre.setBounds(10, 11, 58, 14);
-		getContentPane().add(lblNombre);
-		
 		JLabel lblApellido = new JLabel("Apellido: ");
-		lblApellido.setBounds(229, 11, 60, 14);
-		getContentPane().add(lblApellido);
-		
 		JLabel lblDni = new JLabel("DNI: ");
-		lblDni.setBounds(10, 36, 46, 14);
-		getContentPane().add(lblDni);
-		
 		JLabel lblEmail = new JLabel("Email:");
-		lblEmail.setBounds(229, 36, 46, 14);
-		getContentPane().add(lblEmail);
-		
 		JLabel lblInicio = new JLabel("Inicio: ");
-		lblInicio.setBounds(229, 92, 46, 14);
-		getContentPane().add(lblInicio);
-		
 		JLabel lblFin = new JLabel("Fin: ");
-		lblFin.setBounds(229, 117, 46, 14);
-		getContentPane().add(lblFin);
-		
 		JLabel lblEquipamento = new JLabel("Equip.:\r\n");
-		lblEquipamento.setBounds(10, 92, 46, 14);
-		getContentPane().add(lblEquipamento);
-		
 		JLabel lblTel = new JLabel("Tel.:");
-		lblTel.setBounds(10, 61, 46, 14);
-		getContentPane().add(lblTel);
-		
 		JLabel lblMonto = new JLabel("Monto:");
-		lblMonto.setBounds(229, 61, 46, 14);
-		getContentPane().add(lblMonto);
 		
+		lblNombre.setBounds(10, 11, 58, 14);
+		lblApellido.setBounds(229, 11, 60, 14);
+		lblDni.setBounds(10, 36, 46, 14);
+		lblEmail.setBounds(229, 36, 46, 14);
+		lblInicio.setBounds(229, 92, 46, 14);
+		lblFin.setBounds(229, 117, 46, 14);
+		lblEquipamento.setBounds(10, 92, 46, 14);
+		lblTel.setBounds(10, 61, 46, 14);
+		lblMonto.setBounds(229, 61, 46, 14);
+		
+		getContentPane().add(lblNombre);
+		getContentPane().add(lblApellido);
+		getContentPane().add(lblDni);
+		getContentPane().add(lblEmail);
+		getContentPane().add(lblInicio);
+		getContentPane().add(lblFin);
+		getContentPane().add(lblEquipamento);
+		getContentPane().add(lblTel);
+		getContentPane().add(lblMonto);
+	}
+	
+	private void initButton(){
 		JButton btnOk = new JButton("Ok!");
+
+		btnOk.setBounds(165, 185, 89, 23);
+
+		getContentPane().add(btnOk);
+		
 		btnOk.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				dispose();
 			}
 		});
-		btnOk.setBounds(165, 185, 89, 23);
-		getContentPane().add(btnOk);
+	}
+	
+	private void initFields(){
+		JTextField lblNombre = new JTextField(data.getNombre());
+		JTextField lblDni = new JTextField(data.getDNI() + "");
+		JTextField lblTel = new JTextField(data.getTelefono() + "");
+		JTextField lblApellido = new JTextField(data.getApellido());
+		JTextField lblEmail = new JTextField(data.getEmail());
+		JTextField lblMonto = new JTextField(data.getPrecio() + "$");
+		JTextField lblInicio = new JTextField(data.getInicio().toString("hh:mm") + "hs");
+		JTextField lblFin = new JTextField(data.getFin().toString("hh:mm")  + "hs");
 		
-		JTextField lblNombre_1 = new JTextField(data.getNombre());
-		lblNombre_1.setEditable(false);
-		lblNombre_1.setBounds(87, 8, 132, 20);
-		getContentPane().add(lblNombre_1);
+		lblNombre.setEditable(false);
+		lblDni.setEditable(false);
+		lblTel.setEditable(false);
+		lblApellido.setEditable(false);
+		lblEmail.setEditable(false);
+		lblMonto.setEditable(false);
+		lblInicio.setEditable(false);
+		lblFin.setEditable(false);
 		
-		JTextField lblDni_1 = new JTextField(data.getDNI() + "");
-		lblDni_1.setEditable(false);
-		lblDni_1.setBounds(87, 36, 132, 20);
-		getContentPane().add(lblDni_1);
+		lblNombre.setBounds(87, 8, 132, 20);
+		lblDni.setBounds(87, 36, 132, 20);
+		lblTel.setBounds(87, 61, 132, 20);
+		lblApellido.setBounds(299, 11, 125, 20);
+		lblEmail.setBounds(299, 36, 125, 20);
+		lblMonto.setBounds(299, 61, 125, 20);
+		lblInicio.setBounds(299, 92, 125, 20);
+		lblFin.setBounds(299, 117, 125, 20);
 		
-		JTextField lblTel_1 = new JTextField(data.getTelefono() + "");
-		lblTel_1.setEditable(false);
-		lblTel_1.setBounds(87, 61, 132, 20);
-		getContentPane().add(lblTel_1);
-		
-		JTextField lblApellido_1 = new JTextField(data.getApellido());
-		lblApellido_1.setEditable(false);
-		lblApellido_1.setBounds(299, 11, 125, 20);
-		getContentPane().add(lblApellido_1);
-		
-		JTextField lblEmail_1 = new JTextField(data.getEmail());
-		lblEmail_1.setEditable(false);
-		lblEmail_1.setBounds(299, 36, 125, 20);
-		getContentPane().add(lblEmail_1);
-		
-		JTextField lblMonto_1 = new JTextField(data.getPrecio() + "$");
-		lblMonto_1.setEditable(false);
-		lblMonto_1.setBounds(299, 61, 125, 20);
-		getContentPane().add(lblMonto_1);
-		
-		JTextField lblInicio_1 = new JTextField(data.getInicio().toString("hh:mm") + "hs");
-		lblInicio_1.setEditable(false);
-		lblInicio_1.setBounds(299, 92, 125, 20);
-		getContentPane().add(lblInicio_1);
-		
-		JTextField lblFin_1 = new JTextField(data.getFin().toString("hh:mm")  + "hs");
-		lblFin_1.setEditable(false);
-		lblFin_1.setBounds(299, 117, 125, 20);
-		getContentPane().add(lblFin_1);
-		
-		
-		//TODO: equip
+		getContentPane().add(lblNombre);
+		getContentPane().add(lblDni);
+		getContentPane().add(lblTel);
+		getContentPane().add(lblApellido);
+		getContentPane().add(lblEmail);
+		getContentPane().add(lblMonto);
+		getContentPane().add(lblInicio);
+		getContentPane().add(lblFin);
+	}
+	
+	private void initEquipViewer(){
+
 		JPanel equipPanel = new JPanel();
 		JScrollPane scroll = new JScrollPane();
 		scroll.setBounds(83, 92, 132, 80);
@@ -130,6 +140,5 @@ public class DetallesOfertaForm extends JDialog{
 			equipPanel.add(equipTxt);
 			
 		}
-		
 	}
 }
