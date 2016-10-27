@@ -13,7 +13,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JTextField;
+
+import proc.CurrentEquipamento;
+import proc.EquipData;
+import proc.OfertaData;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -22,6 +30,9 @@ public class EquipamentoEdit extends JDialog{
 
 	private JPanel columnpanel;
 	
+	private CurrentEquipamento currentEquip = CurrentEquipamento.getCurrent();
+	
+	
 	public EquipamentoEdit(Component parent) {
 		setTitle("Editar Equipamento");
 		this.setSize(350, 325);
@@ -29,6 +40,7 @@ public class EquipamentoEdit extends JDialog{
 		getContentPane().setLayout(null);
         
 		initViewer();
+		actualizeEquip();
 		
         JButton btnAgregar = new JButton("Agregar");
         JButton btnOk = new JButton("OK");
@@ -42,7 +54,7 @@ public class EquipamentoEdit extends JDialog{
         btnAgregar.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
-        		agregaEquip();
+        		agregaEquipData();
         	}
         });
         
@@ -60,7 +72,7 @@ public class EquipamentoEdit extends JDialog{
         	public void keyPressed(KeyEvent e) {
         		
         		if(e.getKeyCode() == 10 ) //Enter
-        			agregaEquip();
+        			agregaEquipData();
         	}
         });
         
@@ -94,17 +106,46 @@ public class EquipamentoEdit extends JDialog{
         
 	}
 	
-	private void agregaEquip(){
+	void removeEquip(EquipData toRemove){
+		currentEquip.removeEquipamento(toRemove);
+		
+		actualizeEquip();
+		
+	}
+	
+	private void actualizeEquip(){
+		
+		columnpanel.removeAll();
+		
+		List<EquipData> allEquip = currentEquip.getEquipamento();
+		
+		allEquip.forEach(equip -> agregaEquipViewer(equip));
+		
+		validate();
+		
+	}
+	
+	private void agregaEquipData(){
 		if(textField.getText().length() != 0){
-    		
-    		EquipamentoField field = new EquipamentoField(textField.getText());
-    		field.setPreferredSize(new Dimension(300, 40));
-    		
-    		columnpanel.add(field);
+			
+    		EquipData toAdd = new EquipData(textField.getText());
+    		agregaEquipViewer(toAdd);
     		
     		textField.setText("");
+    
+    		currentEquip.putEquipamento(toAdd);
     		
-        	validate();
 		}
 	}
+	
+	private void agregaEquipViewer(EquipData toAdd){
+    		
+    		EquipamentoField field = new EquipamentoField(this, toAdd);
+    		field.setPreferredSize(new Dimension(300, 40));
+    		columnpanel.add(field);
+    		
+        	validate();
+		
+	}
+	
 }

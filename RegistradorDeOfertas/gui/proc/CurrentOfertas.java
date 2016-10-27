@@ -138,7 +138,7 @@ public class CurrentOfertas {
 		int month = date.getMonthOfYear();
 		int day = date.getDayOfMonth();
 		
-		File file = new File("Datos" + File.separatorChar + year + "_" + month + "_" + day + ".json");
+		File file = new File("Datos" + File.separatorChar + "ofertas" + File.separatorChar + year + "_" + month + "_" + day + ".json");
 		
 		return file;
 		
