@@ -59,36 +59,39 @@ public class OfertaForm extends JDialog{
 	
 	
 	//TODO: mover al init
-	private List<EquipData> equipList = CurrentEquipamento.getCurrent().getEquipamento();
-	private List<JCheckBox> checksList = new ArrayList<>();
+	private List<EquipData> equipList;
+	private List<JCheckBox> checksList;
 	private TimePicker pickerFin;
 	private TimePicker pickerInicio;
 	
 	public OfertaForm(Component parent, DateTime date){
 		
 		this.date = date;
-		getContentPane().setLayout(null);
-		this.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
+		equipList = CurrentEquipamento.getCurrent().getEquipamento();
+		checksList = new ArrayList<JCheckBox>();
 		
+		this.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
 		super.setSize(new Dimension(500, 300));
 		super.setLocationRelativeTo(parent);
+		getContentPane().setLayout(null);
 		
-		JButton btnOk = new JButton("Ok!");
-		JButton btnCancelar = new JButton("Cancelar");
-		btnOk.setBounds(84, 220, 89, 23);
-		btnCancelar.setBounds(318, 220, 89, 23);
-		getContentPane().add(btnOk);
-		getContentPane().add(btnCancelar);
+		initFields();
+		initButtons();
+		initLabels();
+		initEquipViewer();
 		
-		//Fields
-		
+	}
+	
+	private void initFields(){
+	
 		nombreField = new JTextField();
 		apellidoField = new JTextField();
 		emailField = new JFormattedTextField( new RegexFormatter("\\b([\\w\\.]+)@([\\w\\.]+)\\.(\\w+)\\b"));//Email Regex
 		telField = new JFormattedTextField(new RegexFormatter("\\d{8,}"));//Telefono Regex. 8 o mas?
 		mntoField = new JFormattedTextField(new RegexFormatter("\\d*(\\.|,)?\\d{2}"));//Cualquier cantidad de digitos
 		dniField = new JFormattedTextField(new RegexFormatter("\\d{8}"));
-		
+		pickerInicio = new TimePicker();
+		pickerFin = new TimePicker();
 		
 		nombreField.setBounds(84, 11, 149, 20);
 		apellidoField.setBounds(318, 11, 149, 20);
@@ -96,15 +99,8 @@ public class OfertaForm extends JDialog{
 		emailField.setBounds(318, 42, 149, 20);
 		telField.setBounds(84, 73, 149, 20);
 		mntoField.setBounds(318, 73, 149, 20);
-		
-		//TODO
-		pickerInicio = new TimePicker();
 		pickerInicio.setBounds(350, 104, 76, 23);
-		getContentPane().add(pickerInicio);
-		
-		pickerFin = new TimePicker();
 		pickerFin.setBounds(350, 138, 76, 23);
-		getContentPane().add(pickerFin);
 		
 		getContentPane().add(nombreField);
 		getContentPane().add(apellidoField);
@@ -112,6 +108,18 @@ public class OfertaForm extends JDialog{
 		getContentPane().add(emailField);
 		getContentPane().add(telField);
 		getContentPane().add(mntoField);
+		getContentPane().add(pickerInicio);
+		getContentPane().add(pickerFin);
+	}
+	
+	private void initButtons(){
+
+		JButton btnOk = new JButton("Ok!");
+		JButton btnCancelar = new JButton("Cancelar");
+		btnOk.setBounds(84, 220, 89, 23);
+		btnCancelar.setBounds(318, 220, 89, 23);
+		getContentPane().add(btnOk);
+		getContentPane().add(btnCancelar);
 		
 		//Acciones de botones
 		btnOk.addMouseListener(new MouseAdapter() {
@@ -136,6 +144,28 @@ public class OfertaForm extends JDialog{
 			}
 		});
 		
+	}
+	
+	private void initEquipViewer(){
+		JPanel equipPanel = new JPanel();
+		JScrollPane scroll = new JScrollPane();
+		scroll.setBounds(84, 103, 149, 80);
+		getContentPane().add(scroll);
+		
+		scroll.setViewportView(equipPanel);
+		equipPanel.setLayout(new GridLayout(0, 1, 0, 1));
+		
+		
+		for(EquipData equip : equipList){
+			
+			JCheckBox button = new JCheckBox(equip.getNombre());
+			checksList.add(button);
+			equipPanel.add(button);
+			
+		}
+	}
+	
+	private void initLabels(){
 		//Labels
 		JLabel lblNombre = new JLabel("Nombre:");
 		JLabel lblApellido = new JLabel("Apellido:");
@@ -146,8 +176,6 @@ public class OfertaForm extends JDialog{
 		JLabel lblEquipamento = new JLabel("Equip.:");
 		JLabel lblInicio = new JLabel("Inicio:");
 		JLabel lblFin = new JLabel("Fin:");
-		
-		
 		
 		lblNombre.setBounds(10, 14, 64, 14);
 		lblApellido.setBounds(262, 14, 59, 14);
@@ -168,26 +196,6 @@ public class OfertaForm extends JDialog{
 		getContentPane().add(lblEquipamento);
 		getContentPane().add(lblInicio);
 		getContentPane().add(lblFin);
-		
-		//TODO: equipamento
-		JPanel equipPanel = new JPanel();
-		JScrollPane scroll = new JScrollPane();
-		scroll.setBounds(84, 103, 149, 80);
-		getContentPane().add(scroll);
-		
-		scroll.setViewportView(equipPanel);
-		equipPanel.setLayout(new GridLayout(0, 1, 0, 1));
-		
-		
-		for(EquipData equip : equipList){
-			
-			JCheckBox button = new JCheckBox(equip.getNombre());
-			checksList.add(button);
-			equipPanel.add(button);
-			
-		}
-		
-
 	}
 	
 	private boolean isDataValid(){
