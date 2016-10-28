@@ -57,8 +57,6 @@ public class OfertaForm extends JDialog{
 	
 	private DateTime date;
 	
-	
-	//TODO: mover al init
 	private List<EquipData> equipList;
 	private List<JCheckBox> checksList;
 	private TimePicker pickerFin;
@@ -263,6 +261,8 @@ public class OfertaForm extends JDialog{
 				data.agregaEquip(equipList.get(i));
 			
 		}
+		
+		data.createInterval();
 		
 	}
 }

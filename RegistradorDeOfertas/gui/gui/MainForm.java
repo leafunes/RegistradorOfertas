@@ -17,6 +17,7 @@ import org.joda.time.DateTime;
 
 import proc.CurrentOfertas;
 import proc.OfertaData;
+import proc.Solver;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,6 +39,8 @@ public class MainForm {
 	
 	private DateTime selectedDate;
 	private DateTime currentDate = DateTime.now();
+	
+	private List<OfertaData> ofertasList;
 	
 	private Dimension dimensionOfertaMain = new Dimension(630, 50);
 
@@ -92,6 +95,23 @@ public class MainForm {
 		btnEquipamento = new JButton("Equipamento");
 		btnCerrar = new JButton("Cerrar dia");
 		btnGeneraCierre = new JButton("Generar Cierre");
+		btnGeneraCierre.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				if(btnGeneraCierre.isEnabled()){
+					CierreForm cierre = new CierreForm(frame);
+					cierre.setVisible(true);
+					
+					Solver solver = Solver.getAllSolvers().get(2);
+					
+					List<OfertaData> ofertasSolved = solver.resolver(ofertasList);
+					System.out.println(ofertasSolved);
+					
+				}
+				
+			}
+		});
 		
 		btnEquipamento.addMouseListener(new MouseAdapter() {
 			@Override
@@ -209,9 +229,9 @@ public class MainForm {
 	private void actualizeOfertas(){
 		
 		viewer.removeAllViewer();
-		List<OfertaData> ofertas = currentOfertas.getOfertas(selectedDate);
+		ofertasList = currentOfertas.getOfertas(selectedDate);
 		
-		ofertas.forEach(oferta -> viewer.addToViewer(getOfertaFromData(oferta)));
+		ofertasList.forEach(oferta -> viewer.addToViewer(getOfertaFromData(oferta)));
 		
 	}
 	

@@ -24,45 +24,51 @@ public class OfertaField extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private JCheckBox chckbxAgregar;
+	private JButton btnEliminar;
+	private JButton btnDetalles;
+	private JLabel lblTiempos;
+	private JLabel lblNombreApellido;
+	private Viewer<OfertaField> viewer;
+	private OfertaData data;
+	private OfertaField thisRef;
 
 	/**
 	 * Create the panel.
 	 */
-	public OfertaField(Viewer<OfertaField> parent, Dimension dim, OfertaData data) {
-		
-
-		OfertaField thisRef = this;
+	public OfertaField(Viewer<OfertaField> viewer, Dimension dim, OfertaData data) {
 		
 		//Diseño
 		setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		this.setBounds(0, 0, 650, 50);
 		this.setBackground(new Color(204, 204, 153));
-		this.setPreferredSize(dim);
+		this.setPreferredSize(dim);//TODO
 		setLayout(null);
+		this.viewer = viewer;
+		this.data = data;
+		thisRef = this;
 		
-		//Labels de info
-		JLabel lblNombreApellido = new JLabel(data.getNombre()+ " " + data.getApellido());
-		JLabel lblTiempos = new JLabel("De " + data.getInicio().toString("hh:mm")+ "hs" + " a " + data.getFin().toString("hh:mm") + "hs");
+		initButton();
+		initLabels();
+		initChechButton();
 		
-		lblNombreApellido.setBounds(10, 19, 111, 14);
-		lblTiempos.setBounds(182, 19, 165, 14);
+		
+		
+		btnDetalles.setBackground(new Color(204, 204, 102));
+		btnDetalles.setBounds(357, 15, 89, 23);
+		add(btnDetalles);
+		
+	}
 	
-		add(lblNombreApellido);
-		add(lblTiempos);
-		
-		//Acciones
-		JCheckBox chckbxAgregar = new JCheckBox("Agregar");
-		chckbxAgregar.setBackground(new Color(204, 204, 153));
-		chckbxAgregar.setBounds(547, 15, 80, 23);
-		add(chckbxAgregar);
-		
-		JButton btnEliminar = new JButton("Eliminar");
+	protected void initButton(){
+		btnEliminar = new JButton("Eliminar");
 		btnEliminar.addMouseListener(new MouseAdapter() {
+
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
 				
-				parent.removeFromViewer(thisRef);
+				viewer.removeFromViewer(thisRef);
 				
 				CurrentOfertas.getCurrent().removeOferta(data, data.getFecha());
 				
@@ -72,20 +78,40 @@ public class OfertaField extends JPanel {
 		btnEliminar.setBounds(452, 15, 89, 23);
 		add(btnEliminar);
 		
-		JButton btnDetalles = new JButton("Detalles...");
+		btnDetalles = new JButton("Detalles...");
 		btnDetalles.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
-				DetallesOfertaForm detalles = new DetallesOfertaForm(parent, data);
+				DetallesOfertaForm detalles = new DetallesOfertaForm(viewer, data);
 				detalles.setVisible(true);
 				
 				
 			}
 		});
-		btnDetalles.setBackground(new Color(204, 204, 102));
-		btnDetalles.setBounds(357, 15, 89, 23);
-		add(btnDetalles);
 		
+	}
+	
+	protected void initLabels(){
+		//Labels de info
+		lblNombreApellido = new JLabel(data.getNombre()+ " " + data.getApellido());
+		lblTiempos = new JLabel("De " + data.getInicio().toString("hh:mm")+ "hs" + " a " + data.getFin().toString("hh:mm") + "hs");
+		
+		lblNombreApellido.setBounds(10, 19, 111, 14);
+		lblTiempos.setBounds(182, 19, 165, 14);
+		
+		add(lblNombreApellido);
+		add(lblTiempos);
+	}
+	
+	protected void initChechButton(){
+
+		chckbxAgregar = new JCheckBox("Agregar");
+		chckbxAgregar.setBackground(new Color(204, 204, 153));
+		chckbxAgregar.setBounds(547, 15, 80, 23);
+		add(chckbxAgregar);
+				
+				
+				
 	}
 }

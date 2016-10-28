@@ -9,7 +9,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.Interval;
 import org.joda.time.LocalTime;
+import org.joda.time.ReadableInstant;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -25,7 +28,9 @@ public class OfertaData{
 	DateTime fecha;
 	LocalTime inicio;
 	LocalTime fin;
-	double precio;
+	Interval intervalo;
+	Duration duracion;
+	double precio;//TODO BigDecimal
 	
 	List<EquipData> equipamento = new ArrayList<>();
 	
@@ -64,6 +69,8 @@ public class OfertaData{
 			JSONArray equipJson = (JSONArray)obj.get("equipamento");
 			
 			equipJson.forEach(json -> ret.agregaEquip(equipExportador.fromJSON( (JSONObject)json )) );
+			
+			ret.createInterval();
 			
 			return ret;
 		}
@@ -173,8 +180,37 @@ public class OfertaData{
 		return this.equipamento;
 	}
 	
+	public void createInterval(){
+		
+		//TODO: codigo defensivo
+		DateTime inicio = this.inicio.toDateTime(fecha);
+		DateTime fin = this.fin.toDateTime(fecha);
+		
+		this.intervalo = new Interval(inicio, fin);
+		this.duracion = intervalo.toDuration();
+		
+	}
+	
 	private boolean containsEquip(EquipData equipData) {
 		return this.equipamento.contains(equipData);
+	}
+	
+	public boolean contieneIntervaloDe(List<OfertaData> list){
+		
+		if(list.isEmpty())
+			return false;
+		
+		for (OfertaData ofertaData : list) {
+			if(intervalo.contains(ofertaData.intervalo))
+				return true;
+		}
+		return false;
+		
+	}
+	
+	@Override
+	public String toString(){
+		return DNI + ", " + inicio + " a " + fin + ": " + precio;
 	}
 
 	@Override
