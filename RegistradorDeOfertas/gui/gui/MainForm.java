@@ -22,7 +22,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import com.toedter.calendar.JDateChooser;
-import com.github.lgooddatepicker.components.TimePicker;
 
 public class MainForm {
 
@@ -35,7 +34,7 @@ public class MainForm {
 	private JButton btnCerrar;
 	private JButton btnGeneraCierre;
 	
-	private OfertasViewer viewer;
+	private Viewer<OfertaField> viewer;
 	
 	private DateTime selectedDate;
 	private DateTime currentDate = DateTime.now();
@@ -98,9 +97,9 @@ public class MainForm {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
-				EquipamentoEdit edit = new EquipamentoEdit(frame);
+				EquipamentoEdit editEquip = new EquipamentoEdit(frame);
 				
-				edit.setVisible(true);
+				editEquip.setVisible(true);
 				
 			}
 		});
@@ -169,7 +168,7 @@ public class MainForm {
 	
 	private void initOfertasViewer(){
 		
-		viewer = new OfertasViewer(139, 11, 650, 539);
+		viewer = new Viewer<>(139, 11, 650, 539);
 
         frame.getContentPane().add(viewer);
 		
@@ -209,22 +208,27 @@ public class MainForm {
 	
 	private void actualizeOfertas(){
 		
-		viewer.removeAllOfertas();
-		
+		viewer.removeAllViewer();
 		List<OfertaData> ofertas = currentOfertas.getOfertas(selectedDate);
 		
-		ofertas.forEach(oferta -> viewer.addOferta(oferta, dimensionOfertaMain));
+		ofertas.forEach(oferta -> viewer.addToViewer(getOfertaFromData(oferta)));
 		
-		frame.validate();
 	}
 	
 	private void agregaOferta(OfertaData ofertaData){
-		
-		viewer.addOferta(ofertaData, dimensionOfertaMain);
-        frame.validate();
+		OfertaField newOffer = getOfertaFromData(ofertaData);
+        
+        viewer.addToViewer(newOffer);
         
 		currentOfertas.putOferta(ofertaData, selectedDate);
-
+	}
+	
+	private OfertaField getOfertaFromData(OfertaData ofertaData){
+		
+		OfertaField newOffer = new OfertaField(viewer, dimensionOfertaMain ,ofertaData);
+		
+        return newOffer;
+		
 	}
 	
 	private boolean isDateOk(){

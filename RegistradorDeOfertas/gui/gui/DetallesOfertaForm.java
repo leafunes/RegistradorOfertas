@@ -125,19 +125,15 @@ public class DetallesOfertaForm extends JDialog{
 	
 	private void initEquipViewer(){
 
-		JPanel equipPanel = new JPanel();
-		JScrollPane scroll = new JScrollPane();
-		scroll.setBounds(83, 92, 132, 80);
-		getContentPane().add(scroll);
-		
-		scroll.setViewportView(equipPanel);
-		equipPanel.setLayout(new GridLayout(0, 1, 0, 1));
+		Viewer<JTextField> viewer = new Viewer<JTextField>(83, 92, 132, 80);
+		getContentPane().add(viewer);
 		
 		for(EquipData equip: data.getEquip()){
 			
 			JTextField equipTxt = new JTextField(equip.getNombre());
 			equipTxt.setSize(new Dimension(130, 5));
-			equipPanel.add(equipTxt);
+			equipTxt.setEditable(false);
+			viewer.addToViewer(equipTxt);
 			
 		}
 	}

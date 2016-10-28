@@ -27,8 +27,8 @@ import java.awt.event.KeyEvent;
 
 public class EquipamentoEdit extends JDialog{
 	private JTextField textField;
-
-	private JPanel columnpanel;
+	
+	private Viewer<EquipamentoField> viewer;
 	
 	private CurrentEquipamento currentEquip = CurrentEquipamento.getCurrent();
 	
@@ -86,23 +86,9 @@ public class EquipamentoEdit extends JDialog{
 	}
 	
 	private void initViewer(){
-		
-		JScrollPane scroll = new JScrollPane();
-		scroll.setBounds(0, 0, 335, 220);
-		
-        JPanel borderlaoutpanel = new JPanel();
-        borderlaoutpanel.setLayout(new BorderLayout(0, 0));
         
-        columnpanel = new JPanel();
-        
-        scroll.setViewportView(borderlaoutpanel);
-
-        columnpanel.setLayout(new GridLayout(0, 1, 0, 1));
-        columnpanel.setBackground(Color.gray);
-
-        borderlaoutpanel.add(columnpanel, BorderLayout.NORTH);
-        
-        getContentPane().add(scroll);
+		viewer = new Viewer<>(0, 0, 335, 220);
+        getContentPane().add(viewer);
         
 	}
 	
@@ -115,7 +101,7 @@ public class EquipamentoEdit extends JDialog{
 	
 	private void actualizeEquip(){
 		
-		columnpanel.removeAll();
+		viewer.removeAllViewer();
 		
 		List<EquipData> allEquip = currentEquip.getEquipamento();
 		
@@ -142,7 +128,7 @@ public class EquipamentoEdit extends JDialog{
     		
     		EquipamentoField field = new EquipamentoField(this, toAdd);
     		field.setPreferredSize(new Dimension(300, 40));
-    		columnpanel.add(field);
+    		viewer.addToViewer(field);
     		
         	validate();
 		

@@ -147,20 +147,15 @@ public class OfertaForm extends JDialog{
 	}
 	
 	private void initEquipViewer(){
-		JPanel equipPanel = new JPanel();
-		JScrollPane scroll = new JScrollPane();
-		scroll.setBounds(84, 103, 149, 80);
-		getContentPane().add(scroll);
 		
-		scroll.setViewportView(equipPanel);
-		equipPanel.setLayout(new GridLayout(0, 1, 0, 1));
-		
+		Viewer<JCheckBox> viewer = new Viewer<>(84, 103, 149, 80);
+		getContentPane().add(viewer);
 		
 		for(EquipData equip : equipList){
 			
 			JCheckBox button = new JCheckBox(equip.getNombre());
 			checksList.add(button);
-			equipPanel.add(button);
+			viewer.addToViewer(button);
 			
 		}
 	}

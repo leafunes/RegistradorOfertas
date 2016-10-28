@@ -1,25 +1,20 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import proc.CurrentOfertas;
 import proc.OfertaData;
 
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class OfertaField extends JPanel {
-	//TODO hacer otro extends
-
+public class OfertaMiniField extends JPanel{
 	/**
 	 * 
 	 */
@@ -28,16 +23,16 @@ public class OfertaField extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public OfertaField(Viewer<OfertaField> parent, Dimension dim, OfertaData data) {
+	public OfertaMiniField(Viewer<OfertaMiniField> parent, Dimension dim, OfertaData data) {
 		
 
-		OfertaField thisRef = this;
+		OfertaMiniField thisRef = this;
 		
 		//Diseño
 		setBorder(new LineBorder(new Color(0, 0, 0), 3));
-		this.setBounds(0, 0, 650, 50);
+		this.setBounds(0, 0, 320, 50);
 		this.setBackground(new Color(204, 204, 153));
-		this.setPreferredSize(dim);
+		this.setPreferredSize(new Dimension(450, 50));
 		setLayout(null);
 		
 		//Labels de info
@@ -45,32 +40,10 @@ public class OfertaField extends JPanel {
 		JLabel lblTiempos = new JLabel("De " + data.getInicio().toString("hh:mm")+ "hs" + " a " + data.getFin().toString("hh:mm") + "hs");
 		
 		lblNombreApellido.setBounds(10, 19, 111, 14);
-		lblTiempos.setBounds(182, 19, 165, 14);
+		lblTiempos.setBounds(167, 19, 165, 14);
 	
 		add(lblNombreApellido);
 		add(lblTiempos);
-		
-		//Acciones
-		JCheckBox chckbxAgregar = new JCheckBox("Agregar");
-		chckbxAgregar.setBackground(new Color(204, 204, 153));
-		chckbxAgregar.setBounds(547, 15, 80, 23);
-		add(chckbxAgregar);
-		
-		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				
-				
-				parent.removeFromViewer(thisRef);
-				
-				CurrentOfertas.getCurrent().removeOferta(data, data.getFecha());
-				
-			}
-		});
-		btnEliminar.setBackground(new Color(204, 204, 102));
-		btnEliminar.setBounds(452, 15, 89, 23);
-		add(btnEliminar);
 		
 		JButton btnDetalles = new JButton("Detalles...");
 		btnDetalles.addMouseListener(new MouseAdapter() {
@@ -84,8 +57,11 @@ public class OfertaField extends JPanel {
 			}
 		});
 		btnDetalles.setBackground(new Color(204, 204, 102));
-		btnDetalles.setBounds(357, 15, 89, 23);
+		btnDetalles.setBounds(342, 15, 89, 23);
 		add(btnDetalles);
 		
+		
+		
+
 	}
 }
