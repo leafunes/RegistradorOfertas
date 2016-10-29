@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,6 @@ import org.joda.time.DateTime;
 
 import proc.CurrentOfertas;
 import proc.OfertaData;
-import proc.Solver;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,8 +41,6 @@ public class MainForm {
 	private DateTime currentDate = DateTime.now();
 	
 	private List<OfertaData> ofertasList;
-	
-	private Dimension dimensionOfertaMain = new Dimension(630, 50);
 
 	/**
 	 * Launch the application.
@@ -100,13 +98,9 @@ public class MainForm {
 			public void mouseClicked(MouseEvent arg0) {
 				
 				if(btnGeneraCierre.isEnabled()){
-					CierreForm cierre = new CierreForm(frame);
+					actualizeOfertas();
+					CierreForm cierre = new CierreForm(frame, ofertasList, new ArrayList<>(), selectedDate);
 					cierre.setVisible(true);
-					
-					Solver solver = Solver.getAllSolvers().get(2);
-					
-					List<OfertaData> ofertasSolved = solver.resolver(ofertasList);
-					System.out.println(ofertasSolved);
 					
 				}
 				
@@ -245,7 +239,7 @@ public class MainForm {
 	
 	private OfertaField getOfertaFromData(OfertaData ofertaData){
 		
-		OfertaField newOffer = new OfertaField(viewer, dimensionOfertaMain ,ofertaData);
+		OfertaField newOffer = new OfertaField(viewer ,ofertaData);
 		
         return newOffer;
 		

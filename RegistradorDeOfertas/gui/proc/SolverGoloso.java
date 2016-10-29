@@ -17,21 +17,34 @@ public class SolverGoloso extends Solver{
 	@Override
 	public List<OfertaData> resolver(List<OfertaData> dataList) {
 		
-		List<OfertaData> ret = new ArrayList<>();
+		return resolver(dataList, new ArrayList<>());
+	}
+	
+	@Override
+	public List<OfertaData> resolver(List<OfertaData> dataList, List<OfertaData> obligatorios) {
 		
-		//Clonar
+		verifica(obligatorios);
+		
+		List<OfertaData> ret = new ArrayList<>(obligatorios);
 		List<OfertaData> dataClon = new ArrayList<>(dataList);
 		
 		Collections.sort(dataClon, comparador);
 		
 		for (OfertaData ofertaData : dataClon) {
-			System.out.print(ofertaData.duracion.getStandardMinutes() + " "  + " ");
-			System.out.println(ofertaData.getPrecio()/ofertaData.duracion.getStandardMinutes());
-			if(!ofertaData.contieneIntervaloDe(ret))
+			if(!ofertaData.superponeCon(ret))
 				ret.add(ofertaData);
 		}
 		
 		return ret;
+	}
+
+	@Override
+	protected void verifica(List<OfertaData> obligatorios) {
+		for (OfertaData ofertaData : obligatorios) {
+			if(ofertaData.superponeCon(obligatorios))
+				throw new IllegalArgumentException("La lista de ofertas obligatorias tiene ofertas que se superponen");
+		}
+		
 	}
 
 }

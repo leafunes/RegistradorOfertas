@@ -36,13 +36,13 @@ public class OfertaField extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public OfertaField(Viewer<OfertaField> viewer, Dimension dim, OfertaData data) {
+	public OfertaField(Viewer<OfertaField> viewer, OfertaData data) {
 		
 		//Diseño
 		setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		this.setBounds(0, 0, 650, 50);
 		this.setBackground(new Color(204, 204, 153));
-		this.setPreferredSize(dim);//TODO
+		this.setPreferredSize(new Dimension(630, 50));
 		setLayout(null);
 		this.viewer = viewer;
 		this.data = data;

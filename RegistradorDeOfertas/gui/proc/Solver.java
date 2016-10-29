@@ -24,7 +24,14 @@ public abstract class Solver {
 	
 	protected Solver(){};
 	
+	public String getName(){
+		return nombre;
+	}
+	
 	public abstract List<OfertaData> resolver(List <OfertaData> list);
 	
-
+	public abstract List<OfertaData> resolver(List <OfertaData> list, List <OfertaData> obligatorios);
+	
+	protected abstract void verifica(List<OfertaData> obligatorios);
+	
 }

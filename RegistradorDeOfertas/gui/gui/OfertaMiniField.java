@@ -21,13 +21,13 @@ public class OfertaMiniField extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	
-	public OfertaMiniField(Viewer<OfertaMiniField> parent, Dimension dim, OfertaData data) {
+	public OfertaMiniField(Viewer<OfertaMiniField> parent, OfertaData data) {
 		
 		//Diseño
 		setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		this.setBounds(0, 0, 320, 50);
 		this.setBackground(new Color(204, 204, 153));
-		this.setPreferredSize(new Dimension(450, 50));//TODO
+		this.setPreferredSize(new Dimension(450, 50));
 		setLayout(null);
 		
 		//Labels de info

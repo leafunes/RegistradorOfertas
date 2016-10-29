@@ -74,7 +74,7 @@ public class JsonData {
 		
 		listToAdd.forEach(t -> jsonArray.add(exportator.toJSON(t)));
 		
-		jsonObject.put(name, listToAdd);
+		jsonObject.put(name, jsonArray);
 
 		writeFile(file, jsonObject.toJSONString());
 		

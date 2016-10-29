@@ -195,13 +195,13 @@ public class OfertaData{
 		return this.equipamento.contains(equipData);
 	}
 	
-	public boolean contieneIntervaloDe(List<OfertaData> list){
+	public boolean superponeCon(List<OfertaData> list){
 		
 		if(list.isEmpty())
 			return false;
 		
 		for (OfertaData ofertaData : list) {
-			if(intervalo.contains(ofertaData.intervalo))
+			if(intervalo.overlaps(ofertaData.intervalo))
 				return true;
 		}
 		return false;
