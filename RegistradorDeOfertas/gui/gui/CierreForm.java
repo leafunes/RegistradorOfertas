@@ -2,6 +2,7 @@ package gui;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -89,12 +90,17 @@ public class CierreForm extends JDialog{
 				int index = comboBox.getSelectedIndex();
 				Solver selectedSolver = solvers.get(index);
 				
-				solucion = selectedSolver.resolver(listData);
-				
-				current.saveToFile(date,solucion);
-				
-				addOfertasViewer();
-				initRadioButtons();
+				try{
+					solucion = selectedSolver.resolver(listData, obligatorios);
+					current.saveToFile(date,solucion);
+
+					addOfertasViewer();
+					initRadioButtons();
+					
+				}catch(IllegalArgumentException e){
+					JOptionPane.showMessageDialog(null, "Hay ofertas marcadas que se superponen", "Error", JOptionPane.ERROR_MESSAGE);
+					
+				}
 			}
 		});
 		
@@ -129,6 +135,7 @@ public class CierreForm extends JDialog{
 	private void initRadioButtons(){
 		
 		files.clear();
+		filesButtons.clear();
 		fileViewer.removeAllViewer();
 		
 		for(File file : current.getAllFilesOf(date)){

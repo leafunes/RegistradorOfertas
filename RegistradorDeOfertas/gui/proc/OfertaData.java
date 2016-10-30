@@ -208,6 +208,19 @@ public class OfertaData{
 		
 	}
 	
+	public boolean esValido(List<OfertaData> list){
+		
+		if(list.isEmpty())
+			return false;
+		
+		for (OfertaData ofertaData : list) {
+			if(!ofertaData.equals(this) && intervalo.overlaps(ofertaData.intervalo))
+				return true;
+		}
+		return false;
+		
+	}
+	
 	@Override
 	public String toString(){
 		return DNI + ", " + inicio + " a " + fin + ": " + precio;

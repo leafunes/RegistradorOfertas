@@ -98,8 +98,10 @@ public class MainForm {
 			public void mouseClicked(MouseEvent arg0) {
 				
 				if(btnGeneraCierre.isEnabled()){
+
+					List<OfertaData> obligatorios = getObligatorios();
 					actualizeOfertas();
-					CierreForm cierre = new CierreForm(frame, ofertasList, new ArrayList<>(), selectedDate);
+					CierreForm cierre = new CierreForm(frame, ofertasList, obligatorios, selectedDate);
 					cierre.setVisible(true);
 					
 				}
@@ -209,6 +211,18 @@ public class MainForm {
         Timer timer = new Timer(1000 ,chechkDate);//Cada 1 segundo
         timer.setRepeats(true);
         timer.start();
+	}
+	
+	private List<OfertaData> getObligatorios(){
+		
+		List<OfertaData> ret = new ArrayList<>();
+		
+		for (OfertaField ofertaField : viewer.getItems()) {
+			if(ofertaField.isObligatorio())
+				ret.add(ofertaField.getData());
+		}
+		
+		return ret;
 	}
 	
 	private void actualizeButtons(){

@@ -21,10 +21,13 @@ public class Viewer<T extends Component> extends JScrollPane{
 	
 	private JPanel borderlaoutpanel;
 	private final JPanel columnpanel = new JPanel();
+	private List<T> componentList;
 	
 	public Viewer(int x, int y, int width, int height) {
 		
         this.setBounds(x, y, width, height);
+        
+        this.componentList = new ArrayList<>();
         
         borderlaoutpanel = new JPanel();
         borderlaoutpanel.setLayout(new BorderLayout(0, 0));
@@ -40,7 +43,8 @@ public class Viewer<T extends Component> extends JScrollPane{
 	
 	public void addToViewer(T toAdd){
 		columnpanel.add(toAdd);
- 
+		componentList.add(toAdd);
+		
         columnpanel.revalidate();
         borderlaoutpanel.revalidate();
         validate();
@@ -48,12 +52,19 @@ public class Viewer<T extends Component> extends JScrollPane{
 	
 	public void removeFromViewer(T toRemove){
 		columnpanel.remove(toRemove);
+		componentList.remove(toRemove);
+		
 		validate();
 	}
 	
 	public void removeAllViewer(){
 		columnpanel.removeAll();
+		componentList.clear();
 		validate();
+	}
+	
+	public List<T> getItems(){
+		return componentList;
 	}
 
 }

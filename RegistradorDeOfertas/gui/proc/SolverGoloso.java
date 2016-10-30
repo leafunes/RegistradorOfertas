@@ -39,9 +39,10 @@ public class SolverGoloso extends Solver{
 	}
 
 	@Override
-	protected void verifica(List<OfertaData> obligatorios) {
+	protected void verifica(List<OfertaData> obligatorios) throws IllegalArgumentException{
+		
 		for (OfertaData ofertaData : obligatorios) {
-			if(ofertaData.superponeCon(obligatorios))
+			if(ofertaData.esValido(obligatorios))
 				throw new IllegalArgumentException("La lista de ofertas obligatorias tiene ofertas que se superponen");
 		}
 		

@@ -38,7 +38,7 @@ public class OfertaField extends JPanel {
 	 */
 	public OfertaField(Viewer<OfertaField> viewer, OfertaData data) {
 		
-		//Diseño
+		//Diseï¿½o
 		setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		this.setBounds(0, 0, 650, 50);
 		this.setBackground(new Color(204, 204, 153));
@@ -92,6 +92,14 @@ public class OfertaField extends JPanel {
 		
 	}
 	
+	public boolean isObligatorio(){
+		return chckbxAgregar.isSelected();
+	}
+	
+	public OfertaData getData(){
+		return data;
+	}
+	
 	protected void initLabels(){
 		//Labels de info
 		lblNombreApellido = new JLabel(data.getNombre()+ " " + data.getApellido());
@@ -110,8 +118,6 @@ public class OfertaField extends JPanel {
 		chckbxAgregar.setBackground(new Color(204, 204, 153));
 		chckbxAgregar.setBounds(547, 15, 80, 23);
 		add(chckbxAgregar);
-				
-				
-				
+					
 	}
 }

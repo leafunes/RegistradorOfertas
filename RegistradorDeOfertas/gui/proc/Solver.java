@@ -30,7 +30,7 @@ public abstract class Solver {
 	
 	public abstract List<OfertaData> resolver(List <OfertaData> list);
 	
-	public abstract List<OfertaData> resolver(List <OfertaData> list, List <OfertaData> obligatorios);
+	public abstract List<OfertaData> resolver(List <OfertaData> list, List <OfertaData> obligatorios) throws IllegalArgumentException;
 	
 	protected abstract void verifica(List<OfertaData> obligatorios);
 	
