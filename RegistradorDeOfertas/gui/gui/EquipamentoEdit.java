@@ -1,31 +1,28 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.SystemColor;
 
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTextField;
 
 import proc.CurrentEquipamento;
 import proc.EquipData;
-import proc.OfertaData;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class EquipamentoEdit extends JDialog{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private JTextField textField;
 	
 	private Viewer<EquipamentoField> viewer;

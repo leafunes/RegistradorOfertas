@@ -6,7 +6,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
-import proc.CurrentEquipamento;
 import proc.EquipData;
 
 import java.awt.event.MouseAdapter;
@@ -15,6 +14,11 @@ import java.awt.event.MouseEvent;
 public class EquipamentoField extends JPanel{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public EquipamentoField(EquipamentoEdit parent,EquipData data) {
 		
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));

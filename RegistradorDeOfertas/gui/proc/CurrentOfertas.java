@@ -134,10 +134,6 @@ public class CurrentOfertas {
 	
 	private File dateToFile(DateTime date){
 		
-		int year = date.getYear();
-		int month = date.getMonthOfYear();
-		int day = date.getDayOfMonth();
-		
 		File file = new File("Datos" + File.separatorChar + "ofertas" + File.separatorChar + date.toString("yyyy_MM_dd")+ ".json");
 		
 		return file;

@@ -1,16 +1,13 @@
 package gui;
 
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import org.joda.time.DateTime;
@@ -28,6 +25,10 @@ import java.io.File;
 
 public class CierreForm extends JDialog{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<Solver> solvers = Solver.getAllSolvers();
 	private List<File> files ;
 	private List<JRadioButton> filesButtons;

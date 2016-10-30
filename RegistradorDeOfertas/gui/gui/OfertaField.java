@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
@@ -18,11 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class OfertaField extends JPanel {
-	//TODO hacer otro extends
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JCheckBox chckbxAgregar;
 	private JButton btnEliminar;

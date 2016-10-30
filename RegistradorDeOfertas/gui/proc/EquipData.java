@@ -2,7 +2,6 @@ package proc;
 
 import org.json.simple.JSONObject;
 
-
 public class EquipData {
 	
 	private String nombre;
@@ -27,6 +26,7 @@ public class EquipData {
 			return ret;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public JSONObject toJSON(EquipData obj) {
 			JSONObject ret = new JSONObject();

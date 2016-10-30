@@ -1,18 +1,12 @@
 package proc;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.joda.time.LocalTime;
-import org.joda.time.ReadableInstant;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -46,6 +40,7 @@ public class OfertaData{
 			throw new RuntimeException("No implementado");
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public OfertaData fromJSON(JSONObject obj) {
 			OfertaData ret = new OfertaData();
@@ -75,6 +70,7 @@ public class OfertaData{
 			return ret;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public JSONObject toJSON(OfertaData data) {
 			JSONObject ret = new JSONObject();

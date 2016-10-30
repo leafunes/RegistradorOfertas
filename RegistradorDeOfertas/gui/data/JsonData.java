@@ -34,6 +34,7 @@ public class JsonData {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> void putObjectInArray(File file, Exportator<T> exportator, T toAdd, String array) throws IOException, ParseException{
 		
 		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
@@ -50,6 +51,7 @@ public class JsonData {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> void removeObjectInArray(File file, Exportator<T> exportator, T toRemove, String array) throws IOException, ParseException{
 		
 		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
@@ -67,6 +69,7 @@ public class JsonData {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public <T> void putArray(File file, Exportator<T> exportator, List<T> listToAdd ,String name) throws IOException, ParseException{
 		
 		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
@@ -80,6 +83,7 @@ public class JsonData {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> List<T> getArray(File file, Exportator<T> exportator, String array) throws FileNotFoundException, IOException, ParseException{
 		
 		ArrayList <T> ret = new ArrayList<>();
@@ -95,6 +99,7 @@ public class JsonData {
 		return ret;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> void putField(File file, String field, T value) throws FileNotFoundException, IOException, ParseException{
 		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
 		jsonObject.put(field, value);

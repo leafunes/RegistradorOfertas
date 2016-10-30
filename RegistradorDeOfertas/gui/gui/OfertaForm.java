@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Checkbox;
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
@@ -8,7 +7,6 @@ import java.awt.Dimension;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.SpinnerDateModel;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
@@ -19,24 +17,16 @@ import javax.swing.JCheckBox;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JFormattedTextField;
-
-import com.toedter.calendar.JDateChooser;
 
 import proc.CurrentEquipamento;
 import proc.EquipData;
 import proc.OfertaData;
 
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 
-import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import com.github.lgooddatepicker.components.TimePicker;

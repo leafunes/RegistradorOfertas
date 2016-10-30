@@ -6,12 +6,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import proc.CurrentOfertas;
 import proc.OfertaData;
 
 public class OfertaMiniField extends JPanel{
@@ -23,7 +21,7 @@ public class OfertaMiniField extends JPanel{
 	
 	public OfertaMiniField(Viewer<OfertaMiniField> parent, OfertaData data) {
 		
-		//Diseño
+		//Diseï¿½o
 		setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		this.setBounds(0, 0, 320, 50);
 		this.setBackground(new Color(204, 204, 153));

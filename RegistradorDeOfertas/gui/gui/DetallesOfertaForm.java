@@ -1,26 +1,24 @@
 package gui;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import proc.EquipData;
 import proc.OfertaData;
 
 import javax.swing.JButton;
-import javax.swing.JTextPane;
 import javax.swing.JTextField;
 
 public class DetallesOfertaForm extends JDialog{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private OfertaData data;
 	
 	public DetallesOfertaForm(Component parent, OfertaData data) {
