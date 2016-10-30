@@ -13,7 +13,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import proc.Exportator;
+import interfaces.Exportator;
 //Test
 public class JsonData {
 	

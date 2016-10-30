@@ -1,4 +1,4 @@
-package proc;
+package currents;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +8,8 @@ import java.util.List;
 import org.json.simple.parser.ParseException;
 
 import data.JsonData;
+import datas.EquipData;
+import interfaces.Exportator;
 
 public class CurrentEquipamento {
 	

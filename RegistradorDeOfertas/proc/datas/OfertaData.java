@@ -1,4 +1,4 @@
-package proc;
+package datas;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,8 @@ import org.joda.time.Interval;
 import org.joda.time.LocalTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import interfaces.Exportator;
 
 public class OfertaData{
 	
@@ -23,7 +25,7 @@ public class OfertaData{
 	LocalTime inicio;
 	LocalTime fin;
 	Interval intervalo;
-	Duration duracion;
+	private Duration duracion;
 	double precio;//TODO BigDecimal
 	
 	List<EquipData> equipamento = new ArrayList<>();
@@ -176,14 +178,20 @@ public class OfertaData{
 		return this.equipamento;
 	}
 	
+	public Duration getDuracion() {
+		return duracion;
+	}
+
 	public void createInterval(){
 		
-		//TODO: codigo defensivo
+		if(inicio == null || fin == null)
+			throw new NullPointerException("falta inicializar el tiempo de inicio y fin");
+		
 		DateTime inicio = this.inicio.toDateTime(fecha);
 		DateTime fin = this.fin.toDateTime(fecha);
 		
 		this.intervalo = new Interval(inicio, fin);
-		this.duracion = intervalo.toDuration();
+		duracion = intervalo.toDuration();
 		
 	}
 	

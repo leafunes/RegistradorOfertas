@@ -1,4 +1,4 @@
-package gui;
+package fields;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,8 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
-import proc.CurrentOfertas;
-import proc.OfertaData;
+import currents.CurrentOfertas;
+import datas.OfertaData;
+import forms.DetallesOfertaForm;
 
 import javax.swing.JCheckBox;
 import javax.swing.JButton;

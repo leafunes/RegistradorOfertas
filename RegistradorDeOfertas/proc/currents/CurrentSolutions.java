@@ -1,4 +1,4 @@
-package proc;
+package currents;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +9,8 @@ import org.joda.time.DateTime;
 import org.json.simple.parser.ParseException;
 
 import data.JsonData;
+import datas.OfertaData;
+import interfaces.Exportator;
 
 public class CurrentSolutions {
 

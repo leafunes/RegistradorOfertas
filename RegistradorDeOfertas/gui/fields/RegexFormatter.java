@@ -1,4 +1,4 @@
-package gui;
+package fields;
 
 import java.text.ParseException;
 import java.util.regex.Matcher;

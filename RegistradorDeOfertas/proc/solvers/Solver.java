@@ -1,7 +1,9 @@
-package proc;
+package solvers;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import datas.OfertaData;
 
 public abstract class Solver {
 	
@@ -14,8 +16,8 @@ public abstract class Solver {
 			solvers = new ArrayList<>();
 			
 			solvers.add(new SolverGoloso((d1,d2) ->  (int)(d2.getPrecio() - d1.getPrecio()), "por precio"));
-			solvers.add(new SolverGoloso((d1,d2) ->  d1.duracion.compareTo(d2.duracion), "por tiempo"));
-			solvers.add(new SolverGoloso((d1,d2) ->  (int)( d1.getPrecio()/d1.duracion.getStandardMinutes() - d2.getPrecio()/d2.duracion.getStandardMinutes()), "por precio/tiempo"));
+			solvers.add(new SolverGoloso((d1,d2) ->  d1.getDuracion().compareTo(d2.getDuracion()), "por tiempo"));
+			solvers.add(new SolverGoloso((d1,d2) ->  (int)( d1.getPrecio()/d1.getDuracion().getStandardMinutes() - d2.getPrecio()/d2.getDuracion().getStandardMinutes()), "por precio/tiempo"));
 		}
 		
 		return solvers;

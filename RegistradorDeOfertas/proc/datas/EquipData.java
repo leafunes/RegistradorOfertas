@@ -1,6 +1,8 @@
-package proc;
+package datas;
 
 import org.json.simple.JSONObject;
+
+import interfaces.Exportator;
 
 public class EquipData {
 	

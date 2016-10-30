@@ -1,4 +1,4 @@
-package proc;
+package interfaces;
 
 import org.json.simple.JSONObject;
 

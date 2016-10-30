@@ -1,4 +1,4 @@
-package gui;
+package fields;
 
 import java.awt.Component;
 import java.awt.Dialog;
@@ -20,16 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFormattedTextField;
-
-import proc.CurrentEquipamento;
-import proc.EquipData;
-import proc.OfertaData;
-
 import javax.swing.JLabel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import com.github.lgooddatepicker.components.TimePicker;
+
+import currents.CurrentEquipamento;
+import datas.EquipData;
+import datas.OfertaData;
 
 public class OfertaForm extends JDialog{
 	

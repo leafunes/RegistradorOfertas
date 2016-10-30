@@ -1,4 +1,4 @@
-package gui;
+package forms;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -12,9 +12,11 @@ import javax.swing.JRadioButton;
 
 import org.joda.time.DateTime;
 
-import proc.CurrentSolutions;
-import proc.OfertaData;
-import proc.Solver;
+import currents.CurrentSolutions;
+import datas.OfertaData;
+import fields.OfertaMiniField;
+import fields.Viewer;
+import solvers.Solver;
 
 import javax.swing.JComboBox;
 import javax.swing.ButtonGroup;

@@ -1,4 +1,4 @@
-package gui;
+package forms;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
@@ -6,12 +6,12 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-
-import proc.EquipData;
-import proc.OfertaData;
-
 import javax.swing.JButton;
 import javax.swing.JTextField;
+
+import datas.EquipData;
+import datas.OfertaData;
+import fields.Viewer;
 
 public class DetallesOfertaForm extends JDialog{
 	

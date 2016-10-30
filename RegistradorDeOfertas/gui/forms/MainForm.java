@@ -1,4 +1,4 @@
-package gui;
+package forms;
 
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
@@ -15,13 +15,16 @@ import javax.swing.JButton;
 
 import org.joda.time.DateTime;
 
-import proc.CurrentOfertas;
-import proc.OfertaData;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import com.toedter.calendar.JDateChooser;
+
+import currents.CurrentOfertas;
+import datas.OfertaData;
+import fields.OfertaField;
+import fields.OfertaForm;
+import fields.Viewer;
 
 public class MainForm {
 

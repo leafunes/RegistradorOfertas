@@ -1,7 +1,9 @@
-package proc;
+package data;
 
 import java.io.File;
 import java.util.List;
+
+import datas.OfertaData;
 
 public class PdfMaker {
 

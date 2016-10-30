@@ -1,4 +1,4 @@
-package gui;
+package forms;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -11,8 +11,10 @@ import java.util.List;
 
 import javax.swing.JTextField;
 
-import proc.CurrentEquipamento;
-import proc.EquipData;
+import currents.CurrentEquipamento;
+import datas.EquipData;
+import fields.EquipamentoField;
+import fields.Viewer;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -89,7 +91,7 @@ public class EquipamentoEdit extends JDialog{
         
 	}
 	
-	void removeEquip(EquipData toRemove){
+	public void removeEquip(EquipData toRemove){
 		currentEquip.removeEquipamento(toRemove);
 		
 		actualizeEquip();
