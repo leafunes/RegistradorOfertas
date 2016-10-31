@@ -30,7 +30,6 @@ public class CurrentSolutions {
 	}
 	
 	private CurrentSolutions(){
-		
 	}
 	
 	public List<File> getAllFilesOf(DateTime date){
