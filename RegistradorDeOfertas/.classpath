@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="joda-time-2.9.4.jar"/>
 	<classpathentry kind="lib" path="json-simple-1.1.jar"/>
 	<classpathentry kind="lib" path="LGoodDatePicker-7.6.3.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

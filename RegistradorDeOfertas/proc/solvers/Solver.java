@@ -34,6 +34,13 @@ public abstract class Solver {
 	
 	public abstract List<OfertaData> resolver(List <OfertaData> list, List <OfertaData> obligatorios) throws IllegalArgumentException;
 	
-	protected abstract void verifica(List<OfertaData> obligatorios);
+	protected void verifica(List<OfertaData> obligatorios) throws IllegalArgumentException{
+		
+		for (OfertaData ofertaData : obligatorios) {
+			if(ofertaData.esValido(obligatorios))
+				throw new IllegalArgumentException("La lista de ofertas obligatorias tiene ofertas que se superponen");
+		}
+		
+	}
 	
 }

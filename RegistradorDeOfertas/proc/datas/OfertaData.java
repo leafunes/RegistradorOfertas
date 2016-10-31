@@ -225,10 +225,7 @@ public class OfertaData{
 		
 	}
 	
-	@Override
-	public String toString(){
-		return DNI + ", " + inicio + " a " + fin + ": " + precio;
-	}
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -240,16 +237,30 @@ public class OfertaData{
 			return false;
 		OfertaData other = (OfertaData) obj;
 		
-		
 		if (DNI != other.DNI) return false;
-		if ((nombre == null && other.nombre != null) || !nombre.equals(other.nombre)) return false;
-		if ((apellido == null && other.apellido != null) || !apellido.equals(other.apellido)) return false;
-		if ((email == null && other.email != null) || !email.equals(other.email)) return false;
+		if (!(nombre == null || other.nombre == null) )
+			if( !nombre.equals(other.nombre)) 
+				return false;
 		
+		if (!(apellido == null || other.apellido == null) )
+			if(!apellido.equals(other.apellido)) 
+				return false;
 		
-		if ((fecha == null && other.fecha != null) || !fecha.equals(other.fecha)) return false;
-		if ((fin == null && other.fin != null)||!fin.equals(other.fin)) return false;
-		if ((inicio == null && other.inicio != null) || !inicio.equals(other.inicio)) return false;
+		if (!(email == null || other.email == null) )
+			if( !email.equals(other.email))
+				return false;
+		
+		if (!(fecha == null || other.fecha == null))
+			if( !fecha.equals(other.fecha)) 
+				return false;
+
+		if (!(fin == null || other.fin == null))
+			if(!fin.equals(other.fin))
+				return false;
+		
+		if (!(inicio == null || other.inicio ==null))
+			if(!inicio.equals(other.inicio)) 
+				return false;
 		
 		if (Double.doubleToLongBits(precio) != Double.doubleToLongBits(other.precio)) return false;
 		if (telefono != other.telefono)return false;
@@ -258,7 +269,6 @@ public class OfertaData{
 			if(!other.containsEquip(equipData))
 				return false;
 		}
-		
 		
 		return true;
 	}
