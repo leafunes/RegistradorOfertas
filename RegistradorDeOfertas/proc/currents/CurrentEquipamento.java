@@ -16,15 +16,21 @@ public class CurrentEquipamento {
 	private Exportator<EquipData> exportador = EquipData.exportador();
 	
 	private JsonData jsonData = JsonData.getData();
-	private File file = new File("Datos" + File.separatorChar + "equipamento" +
-									File.separatorChar +
-									"data.json"); 
+	private File file;
 	
 	private static CurrentEquipamento current;
 
 	public static CurrentEquipamento getCurrent(){
+		
+		return getCurrent(new File("Datos" + File.separatorChar + "equipamento" +
+									File.separatorChar +
+									"data.json"));
+	}
+	
+	public static CurrentEquipamento getCurrent(File file){
 		if(current == null){
 			current = new CurrentEquipamento();
+			current.file = file;
 		}
 		
 		return current;

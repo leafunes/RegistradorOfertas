@@ -19,6 +19,8 @@ public class CurrentOfertas {
 	private JsonData jsonData = JsonData.getData();
 	
 	private static CurrentOfertas current;
+	
+	File directory = new File("Datos" + File.separatorChar + "ofertas" );
 
 	public static CurrentOfertas getCurrent(){
 		if(current == null){
@@ -136,7 +138,7 @@ public class CurrentOfertas {
 	
 	private File dateToFile(DateTime date){
 		
-		File file = new File("Datos" + File.separatorChar + "ofertas" + File.separatorChar + date.toString("yyyy_MM_dd")+ ".json");
+		File file = new File( directory.getAbsolutePath()+ File.separatorChar + date.toString("yyyy_MM_dd")+ ".json");
 		
 		return file;
 		

@@ -19,7 +19,7 @@ public class CurrentSolutions {
 	
 	private static CurrentSolutions current;
 	
-	private final File directory = new File("Datos" + File.separatorChar + "soluciones");
+	File directory = new File("Datos" + File.separatorChar + "soluciones");
 
 	public static CurrentSolutions getCurrent(){
 		if(current == null){
