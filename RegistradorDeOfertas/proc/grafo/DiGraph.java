@@ -7,15 +7,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Graph <V extends Distanciable<V>>{
+public class DiGraph <V extends Distanciable<V>>{
 
 	HashMap<V, HashSet<V> > table;
-	private ArrayList<V> refList;
+	ArrayList<V> refList;
 	
 	int edges;
 	int vertices;
 	
-	public Graph(Collection<? extends V> vertices){
+	public DiGraph(Collection<? extends V> vertices){
 		
 		table = new HashMap<>();
 		refList = new ArrayList<V>();
@@ -35,8 +35,7 @@ public class Graph <V extends Distanciable<V>>{
 		
 		checkContainsBounds(vertex1, vertex2);
 		
-		return table.get(vertex1).contains(vertex2) &&
-				table.get(vertex2).contains(vertex1);
+		return table.get(vertex1).contains(vertex2);
 	}
 
 	public void addEdge(V vertex1, V vertex2) throws IllegalArgumentException{
@@ -47,7 +46,7 @@ public class Graph <V extends Distanciable<V>>{
 			edges++;
 	
 		table.get(vertex1).add(vertex2);
-		table.get(vertex2).add(vertex1);
+		//table.get(vertex2).add(vertex1);
 	}
 	
 	public void addEdge(Edge<V> e) throws IllegalArgumentException{
@@ -63,7 +62,7 @@ public class Graph <V extends Distanciable<V>>{
 			edges--;
 		
 		table.get(vertex1).remove(vertex2);
-		table.get(vertex2).remove(vertex1);
+		//table.get(vertex2).remove(vertex1);
 			
 	}
 	
@@ -128,10 +127,6 @@ public class Graph <V extends Distanciable<V>>{
 			if(!vertex.equals(v2))ret.add( new Edge<V>(v1, vertex));
 		}
 		
-		for(V vertex : table.get(v2)){
-			if(!vertex.equals(v1))ret.add( new Edge<V>(v2, vertex));
-		}
-		
 		return ret;
 		
 	}
@@ -179,9 +174,9 @@ public class Graph <V extends Distanciable<V>>{
 		
 	}
 	
-	public Graph<V> clone(){
+	public DiGraph<V> clone(){
 		
-		Graph<V> ret = new Graph<>(refList);
+		DiGraph<V> ret = new DiGraph<>(refList);
 		
 		for (V vertex1 : table.keySet()) {
 			for (V vertex2 : table.get(vertex1)) {
@@ -236,9 +231,9 @@ public class Graph <V extends Distanciable<V>>{
 		
 		if(other == this) return true;
 		
-		if(other instanceof Graph<?>){
+		if(other instanceof DiGraph<?>){
 			
-			Graph<?> otherMap = (Graph<?>) other;
+			DiGraph<?> otherMap = (DiGraph<?>) other;
 			
 			return this.table.equals(otherMap.table);
 		}
