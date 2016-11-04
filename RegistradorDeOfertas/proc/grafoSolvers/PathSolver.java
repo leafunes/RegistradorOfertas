@@ -1,4 +1,7 @@
-package grafo;
+package grafoSolvers;
+
+import grafo.DiGraph;
+import grafo.Distanciable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,36 +9,6 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class PathSolver{
-	
-	private class Nodo <T extends Distanciable<T>>{
-		
-		boolean visitado;
-		T vertice;
-		Nodo<T> anterior;
-		double distanciaTent;
-		
-		public Nodo(T vertice){
-			this.vertice = vertice;
-			visitado = false;
-			distanciaTent = Double.POSITIVE_INFINITY;
-			
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			
-			Nodo<T> other = (Nodo<T>) obj;//TODO
-			
-			return vertice.equals(other.vertice);
-		}
-		
-	}
 	
 	private static PathSolver current;
 	
@@ -118,10 +91,10 @@ public class PathSolver{
 	
 	<T extends Distanciable<T>> Nodo<T> getMinimoNoVisitado(List<Nodo<T>> nodos){
 		
-		Nodo<T> min = nodos.get(0);
+		Nodo<T> min = null;
 		
 		for (Nodo<T> nodo : nodos)
-			if(!nodo.visitado && min.distanciaTent < nodo.distanciaTent)
+			if(!nodo.visitado && (min == null || nodo.distanciaTent < min.distanciaTent))
 				min = nodo;
 			
 		return min;

@@ -1,9 +1,9 @@
 package solvers;
 
 import grafo.DiGraph;
-import grafo.PathSolver;
 import grafo.TimeNodo;
 import grafo.TimeNodo.Tipo;
+import grafoSolvers.PathSolver;
 
 import java.util.ArrayList;
 import java.util.List;
