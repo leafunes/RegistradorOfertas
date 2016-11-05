@@ -1,13 +1,11 @@
 package solvers;
 
 import grafo.DiGraph;
-import grafo.TimeNodo;
-import grafo.TimeNodo.Tipo;
 import grafoSolvers.PathSolver;
+import solvers.TimeNodo.Tipo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import datas.OfertaData;
 
@@ -15,13 +13,16 @@ public class SolverExacto extends Solver{
 	
 	private PathSolver pathSolver = PathSolver.getCurrent();
 	
-	private interface AgregaSi{
-		public boolean agregaSi(TimeNodo n1, TimeNodo n2);
+	SolverExacto() {
+
+		nombre = "Algoritmo Exacto Polinomial";
 	}
 
 	@Override
 	public List<OfertaData> resolver(List<OfertaData> list) {
-
+		
+		List<OfertaData> ret = new ArrayList<>();
+		
 		List<TimeNodo> vertices = generateVertices(list);
 		DiGraph<TimeNodo> grafo = generateGraph(vertices);
 		
@@ -30,13 +31,26 @@ public class SolverExacto extends Solver{
 		
 		List<TimeNodo> caminoMasCorto = pathSolver.getPath(nodoSource, nodoDestination, grafo);
 		
-		throw new RuntimeException("No implementado"); //TODO
+		for (TimeNodo timeNodo : caminoMasCorto) {
+			if(!ret.contains(timeNodo.data) && timeNodo.data != null)
+				ret.add(timeNodo.data);
+		}
+		
+		
+		return ret;
 	}
 
 	@Override
 	public List<OfertaData> resolver(List<OfertaData> list, List<OfertaData> obligatorios) throws IllegalArgumentException {
 		
-		throw new RuntimeException("No implementado!!");
+		List<OfertaData> ret = new ArrayList<>(obligatorios);
+		List<OfertaData> dataClon = new ArrayList<>(list);
+		
+		dataClon.removeIf(oferta -> oferta.superponeCon(obligatorios));
+		
+		ret.addAll(resolver(dataClon));
+		
+		return ret;
 	}
 	
 	public List<TimeNodo> generateVertices(List<OfertaData> dataList){
@@ -65,40 +79,67 @@ public class SolverExacto extends Solver{
 	
 	public DiGraph<TimeNodo> generateGraph(List<TimeNodo> vertices){
 		
-		DiGraph<TimeNodo> ret = new DiGraph<TimeNodo>(vertices);
+		DiGraph<TimeNodo> grafo = new DiGraph<TimeNodo>(vertices);
 		
 		TimeNodo nodoSource = vertices.get(0);
 		TimeNodo nodoDestination = vertices.get(vertices.size() - 1);
 		
-		for (int i = 1; i < vertices.size(); i = i + 2) {
+		for (int i = 1; i < vertices.size() - 1; i = i + 2) {
 			
 			TimeNodo nodoInicio = vertices.get(i);
 			TimeNodo nodoFin = vertices.get(i+1);
 			
-			ret.addEdge(nodoInicio, nodoFin);
-			ret.addEdge(nodoSource, nodoInicio);
-			ret.addEdge(nodoFin, nodoDestination);
+			grafo.addEdge(nodoInicio, nodoFin);
 			
-			//Agrego todos las aristas desde los nodos finales de los horarios anteriores, hacia el nodoInicio
-			agregarEdges(nodoInicio, ret, (n1, n2) -> n2.tipo == Tipo.FIN && 
-													!n2.data.getFin().isAfter(n1.data.getInicio()));
+			if(isFirstHour(vertices, nodoInicio)) grafo.addEdge(nodoSource, nodoInicio);
 			
-			//Agrego todos las aristas desde el nodoFinal, hacia todos los finales posteriores
-			agregarEdges(nodoFin, ret, (n1, n2) -> n2.tipo == Tipo.INICIO &&
-												!n2.data.getInicio().isBefore(n1.data.getFin()));
-			
+			if(isLastHour(vertices, nodoFin)) grafo.addEdge(nodoFin, nodoDestination);
+	
+			agregaEdges(nodoInicio, nodoFin, grafo);
+		
 		}
 		
-		return ret;
+		
+		return grafo;
 	}
 	
-	public void agregarEdges(TimeNodo nodo, DiGraph<TimeNodo> grafo, AgregaSi condicion){
-	
-		for(TimeNodo nodoGrafo : grafo.getVerticesSet())
-			if(condicion.agregaSi(nodo, nodoGrafo))
-				grafo.addEdge(nodoGrafo, nodo);
-					
+
+	public boolean isFirstHour(List<TimeNodo> list, TimeNodo toEvaluate){
 		
+		for (TimeNodo nodo : list) {
+			if(nodo.data != null && nodo.data.getInicio().isBefore( toEvaluate.data.getInicio()))
+				return false;
+		}
+		
+		return true;
+		
+	}
+	
+	public boolean isLastHour(List<TimeNodo> list, TimeNodo toEvaluate){
+		
+		for (TimeNodo nodo : list) {
+			if(nodo.data != null &&  nodo.data.getFin().isAfter( toEvaluate.data.getFin() ))
+				return false;
+		}
+		
+		return true;
+		
+	}
+	
+	public void agregaEdges(TimeNodo nodoInicio, TimeNodo nodoFin, DiGraph<TimeNodo> grafo){
+		
+		for(TimeNodo other : grafo.getVerticesSet()){
+			//Agrego todos las aristas desde los nodos finales de los horarios anteriores, hacia el nodoInicio
+			
+			if(other.isFin() && !other.isAfter(nodoInicio))
+				grafo.addEdge(other, nodoInicio); //De cualquierNodo -> nodoInicio
+			
+			//Agrego todos las aristas desde el nodoFin hacia los nodos incio de los horarios posteriores
+			
+			if(other.isInicio() && !other.isBefore(nodoFin))
+				grafo.addEdge(nodoFin, other); //De nodoFin -> cualquierNodo
+			
+		}
 	}
 	
 	

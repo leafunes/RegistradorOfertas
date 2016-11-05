@@ -18,6 +18,7 @@ public abstract class Solver {
 			solvers.add(new SolverGoloso((d1,d2) ->  (int)(d2.getPrecio() - d1.getPrecio()), "por precio"));
 			solvers.add(new SolverGoloso((d1,d2) ->  d1.getDuracion().compareTo(d2.getDuracion()), "por tiempo"));
 			solvers.add(new SolverGoloso((d1,d2) ->  (int)( d1.getPrecio()/d1.getDuracion().getStandardMinutes() - d2.getPrecio()/d2.getDuracion().getStandardMinutes()), "por precio/tiempo"));
+			solvers.add(new SolverExacto());
 		}
 		
 		return solvers;

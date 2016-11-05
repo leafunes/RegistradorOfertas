@@ -13,7 +13,7 @@ import javax.swing.text.DefaultFormatter;
 /**
  * A regular expression based implementation of AbstractFormatter.
  */
-class RegexFormatter extends DefaultFormatter {
+public class RegexFormatter extends DefaultFormatter {
   /**
 	 * 
 	 */

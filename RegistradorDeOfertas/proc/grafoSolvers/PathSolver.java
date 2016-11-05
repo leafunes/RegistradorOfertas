@@ -30,7 +30,8 @@ public class PathSolver{
 			throw new IllegalArgumentException("Los vertices no pertenecen al grafo");
 		
 		List < Nodo<T> > nodos = createNodos(source, destination, graph);
-		
+
+		Nodo <T> destNodo = nodos.get(nodos.size() - 1);
 		
 		while(!estanTodosVistos(nodos)){
 			
@@ -40,7 +41,6 @@ public class PathSolver{
 			
 		}
 		
-		Nodo <T> destNodo = new Nodo<T>(destination);
 		List<T> secuencia = new ArrayList<T>();
 		
 		generateSecuencia(destNodo,secuencia);
@@ -73,8 +73,10 @@ public class PathSolver{
 		nodos.add(destNodo);
 		
 		//Actualizo las distancias al primer nodo
-		for(Nodo<T> nodo : nodos)if(graph.containsEdge(source, nodo.vertice))
+		for(Nodo<T> nodo : nodos)if(graph.containsEdge(source, nodo.vertice)){
 			nodo.distanciaTent = graph.getWeigth(source, nodo.vertice);
+			nodo.anterior = sourceNodo;
+		}
 		
 		return nodos;
 	}
@@ -105,8 +107,10 @@ public class PathSolver{
 		for(Nodo<T> vecino : nodosList)
 			if(grafo.containsEdge(nodo.vertice, vecino.vertice))
 				if(vecino.distanciaTent > nodo.distanciaTent + grafo.getWeigth(nodo.vertice, vecino.vertice)){
+					
 					vecino.distanciaTent = nodo.distanciaTent + grafo.getWeigth(nodo.vertice, vecino.vertice);
 					vecino.anterior = nodo;
+					
 				}
 		
 	}

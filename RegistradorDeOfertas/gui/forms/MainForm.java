@@ -23,7 +23,6 @@ import com.toedter.calendar.JDateChooser;
 import currents.CurrentOfertas;
 import datas.OfertaData;
 import fields.OfertaField;
-import fields.OfertaForm;
 import fields.Viewer;
 
 public class MainForm {

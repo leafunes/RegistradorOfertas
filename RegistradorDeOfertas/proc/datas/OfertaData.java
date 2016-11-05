@@ -83,8 +83,8 @@ public class OfertaData{
 			ret.put("DNI", data.DNI);
 			ret.put("telefono", data.telefono);
 			ret.put("fecha", data.getFecha().toString("yyyy-MM-dd"));
-			ret.put("inicio", data.inicio.toString("hh:mm"));
-			ret.put("fin", data.fin.toString("hh:mm"));
+			ret.put("inicio", data.inicio.toString("HH:mm"));
+			ret.put("fin", data.fin.toString("HH:mm"));
 			ret.put("precio", data.precio);
 			
 			JSONArray equipamentoJson = new JSONArray();
@@ -225,8 +225,6 @@ public class OfertaData{
 		
 	}
 	
-	
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -273,13 +271,31 @@ public class OfertaData{
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "nombre=" + nombre;
+	}
 
-
-
-
-	
-	
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (DNI ^ (DNI >>> 32));
+		result = prime * result + ((apellido == null) ? 0 : apellido.hashCode());
+		result = prime * result + ((duracion == null) ? 0 : duracion.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((equipamento == null) ? 0 : equipamento.hashCode());
+		result = prime * result + ((fecha == null) ? 0 : fecha.hashCode());
+		result = prime * result + ((fin == null) ? 0 : fin.hashCode());
+		result = prime * result + ((inicio == null) ? 0 : inicio.hashCode());
+		result = prime * result + ((intervalo == null) ? 0 : intervalo.hashCode());
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(precio);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + (int) (telefono ^ (telefono >>> 32));
+		return result;
+	}
 	
 
 }

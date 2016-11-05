@@ -1,4 +1,4 @@
-package fields;
+package forms;
 
 import java.awt.Component;
 import java.awt.Dialog;
@@ -29,6 +29,8 @@ import com.github.lgooddatepicker.components.TimePicker;
 import currents.CurrentEquipamento;
 import datas.EquipData;
 import datas.OfertaData;
+import fields.RegexFormatter;
+import fields.Viewer;
 
 public class OfertaForm extends JDialog{
 	
@@ -239,7 +241,6 @@ public class OfertaForm extends JDialog{
 		data.setTelefono( Long.valueOf(telField.getText()));
 		data.setDNI(Long.valueOf(dniField.getText()));
 		data.setFecha(date);
-		
 		
 		data.setInicio(LocalTime.parse(pickerInicio.getTime().toString()));
 		data.setFin(LocalTime.parse(pickerFin.getTime().toString()));
