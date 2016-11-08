@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import grafo.DiGraph;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -80,6 +81,22 @@ public class PathsolverTest {
 		
 	}
 	
+	@Test
+	public void estanTodosVistosTest(){
+
+		DiGraph<DistPoint> grafo = getGrafo();
+		
+		List <Nodo<DistPoint>> nodos = solver.createNodos(a, h, grafo);
+		
+		assertFalse(solver.estanTodosVistos(nodos));
+		
+		for (Nodo<DistPoint> nodo : nodos) {
+			nodo.visitado = true;
+		}
+		
+		assertTrue(solver.estanTodosVistos(nodos));
+		
+	}
 	
 	@Test
 	public void getMinimoNoVisitadoTest() {
@@ -110,6 +127,61 @@ public class PathsolverTest {
 		
 		assertEquals(2.41, nodos.get(2).distanciaTent, 0.01); //nodo c
 		assertEquals(2.23, nodos.get(4).distanciaTent, 0.01); //nodo e
+		
+	}
+	
+	@Test
+	public void generateSecuenciaTest(){
+		DiGraph<DistPoint> grafo = getGrafo();
+		
+		List <Nodo<DistPoint>> nodos = solver.createNodos(a, h, grafo);
+		
+		List<DistPoint> expected = new ArrayList<DistPoint>();
+		
+		expected.add(a);
+		expected.add(b);
+		expected.add(d);
+		expected.add(h);
+		
+		Nodo<DistPoint> nodoA = nodos.get(0);
+		Nodo<DistPoint> nodoB = nodos.get(1);
+		Nodo<DistPoint> nodoD = nodos.get(3);
+		Nodo<DistPoint> nodoH = nodos.get(7);
+		
+		nodoH.anterior = nodoD;
+		nodoD.anterior = nodoB;
+		nodoB.anterior = nodoA;
+		
+		
+		List<DistPoint> secuencia = new ArrayList<DistPoint>();
+		
+		solver.generateSecuencia(nodoH, secuencia);
+		
+		assertEquals(expected.size(), secuencia.size());
+		
+		assertEquals(expected, secuencia);
+		
+		
+	}
+	
+	@Test
+	public void getPathTest(){
+		
+		DiGraph<DistPoint> grafo = getGrafo();
+		DistPoint source = a;
+		DistPoint dest = h;
+		
+		List<DistPoint> path = solver.getPath(source, dest, grafo);
+		
+		List<DistPoint> expected = new ArrayList<DistPoint>();
+		
+		expected.add(a);
+		expected.add(e);
+		expected.add(f);
+		expected.add(h);
+		
+		assertEquals(expected.size(), path.size());
+		assertEquals(expected, path);
 		
 	}
 

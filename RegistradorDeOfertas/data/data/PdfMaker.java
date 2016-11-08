@@ -66,11 +66,11 @@ public class PdfMaker {
 		
 		Paragraph titulo = new Paragraph();
 
-		String miFecha= DateTime.now().toString("dd-MM-yyyy");
+		String hoy= DateTime.now().toString("dd-MM-yyyy");
 		
 		titulo.add(new Paragraph("Comprobante asignación sala de ensayo", catFont));
 		
-		titulo.add(new Paragraph("Se extiende comprobante a: " + System.getProperty("user.name") + ", el dia " + miFecha, smallBold));
+		titulo.add(new Paragraph("Se extiende comprobante a: " + System.getProperty("user.name") + ", el dia " + hoy, smallBold));
 		
 		titulo.add(new Paragraph(" "));
 		

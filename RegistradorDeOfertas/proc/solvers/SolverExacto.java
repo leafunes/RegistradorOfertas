@@ -53,7 +53,7 @@ public class SolverExacto extends Solver{
 		return ret;
 	}
 	
-	public List<TimeNodo> generateVertices(List<OfertaData> dataList){
+	List<TimeNodo> generateVertices(List<OfertaData> dataList){
 		
 		List<TimeNodo> ret = new ArrayList<>();
 
@@ -77,7 +77,7 @@ public class SolverExacto extends Solver{
 		
 	}
 	
-	public DiGraph<TimeNodo> generateGraph(List<TimeNodo> vertices){
+	DiGraph<TimeNodo> generateGraph(List<TimeNodo> vertices){
 		
 		DiGraph<TimeNodo> grafo = new DiGraph<TimeNodo>(vertices);
 		
@@ -104,7 +104,7 @@ public class SolverExacto extends Solver{
 	}
 	
 
-	public boolean isFirstHour(List<TimeNodo> list, TimeNodo toEvaluate){
+	boolean isFirstHour(List<TimeNodo> list, TimeNodo toEvaluate){
 		
 		for (TimeNodo nodo : list) {
 			if(nodo.data != null && nodo.data.getInicio().isBefore( toEvaluate.data.getInicio()))

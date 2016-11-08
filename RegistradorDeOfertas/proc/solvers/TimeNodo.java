@@ -5,7 +5,7 @@ import org.joda.time.LocalTime;
 import datas.OfertaData;
 import grafo.Distanciable;
 
-public class TimeNodo implements Distanciable<TimeNodo>{
+class TimeNodo implements Distanciable<TimeNodo>{
 
 	public static enum Tipo {INICIO, FIN, SOURCE, DESTINATION};
 	
