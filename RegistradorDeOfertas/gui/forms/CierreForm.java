@@ -12,7 +12,10 @@ import javax.swing.JRadioButton;
 
 import org.joda.time.DateTime;
 
+import com.itextpdf.text.DocumentException;
+
 import currents.CurrentSolutions;
+import data.PdfMaker;
 import datas.OfertaData;
 import fields.OfertaMiniField;
 import fields.Viewer;
@@ -24,6 +27,7 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class CierreForm extends JDialog{
 	
@@ -35,6 +39,7 @@ public class CierreForm extends JDialog{
 	private List<File> files ;
 	private List<JRadioButton> filesButtons;
 	private CurrentSolutions current = CurrentSolutions.getCurrent();
+	private PdfMaker pdfMaker = PdfMaker.getMaker();
 	private ButtonGroup selectablefiles;
 	private Viewer<JRadioButton> fileViewer;
 	private Viewer<OfertaMiniField> viewer;
@@ -46,6 +51,8 @@ public class CierreForm extends JDialog{
 	
 	private DateTime date;
 	
+	private CierreForm thisRef;
+	
 	public CierreForm(Component parent, List<OfertaData> listData, List<OfertaData> obligatorios, DateTime date) {
 		getContentPane().setLayout(null);
 		setSize(new Dimension(745, 420));
@@ -56,6 +63,8 @@ public class CierreForm extends JDialog{
 		this.obligatorios = obligatorios;
 		this.files = new ArrayList<>();
 		this.filesButtons = new ArrayList<>();
+		
+		thisRef = this;
 		
 		selectablefiles = new ButtonGroup();
 		
@@ -81,6 +90,21 @@ public class CierreForm extends JDialog{
 		JButton btnGenerar = new JButton("Generar");
 		JButton flechita = new JButton("->");
 		JButton btnExportarComoPdf = new JButton("Exportar como PDF");
+		btnExportarComoPdf.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				
+				try {
+					if(!(solucion == null || solucion.isEmpty())){
+						pdfMaker.create(solucion, date);
+						JOptionPane.showMessageDialog(thisRef, "Exportado como PDF!", "Info", JOptionPane.INFORMATION_MESSAGE);
+					}
+				} catch (FileNotFoundException | DocumentException e) {
+					JOptionPane.showMessageDialog(thisRef, "Ha ocurrido un error", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
 		
 		btnGenerar.setBounds(630, 336, 89, 23);
 		flechita.setBounds(192, 137, 45, 23);
