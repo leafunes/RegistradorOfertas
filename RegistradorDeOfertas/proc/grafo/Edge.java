@@ -25,6 +25,16 @@ public class Edge <V extends Distanciable<V>>{
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((vertex1 == null) ? 0 : vertex1.hashCode());
+		result = prime * result + ((vertex2 == null) ? 0 : vertex2.hashCode());
+		result = prime * result + ((weight == null) ? 0 : weight.hashCode());
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object other)
 	{
 		
@@ -42,4 +52,5 @@ public class Edge <V extends Distanciable<V>>{
 		
 		return false;
 	}
+	
 }

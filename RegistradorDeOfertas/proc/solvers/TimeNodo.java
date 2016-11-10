@@ -73,7 +73,10 @@ class TimeNodo implements Distanciable<TimeNodo>{
 
 	@Override
 	public String toString() {
-		return "TimeNodo [tipo=" + tipo + ", data=" + data + ", toString()="+ "]";
+		if(hora != null)
+			return "TimeNodo [tipo=" + tipo + ", data=" + data + "hora:" + hora.toString("hh:mm") +"]";
+		else
+			return "TimeNodo [tipo=" + tipo + "]";
 	}
 
 	@Override
@@ -84,4 +87,29 @@ class TimeNodo implements Distanciable<TimeNodo>{
 		return result;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TimeNodo other = (TimeNodo) obj;
+		
+		if (data == null ) {
+			if (other.data != null)
+				return false;
+		} else if (!data.equals(other.data))
+			return false;
+		if (hora == null) {
+			if (other.hora != null)
+				return false;
+		} else if (!hora.equals(other.hora))
+			return false;
+		if (tipo != other.tipo)
+			return false;
+		return true;
+	}
+	
 }

@@ -115,7 +115,7 @@ public class SolverExacto extends Solver{
 		
 	}
 	
-	public boolean isLastHour(List<TimeNodo> list, TimeNodo toEvaluate){
+	boolean isLastHour(List<TimeNodo> list, TimeNodo toEvaluate){
 		
 		for (TimeNodo nodo : list) {
 			if(nodo.data != null &&  nodo.data.getFin().isAfter( toEvaluate.data.getFin() ))
@@ -126,7 +126,7 @@ public class SolverExacto extends Solver{
 		
 	}
 	
-	public void agregaEdges(TimeNodo nodoInicio, TimeNodo nodoFin, DiGraph<TimeNodo> grafo){
+	void agregaEdges(TimeNodo nodoInicio, TimeNodo nodoFin, DiGraph<TimeNodo> grafo){
 		
 		for(TimeNodo other : grafo.getVerticesSet()){
 			//Agrego todos las aristas desde los nodos finales de los horarios anteriores, hacia el nodoInicio
@@ -142,7 +142,4 @@ public class SolverExacto extends Solver{
 		}
 	}
 	
-	
-	
-
 }
