@@ -165,7 +165,25 @@ public class SolverExactoTest {
 	@Test
 	public void resolverTest(){
 		
-		throw new RuntimeException("No implementado");
+		List<OfertaData> ofertas = createData("de 01:00 a 05:00 con 800,"
+											+ "de 06:00 a 07:00 con 799,"
+											+"de 01:00 a 02:00 con 0,"
+											+ "de 09:00 a 11:00 con 300,"
+											+ "de 06:30 a 09:00 con 200,"
+											+ "de 01:00 a 03:00 con 999999");
+		
+		List<OfertaData> obligatorios = createData("de 01:00 a 02:00 con 0");
+		
+		List<OfertaData> expected = createData("de 01:00 a 05:00 con 800,"
+											+ "de 06:00 a 07:00 con 799,"
+											+"de 01:00 a 02:00 con 0,"
+											+ "de 09:00 a 11:00 con 300,"
+											+ "de 06:30 a 09:00 con 200,"
+											+ "de 01:00 a 03:00 con 999999");//TODO
+		
+		List<OfertaData> solucion = solver.resolver(ofertas, obligatorios);
+		
+		throw new RuntimeException("TODO");
 		
 	}
 
