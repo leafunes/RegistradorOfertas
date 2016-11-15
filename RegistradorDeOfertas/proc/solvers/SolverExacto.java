@@ -91,9 +91,9 @@ public class SolverExacto extends Solver{
 			
 			grafo.addEdge(nodoInicio, nodoFin);
 			
-			if(isFirstHour(vertices, nodoInicio)) grafo.addEdge(nodoSource, nodoInicio);
+			grafo.addEdge(nodoSource, nodoInicio);
 			
-			if(isLastHour(vertices, nodoFin)) grafo.addEdge(nodoFin, nodoDestination);
+			grafo.addEdge(nodoFin, nodoDestination);
 	
 			agregaEdges(nodoInicio, nodoFin, grafo);
 		
@@ -101,29 +101,6 @@ public class SolverExacto extends Solver{
 		
 		
 		return grafo;
-	}
-	
-
-	boolean isFirstHour(List<TimeNodo> list, TimeNodo toEvaluate){
-		
-		for (TimeNodo nodo : list) {
-			if(nodo.data != null && nodo.data.getInicio().isBefore( toEvaluate.data.getInicio()))
-				return false;
-		}
-		
-		return true;
-		
-	}
-	
-	boolean isLastHour(List<TimeNodo> list, TimeNodo toEvaluate){
-		
-		for (TimeNodo nodo : list) {
-			if(nodo.data != null &&  nodo.data.getFin().isAfter( toEvaluate.data.getFin() ))
-				return false;
-		}
-		
-		return true;
-		
 	}
 	
 	void agregaEdges(TimeNodo nodoInicio, TimeNodo nodoFin, DiGraph<TimeNodo> grafo){

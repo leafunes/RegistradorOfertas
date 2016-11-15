@@ -48,37 +48,6 @@ public class SolverExactoTest {
 	}
 	
 	@Test
-	public void isLastHourTest(){
-
-		List<OfertaData> ofertas = createData("de 01:00 a 05:00 con 800, "
-											+ "de 06:00 a 07:00 con 799,"
-											+ "de 09:00 a 11:00 con 300");
-		
-		List<TimeNodo> nodos = solver.generateVertices(ofertas);
-		TimeNodo ultimaHora = nodos.get(5);
-		TimeNodo noUltimaHora = nodos.get(4);
-		
-		assertTrue(solver.isLastHour(nodos, ultimaHora));
-		assertFalse(solver.isLastHour(nodos, noUltimaHora));
-		
-	}
-	
-	@Test
-	public void isFirstHourTest(){
-		List<OfertaData> ofertas = createData("de 01:00 a 05:00 con 800, "
-											+ "de 06:00 a 07:00 con 799,"
-											+ "de 09:00 a 11:00 con 300");
-
-		List<TimeNodo> nodos = solver.generateVertices(ofertas);
-		TimeNodo primeraHora = nodos.get(1);
-		TimeNodo noPrimeraHora = nodos.get(4);
-
-		assertTrue(solver.isFirstHour(nodos, primeraHora));
-		assertFalse(solver.isFirstHour(nodos, noPrimeraHora));
-		
-	}
-	
-	@Test
 	public void generateVerticesTest() {
 		List<OfertaData> ofertas = createData("de 01:00 a 05:00 con 800, "
 											+ "de 06:00 a 07:00 con 799,"
@@ -113,17 +82,25 @@ public class SolverExactoTest {
 		
 		DiGraph<TimeNodo> grafoExpected = new DiGraph<TimeNodo>(vertices);
 		
-		grafoExpected.addEdge(vertices.get(0), vertices.get(1)); //s -> 01:00
 		
+		grafoExpected.addEdge(vertices.get(0), vertices.get(3)); // s -> 06:00
+		grafoExpected.addEdge(vertices.get(0), vertices.get(5)); // s -> 09:00
+	
+		grafoExpected.addEdge(vertices.get(0), vertices.get(1)); //s -> 01:00
 		grafoExpected.addEdge(vertices.get(1), vertices.get(2)); //01:00 -> 05:00
+		
 		grafoExpected.addEdge(vertices.get(2), vertices.get(3)); //05:00 -> 06:00
 		grafoExpected.addEdge(vertices.get(2), vertices.get(5)); //05:00 -> 09:00
+		grafoExpected.addEdge(vertices.get(2), vertices.get(7)); //05:00 -> d
 
 		grafoExpected.addEdge(vertices.get(3), vertices.get(4)); //06:00 -> 07:00
 		grafoExpected.addEdge(vertices.get(4), vertices.get(5)); //07:00 -> 09:00
 
 		grafoExpected.addEdge(vertices.get(5), vertices.get(6)); //09:00 -> 11:00
-		grafoExpected.addEdge(vertices.get(6), vertices.get(7)); //11:00 -> s
+		
+		grafoExpected.addEdge(vertices.get(4), vertices.get(7)); //07:00 -> d
+		
+		grafoExpected.addEdge(vertices.get(6), vertices.get(7)); //11:00 -> d
 		
 		DiGraph<TimeNodo> grafo = solver.generateGraph(vertices);
 		
