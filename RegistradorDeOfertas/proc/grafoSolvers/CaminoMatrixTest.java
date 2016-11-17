@@ -108,5 +108,14 @@ public class CaminoMatrixTest {
 		assertNotNull(matrix.getCamino(a, f));
 		assertEquals(4.47, matrix.getCaminoWeight(a, f), 0.01);
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void actualizeCaminoNoExistenteTest(){
+
+		CaminoMatrix<DistPoint> matrix = new CaminoMatrix<>(getGrafo());
+		
+		matrix.actualizaCamino(a, f, d);//El camino a -> f no existe
+		
+	}
 
 }
