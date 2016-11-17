@@ -5,11 +5,11 @@ import java.util.HashMap;
 import grafo.DiGraph;
 import grafo.Distanciable;
 
-class VerticesMatrix<T extends Distanciable<T>> {
+class CaminoMatrix<T extends Distanciable<T>> {
 	
 	HashMap< T, HashMap <T, Camino<T>> > matrix;
 	
-	VerticesMatrix(DiGraph<T> grafo){
+	CaminoMatrix(DiGraph<T> grafo){
 		
 		matrix = new HashMap<T, HashMap<T,Camino<T>>>();
 		

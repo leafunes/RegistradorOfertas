@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import grafo.DiGraph;
 
-public class VerticesMatrixTest {
+public class CaminoMatrixTest {
 	
 	DistPoint a = new DistPoint(0, 0);
 	DistPoint b = new DistPoint(0, 1);
@@ -56,7 +56,7 @@ public class VerticesMatrixTest {
 
 	@Test
 	public void constructorTest() {
-		VerticesMatrix<DistPoint> matrix = new VerticesMatrix<>(getGrafo());
+		CaminoMatrix<DistPoint> matrix = new CaminoMatrix<>(getGrafo());
 		
 		Camino<DistPoint> camino_ab = matrix.getCamino(a, b);
 		Camino<DistPoint> camino_ba = matrix.getCamino(b, a);
@@ -72,7 +72,7 @@ public class VerticesMatrixTest {
 	
 	@Test
 	public void putCaminoTest(){
-		VerticesMatrix<DistPoint> matrix = new VerticesMatrix<>(getGrafo());
+		CaminoMatrix<DistPoint> matrix = new CaminoMatrix<>(getGrafo());
 		
 		assertNotNull(matrix.getCamino(a, b));
 		assertNull(matrix.getCamino(b, a));
@@ -88,7 +88,7 @@ public class VerticesMatrixTest {
 	@Test
 	public void getCaminoWeightTest(){
 		
-		VerticesMatrix<DistPoint> matrix = new VerticesMatrix<>(getGrafo());
+		CaminoMatrix<DistPoint> matrix = new CaminoMatrix<>(getGrafo());
 		
 		
 		assertEquals(2.23, matrix.getCaminoWeight(c, d), 0.01);
@@ -99,7 +99,7 @@ public class VerticesMatrixTest {
 	@Test
 	public void actualizeCaminoTest(){
 
-		VerticesMatrix<DistPoint> matrix = new VerticesMatrix<>(getGrafo());
+		CaminoMatrix<DistPoint> matrix = new CaminoMatrix<>(getGrafo());
 		
 		assertNull(matrix.getCamino(a, f));
 		

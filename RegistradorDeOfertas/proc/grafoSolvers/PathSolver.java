@@ -28,7 +28,7 @@ public class PathSolver{
 		if(!graph.getVerticesSet().contains(source) && !graph.getVerticesSet().contains(destination))
 			throw new IllegalArgumentException("Los vertices no pertenecen al grafo");
 		
-		VerticesMatrix<T> matriz = new VerticesMatrix<T>(graph);
+		CaminoMatrix<T> matriz = new CaminoMatrix<T>(graph);
 		
 		for(T k : graph.getVerticesSet()){
 			for(T i : graph.getVerticesSet()){
