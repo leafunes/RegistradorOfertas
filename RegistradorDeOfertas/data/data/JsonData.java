@@ -37,7 +37,7 @@ public class JsonData {
 	@SuppressWarnings("unchecked")
 	public <T> void putObjectInArray(File file, Exportator<T> exportator, T toAdd, String array) throws IOException, ParseException{
 		
-		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
+		JSONObject jsonObject = parseAndClose(file);
 		JSONArray jsonArray = (JSONArray) jsonObject.get(array);
 		
 		if(jsonArray == null)
@@ -49,12 +49,13 @@ public class JsonData {
 
 		writeFile(file, jsonObject.toJSONString());
 		
+		
 	}
 	
 	@SuppressWarnings("unchecked")
 	public <T> void removeObjectInArray(File file, Exportator<T> exportator, T toRemove, String array) throws IOException, ParseException{
 		
-		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
+		JSONObject jsonObject = parseAndClose(file);
 		JSONArray jsonArray = (JSONArray) jsonObject.get(array);
 		
 		if(jsonArray == null)
@@ -72,7 +73,7 @@ public class JsonData {
 	@SuppressWarnings("unchecked")
 	public <T> void putArray(File file, Exportator<T> exportator, List<T> listToAdd ,String name) throws IOException, ParseException{
 		
-		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
+		JSONObject jsonObject = parseAndClose(file);
 		JSONArray jsonArray = new JSONArray();
 		
 		listToAdd.forEach(t -> jsonArray.add(exportator.toJSON(t)));
@@ -88,7 +89,7 @@ public class JsonData {
 		
 		ArrayList <T> ret = new ArrayList<>();
 		
-		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
+		JSONObject jsonObject = parseAndClose(file);
 		JSONArray jsonArray = (JSONArray) jsonObject.get(array);
 		
 		if(jsonArray == null)
@@ -101,15 +102,18 @@ public class JsonData {
 	
 	@SuppressWarnings("unchecked")
 	public <T> void putField(File file, String field, T value) throws FileNotFoundException, IOException, ParseException{
-		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
+		
+		JSONObject jsonObject = parseAndClose(file);
 		jsonObject.put(field, value);
 		
 		writeFile(file, jsonObject.toJSONString());
+		
 	}
 	
 	public <T> T getField(File file, String field, Class<T> clase) throws FileNotFoundException, IOException, ParseException{
 		
-		JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(file));
+		JSONObject jsonObject = parseAndClose(file);
+		
 		return clase.cast(jsonObject.get(field));
 			
 	}
@@ -137,6 +141,16 @@ public class JsonData {
 	private <T> T getObject (JSONObject obj, Exportator<T> exportator){
 		
 		return exportator.fromJSON(obj);
+		
+	}
+	
+	private JSONObject parseAndClose(File file) throws IOException, ParseException{
+		
+		FileReader reader = new FileReader(file);
+		JSONObject ret = (JSONObject)parser.parse(reader);
+		reader.close();
+		
+		return ret;
 		
 	}
 

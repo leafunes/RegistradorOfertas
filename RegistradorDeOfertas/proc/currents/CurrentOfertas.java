@@ -67,7 +67,6 @@ public class CurrentOfertas {
 			throw new IllegalArgumentException("La fecha " + date + " es posterior a hoy");
 		
 		File file = dateToFile(date);
-		
 		try {
 			newData(file);
 			jsonData.putObjectInArray(file, exportador, oferta, "ofertas");
@@ -96,7 +95,6 @@ public class CurrentOfertas {
 	
 	public void cerrarDia(DateTime date){
 		
-			
 		File file = dateToFile(date);
 		
 		try {
@@ -109,7 +107,7 @@ public class CurrentOfertas {
 		
 	}
 	
-	private void newData(File file) throws IOException, ParseException, FileNotFoundException {
+	void newData(File file) throws IOException, ParseException, FileNotFoundException {
 		if(!file.exists()){
 			jsonData.newFile(file);
 			jsonData.putArray(file, exportador, new ArrayList<>(), "ofertas");
@@ -152,8 +150,5 @@ public class CurrentOfertas {
 		return file;
 		
 	}
-
-
-	
 
 }
