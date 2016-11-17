@@ -273,7 +273,7 @@ public class OfertaData{
 
 	@Override
 	public String toString() {
-		return "nombre=" + nombre;
+		return "nombre= " + nombre + " inicio= " + inicio.toString("hh:mm") + " fin= " + fin.toString("hh:mm");
 	}
 
 	@Override
