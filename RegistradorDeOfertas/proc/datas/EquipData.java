@@ -78,8 +78,5 @@ public class EquipData {
 		return true;
 	}
 	
-	
-	
-	
 
 }

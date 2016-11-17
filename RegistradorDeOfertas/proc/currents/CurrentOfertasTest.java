@@ -10,7 +10,8 @@ import java.util.regex.Pattern;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
-import org.junit.Before;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
 
 import datas.EquipData;
@@ -18,20 +19,10 @@ import datas.OfertaData;
 
 public class CurrentOfertasTest {
 	
-	CurrentEquipamento current = CurrentEquipamento.getCurrent(new File("Tests" + 
-																	File.separatorChar 
-																	+ "ofertasTest.json"));
-	@Before
-	public void clearData(){
-		
-		File file = new File("Tests" + 
-					File.separatorChar 
-					+ "ofertasTest.json");
-		file.delete();
-		
-		
-	}
-	
+	CurrentOfertas current = CurrentOfertas.getCurrent(new File("Tests"));
+	DateTime now = DateTime.now();
+	DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+
 	private LocalTime strToLocalTime(String str){
 		if(!str.matches("\\d\\d:\\d\\d"))
 			throw new IllegalArgumentException("La cadena " + str + "no tiene el formato requerido");
@@ -55,25 +46,33 @@ public class CurrentOfertasTest {
 		OfertaData ret = new OfertaData();
 		
 		str = str.replaceAll("\\s+", "");
+		System.out.println(str);
 		
-		Pattern pattern = Pattern.compile("\\((.*?)\\)");
-		Matcher matcher = pattern.matcher(str);
+		Pattern pattern = Pattern.compile("\\d");//El equipamento que esta entre parentesis
+		Matcher matcher = pattern.matcher("123456");//TODO
 		
 		String[] data = str.split(",");
+		
+		for (String string : data) {
+			System.out.println(string);
+		}
 		
 		ret.setNombre(data[0]);
 		ret.setApellido(data[1]);
 		ret.setDNI(Long.parseLong(data[2]));
 		ret.setEmail(data[3]);
 		ret.setTelefono(Long.parseLong(data[4]));
-		ret.setFecha(DateTime.parse(data[5]));
+		ret.setFecha(DateTime.parse(data[5], formatter));
 		ret.setInicio(strToLocalTime(data[6]));
 		ret.setFin(strToLocalTime(data[7]));
 		ret.setPrecio(Double.parseDouble(data[8]));
 		
+		ret.createInterval();
+		System.out.println(matcher.groupCount());
 		String[] equip = matcher.group(0).split(",");
 		
 		for(String equipData : equip){
+			System.out.println(equipData);
 			EquipData toAdd = new EquipData(equipData);
 			ret.agregaEquip(toAdd);
 		}
@@ -105,70 +104,27 @@ public class CurrentOfertasTest {
 	private List<OfertaData> getlistOfData(){
 		List<OfertaData> ret = new ArrayList<>();
 		
-		parseData("leandro, funes, 40426773, f.l@gmail.com, 1169616563, 12/04/2016, 01:00, 05:00, 800, (guitarra, bajo)");
+		parseList("leandro, funes, 40426773, f.l@gmail.com, 1169616563, 12/04/2016, 01:00, 05:00, 800, (guitarra, bajo)"
+				+ "y belen, devito, 12345678, belu@ungs.com, 98754689, 12/04/2016, 08:00, 07:00, 150, (guitarra, microfono)"
+				+ "y javier, marenco, 56734567, jmarenco@gmail.com, 12346578, 12/04/2016, 13:00, 22:00, 9000, (guitarra, bajo, platillos)");
 		
 		return ret;
 	}
 	
-	@Test
-	public void test(){
-		getlistOfData();
-	}
+	//**************************TESTS***************************************//
 	
 	@Test
-	public void getEquipamentoTest() {
-		List<EquipData> equip = current.getEquipamento();
-		
-		assertEquals(0, equip.size());
-		
-		current.putEquipamento(new EquipData("hola"));
-		
-		equip = current.getEquipamento();
-		
-		assertEquals(1, equip.size());
-		
-	}
-	
-	//TODO
-	
-	/*@Test
-	public void putEquipamentoTest() {
-		
+	public void putOfertaTest(){
 		List<OfertaData> list = getlistOfData();
 		
-		for (OfertaData equipData : list) {
-			current.putEquipamento(equipData);
+		for (OfertaData ofertaData : list) {
+			current.putOferta(ofertaData, now);
 		}
 		
-		List<EquipData> dataLoaded = current.getEquipamento();
+		List<OfertaData> listOfFile = current.getOfertas(now);
 		
-		assertEquals(4, dataLoaded.size());
-		
-		assertTrue(list.containsAll(dataLoaded));
-		assertTrue(dataLoaded.containsAll(list));
+		assertEquals(list.size(), listOfFile.size());
 		
 	}
-	
-	@Test
-	public void removeEquipamentoTest(){
-		
-		List<EquipData> list = getlistOfData();
-		
-		for (EquipData equipData : list) {
-			current.putEquipamento(equipData);
-		}
-		
-		EquipData toRemove = list.get(0);
-		EquipData notToRemove = list.get(1);
-		
-		current.removeEquipamento(toRemove);
-		
-		List<EquipData> dataLoaded = current.getEquipamento();
-		
-		assertEquals(3, dataLoaded.size());
-		assertFalse(dataLoaded.contains(toRemove));
-		assertTrue(dataLoaded.contains(notToRemove));
-		
-	}*/
 
 }

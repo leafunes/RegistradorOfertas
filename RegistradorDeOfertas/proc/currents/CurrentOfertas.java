@@ -15,7 +15,7 @@ import interfaces.Exportator;
 
 public class CurrentOfertas {
 	
-	Exportator<OfertaData> exportador = OfertaData.exportador();
+	private Exportator<OfertaData> exportador = OfertaData.exportador();
 	private JsonData jsonData = JsonData.getData();
 	
 	private static CurrentOfertas current;
@@ -28,6 +28,15 @@ public class CurrentOfertas {
 		}
 		
 		return current;
+	}
+	
+	//Solo para testing
+	static CurrentOfertas getCurrent(File directory){
+		CurrentOfertas toTest = new CurrentOfertas();
+		
+		toTest.directory = directory;
+		
+		return toTest;
 	}
 	
 	private CurrentOfertas(){

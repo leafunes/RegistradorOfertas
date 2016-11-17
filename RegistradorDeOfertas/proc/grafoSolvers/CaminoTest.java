@@ -26,7 +26,7 @@ public class CaminoTest {
 	}
 	
 	@Test
-	public void testGetPeso() {
+	public void getPesoTest() {
 		Camino<DistPoint> camino_ae = new Camino<>(a,e);
 		Camino<DistPoint> camino_ah = new Camino<>(a,h);
 		
@@ -36,7 +36,7 @@ public class CaminoTest {
 	}
 
 	@Test
-	public void testAgregaVertice() {
+	public void agregaVerticeTest() {
 		Camino<DistPoint> camino_ae = new Camino<>(a,e);
 		assertEquals(2.23, camino_ae.getPeso(), 0.01);
 		
@@ -46,7 +46,7 @@ public class CaminoTest {
 	}
 	
 	@Test
-	public void testAgregaVerticeEnVacio() {
+	public void agregaVerticeEnVacioTest() {
 		Camino<DistPoint> camino = new Camino<>();
 		assertEquals(0, camino.getPeso(), 0.01);
 		
