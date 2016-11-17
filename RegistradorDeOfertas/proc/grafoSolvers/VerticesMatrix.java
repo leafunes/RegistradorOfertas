@@ -18,11 +18,9 @@ class VerticesMatrix<T extends Distanciable<T>> {
 			HashMap<T, Camino<T>> filaMatriz = new HashMap<T, Camino<T>>();
 			
 			for(T v2 : grafo.getVerticesSet()){
-				Camino<T> camino = null;//TODO
+				Camino<T> camino = null;
 				
-				if(grafo.containsEdge(v1, v2)){
-					camino = new Camino<>(v1,v2);
-				}
+				if(grafo.containsEdge(v1, v2))camino = new Camino<>(v1,v2);
 				
 				filaMatriz.put(v2, camino);
 				
@@ -33,15 +31,24 @@ class VerticesMatrix<T extends Distanciable<T>> {
 		
 	}
 	
-	void actualizaCamino(T v1, T v2, T v3){
-		Camino<T> camino1 = matrix.get(v1).get(v2);
-		Camino<T> camino2 = matrix.get(v2).get(v3);
+	void actualizaCamino(T i, T k, T j){
+		//Actualiza el camino de i a j, como un camino de i a k, y luego de k a j
 		
-		if(camino1 == null || camino2 == null)
+		Camino<T> caminoik = matrix.get(i).get(k);
+		Camino<T> caminokj = matrix.get(k).get(j);
+		
+		if(caminoik == null && caminokj == null)
 			throw new IllegalArgumentException("El camino a sumar no existe");
 		
-		camino1.agregaCamino(camino2);
+		Camino<T> caminoikj = new Camino<>(caminoik);
+		caminoikj.agregaCamino(caminokj);
 		
+		putCamino(i, j, caminoikj);
+		
+	}
+	
+	void putCamino(T i, T j, Camino<T> camino){
+		matrix.get(i).put((j), camino);
 	}
 	
 	Camino<T> getCamino(T v1, T v2){

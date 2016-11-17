@@ -5,13 +5,20 @@ import grafo.Distanciable;
 import java.util.ArrayList;
 import java.util.List;
 
-class Camino <T extends Distanciable<T>>{
+public class Camino <T extends Distanciable<T>>{
 	
 	ArrayList<T> camino;
 	int longitud;
 	double peso;
 	
-	Camino(T inicio, T fin){
+	public Camino(){
+		camino = new ArrayList<T>();
+		
+		peso = 0;
+		longitud = 0;
+	}
+	
+	public Camino(T inicio, T fin){
 		camino = new ArrayList<T>();
 		camino.add(inicio);
 		camino.add(fin);
@@ -21,25 +28,48 @@ class Camino <T extends Distanciable<T>>{
 		longitud = camino.size() - 1;
 	}
 	
-	void agregaCamino(Camino<T> otro){
+	public Camino(Camino<T> c){
+		camino = new ArrayList<T>(c.camino);
 		
-		if( ! camino.get(longitud).equals(otro.camino.get(0))){
-			throw new IllegalArgumentException("Los caminos no coinciden en sus extremos");
+		peso = c.peso;
+		longitud = c.longitud;
+	}
+	
+	public void agregaCamino(Camino<T> otro){
+		
+		if(otro == null)
+			return;
+		
+		if(camino.isEmpty())
+			camino = new ArrayList<T>(otro.camino);
+		
+		else{
+			
+			if( ! camino.get(longitud).equals(otro.camino.get(0)))
+				throw new IllegalArgumentException("Los caminos no coinciden en sus extremos " + camino.get(longitud) + ", " + otro.camino.get(0));
+			
+			camino.remove(longitud);
+			camino.addAll(otro.camino);
+		
 		}
 		
-		this.camino.remove(longitud);
-		this.camino.addAll(otro.camino);
-		
 		peso = peso + otro.peso;
+		longitud = camino.size() - 1;
+	}
+	
+	public void agregaVertice(T v){
+
+		if(!camino.isEmpty())peso += camino.get(longitud).distanceTo(v);
+		camino.add(v);
 		longitud = camino.size() - 1;
 		
 	}
 	
-	List<T> getList(){
-		return this.camino;
+	public List<T> getList(){
+		return new ArrayList<>(this.camino);
 	}
 	
-	double getPeso(){
+	public double getPeso(){
 		return peso;
 	}
 

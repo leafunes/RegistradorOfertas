@@ -62,16 +62,16 @@ public class PathsolverTest {
 		DistPoint source = a;
 		DistPoint dest = h;
 		
-		List<DistPoint> path = solver.getPath(source, dest, grafo);
+		Camino<DistPoint> path = solver.getPath(source, dest, grafo);
 		
-		List<DistPoint> expected = new ArrayList<DistPoint>();
+		Camino<DistPoint> expected = new Camino<>();
 		
-		expected.add(a);
-		expected.add(e);
-		expected.add(f);
-		expected.add(h);
+		expected.agregaVertice(a);
+		expected.agregaVertice(e);
+		expected.agregaVertice(f);
+		expected.agregaVertice(h);
 		
-		assertEquals(expected.size(), path.size());
+		assertEquals(expected.longitud, path.longitud);
 		assertEquals(expected, path);
 		
 	}

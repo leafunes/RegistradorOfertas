@@ -23,7 +23,7 @@ public class PathSolver{
 		
 	}
 
-	public <T extends Distanciable<T>> List<T> getPath(T source, T destination, DiGraph<T> graph){
+	public <T extends Distanciable<T>> Camino<T> getPath(T source, T destination, DiGraph<T> graph){
 		
 		if(!graph.getVerticesSet().contains(source) && !graph.getVerticesSet().contains(destination))
 			throw new IllegalArgumentException("Los vertices no pertenecen al grafo");
@@ -41,7 +41,7 @@ public class PathSolver{
 			}
 		}
 		
-		return matriz.getCamino(source, destination).getList();
+		return matriz.getCamino(source, destination);
 		
 	}
 	

@@ -29,7 +29,7 @@ public class SolverExacto extends Solver{
 		TimeNodo nodoSource = vertices.get(0);
 		TimeNodo nodoDestination = vertices.get(vertices.size() - 1);
 		
-		List<TimeNodo> caminoMasCorto = pathSolver.getPath(nodoSource, nodoDestination, grafo);
+		List<TimeNodo> caminoMasCorto = pathSolver.getPath(nodoSource, nodoDestination, grafo).getList();
 		
 		for (TimeNodo timeNodo : caminoMasCorto) {
 			if(!ret.contains(timeNodo.data) && timeNodo.data != null)
