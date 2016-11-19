@@ -31,84 +31,11 @@ public class CurrentOfertasTest {
 	DateTime tomorrow = DateTime.now().plusDays(1);
 	DateTime notNow = DateTime.parse("25/04/1997", formatter);
 
-	private LocalTime strToLocalTime(String str){
-		if(!str.matches("\\d\\d:\\d\\d"))
-			throw new IllegalArgumentException("La cadena " + str + "no tiene el formato requerido");
-		
-		String[] time = str.split(":");
-		
-		return new LocalTime(Integer.parseInt(time[0]), Integer.parseInt(time[1]));
-	}
-	
-	/***
-	 * 
-	 * @param str
-	 * 
-	 * Uso: parseData("nombre, apellido, DNI, Email, tel, fecha, inicio, fin, monto, (equip1, equip2, ...)")
-	 * 
-	 * @return
-	 */
-	
-	private OfertaData parseData(String str){
-		
-		OfertaData ret = new OfertaData();
-		
-		str = str.replaceAll("\\s+", "");
-		
-		Pattern pattern = Pattern.compile("\\((.*?)\\)");//El equipamento que esta entre parentesis
-		Matcher matcher = pattern.matcher(str);//TODO
-		matcher.find();
-		
-		String[] data = str.split(",");
-		
-		ret.setNombre(data[0]);
-		ret.setApellido(data[1]);
-		ret.setDNI(Long.parseLong(data[2]));
-		ret.setEmail(data[3]);
-		ret.setTelefono(Long.parseLong(data[4]));
-		ret.setFecha(DateTime.parse(data[5], formatter));
-		ret.setInicio(strToLocalTime(data[6]));
-		ret.setFin(strToLocalTime(data[7]));
-		ret.setPrecio(Double.parseDouble(data[8]));
-		
-		ret.createInterval();
-		
-		String equipamento = matcher.group(0).replaceAll("\\(|\\)", "");
-		
-		String[] equipArray = equipamento.split(",");
-		
-		for(String equipData : equipArray){
-			EquipData toAdd = new EquipData(equipData);
-			ret.agregaEquip(toAdd);
-		}
-		
-		return ret;
-	}
-	
-	/***
-	 * 
-	 * @param str
-	 * 
-	 * Uso: parseList("nombre, apellido, DNI, Email, tel, fecha, inicio, fin, monto, (equip1, equip2, ...) y nombre2, apellido2, ...")
-	 * 
-	 * @return
-	 */
-	
-	private List<OfertaData> parseList(String str){
-		List<OfertaData> ret = new ArrayList<>();
-		String[] rawData = str.split("y");
-		
-		for (String data : rawData) {
-			ret.add(parseData(data));
-		}
-		
-		return ret;
-		
-	}
+	OfertasParser parser = new OfertasParser();
 	
 	private List<OfertaData> getlistOfData(){
 		
-		return parseList("leandro, funes, 40426773, f.l@gmail.com, 1169616563, 12/04/2016, 01:00, 05:00, 800, (guitarra, bajo)"
+		return parser.parseList("leandro, funes, 40426773, f.l@gmail.com, 1169616563, 12/04/2016, 01:00, 05:00, 800, (guitarra, bajo)"
 				+ "y belen, devito, 40345678, belu@ungs.com, 98754689, 12/04/2016, 08:00, 09:00, 150, (guitarra, microfono)"
 				+ "y javier, marenco, 56734567, jmarenco@gmail.com, 12346578, 12/04/2016, 13:00, 22:00, 9000, (guitarra, bajo, platillos)");
 		
@@ -146,7 +73,7 @@ public class CurrentOfertasTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void putOfertaFechaAnterior(){
 		
-		OfertaData oferta = parseData("leandro, funes, 40426773, f.l@gmail.com, 1169616563, 12/04/2016, 01:00, 05:00, 800, (guitarra, bajo)");
+		OfertaData oferta = parser.parseData("leandro, funes, 40426773, f.l@gmail.com, 1169616563, 12/04/2016, 01:00, 05:00, 800, (guitarra, bajo)");
 		
 		current.putOferta(oferta, notNow);
 		

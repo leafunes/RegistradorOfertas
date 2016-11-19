@@ -29,6 +29,16 @@ public class CurrentSolutions {
 		return current;
 	}
 	
+	//Solo para testing
+	static CurrentSolutions getCurrent(File dir){
+		CurrentSolutions ret = new CurrentSolutions();
+		
+		ret.directory = dir;
+		
+		return ret;
+
+	}
+	
 	private CurrentSolutions(){
 	}
 	
@@ -79,14 +89,18 @@ public class CurrentSolutions {
 		
 		String fileName = file.getName();
 		
-		String [] split = fileName.split("-|@|_|\\.");
+		String [] split = fileName.split("-|_|\\.");
+		long milis = Long.parseLong(split[3]);
+		DateTime date = new DateTime(milis);
 		
-		return split[5] + " del " + split[4] + " del " + split[3] + " a las "+ split[6] + ":" + split[7]+ ":"+split[8];
+		return date.toString("yyyy") + " del " + date.toString("MM") + " del " 
+				+ date.toString("dd") + " a las " + date.toString("HH") + ":"
+				+ date.toString("mm") + ":" + date.toString("ss");
 		
 	}
 	
 	private File dateToFile(DateTime date){
-		return new File(directory.getAbsolutePath() + File.separatorChar + date.toString("yyyy_MM_dd-") + DateTime.now().toString("yyyy_MM_dd@hh_mm_ss") + ".json");
+		return new File(directory.getAbsolutePath() + File.separatorChar + date.toString("yyyy_MM_dd-") + DateTime.now().getMillis() + ".json");
 	}
 	
 	private String generateName(DateTime date){
