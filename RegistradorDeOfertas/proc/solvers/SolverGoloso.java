@@ -33,7 +33,7 @@ public class SolverGoloso extends Solver{
 		Collections.sort(dataClon, comparador);
 		
 		for (OfertaData ofertaData : dataClon) {
-			if(!ofertaData.superponeCon(ret))
+			if(!ret.contains(ofertaData) && !ofertaData.superponeCon(ret))
 				ret.add(ofertaData);
 		}
 		

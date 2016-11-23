@@ -54,6 +54,7 @@ public class OfertaForm extends JDialog{
 	private TimePicker pickerInicio;
 	
 	public OfertaForm(Component parent, DateTime date){
+		setTitle("Agregar Oferta");
 		
 		this.date = date;
 		equipList = CurrentEquipamento.getCurrent().getEquipamento();

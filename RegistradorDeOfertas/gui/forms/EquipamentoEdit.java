@@ -1,6 +1,7 @@
 package forms;
 
 import java.awt.Component;
+import java.awt.Dialog;
 import java.awt.Dimension;
 
 import javax.swing.JDialog;
@@ -34,6 +35,7 @@ public class EquipamentoEdit extends JDialog{
 	
 	public EquipamentoEdit(Component parent) {
 		setTitle("Editar Equipamento");
+		this.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
 		this.setSize(350, 325);
 		super.setLocationRelativeTo(parent);
 		getContentPane().setLayout(null);

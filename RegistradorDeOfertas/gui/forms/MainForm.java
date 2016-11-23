@@ -27,7 +27,7 @@ import fields.Viewer;
 
 public class MainForm {
 
-	private JFrame frame;
+	private JFrame frmRegistradorDeOfertas;
 	private CurrentOfertas currentOfertas= CurrentOfertas.getCurrent();
 	private JDateChooser dateChooser;
 	
@@ -52,7 +52,7 @@ public class MainForm {
 			public void run() {
 				try {
 					MainForm window = new MainForm();
-					window.frame.setVisible(true);
+					window.frmRegistradorDeOfertas.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -71,7 +71,9 @@ public class MainForm {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frmRegistradorDeOfertas = new JFrame();
+		frmRegistradorDeOfertas.setResizable(false);
+		frmRegistradorDeOfertas.setTitle("Registrador de Ofertas V1.0");
 		
 		initButtons();
 		initDateChooser();
@@ -82,9 +84,9 @@ public class MainForm {
 		actualizeOfertas();
 		actualizeButtons();
 		
-		frame.setBounds(100, 100, 815, 600);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmRegistradorDeOfertas.setBounds(100, 100, 815, 600);
+		frmRegistradorDeOfertas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmRegistradorDeOfertas.getContentPane().setLayout(null);
 		
 	}
 	
@@ -102,7 +104,7 @@ public class MainForm {
 
 					List<OfertaData> obligatorios = getObligatorios();
 					actualizeOfertas();
-					CierreForm cierre = new CierreForm(frame, ofertasList, obligatorios, selectedDate);
+					CierreForm cierre = new CierreForm(frmRegistradorDeOfertas, ofertasList, obligatorios, selectedDate);
 					cierre.setVisible(true);
 					
 				}
@@ -114,7 +116,7 @@ public class MainForm {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
-				EquipamentoEdit editEquip = new EquipamentoEdit(frame);
+				EquipamentoEdit editEquip = new EquipamentoEdit(frmRegistradorDeOfertas);
 				
 				editEquip.setVisible(true);
 				
@@ -126,7 +128,7 @@ public class MainForm {
 			public void mouseClicked(MouseEvent arg0) {
 				
 				if(isDateOk() && btnNueva.isEnabled()){
-					OfertaForm agregador = new OfertaForm(frame, selectedDate);
+					OfertaForm agregador = new OfertaForm(frmRegistradorDeOfertas, selectedDate);
 					agregador.setVisible(true);
 					if(agregador.data != null)agregaOferta(agregador.data);
 				}
@@ -152,10 +154,10 @@ public class MainForm {
 		btnCerrar.setBounds(10, 510, 119, 23);
 		btnGeneraCierre.setBounds(10, 476, 119, 23);
 		
-		frame.getContentPane().add(btnEquipamento);
-		frame.getContentPane().add(btnCerrar);
-		frame.getContentPane().add(btnNueva);
-		frame.getContentPane().add(btnGeneraCierre);
+		frmRegistradorDeOfertas.getContentPane().add(btnEquipamento);
+		frmRegistradorDeOfertas.getContentPane().add(btnCerrar);
+		frmRegistradorDeOfertas.getContentPane().add(btnNueva);
+		frmRegistradorDeOfertas.getContentPane().add(btnGeneraCierre);
 		
 	}
 	
@@ -179,7 +181,7 @@ public class MainForm {
 		});
 		
 		dateChooser.setBounds(10, 93, 119, 23);
-		frame.getContentPane().add(dateChooser);
+		frmRegistradorDeOfertas.getContentPane().add(dateChooser);
 		
 	}
 	
@@ -187,7 +189,7 @@ public class MainForm {
 		
 		viewer = new Viewer<>(139, 11, 650, 539);
 
-        frame.getContentPane().add(viewer);
+        frmRegistradorDeOfertas.getContentPane().add(viewer);
 		
 	}
 	
@@ -201,7 +203,7 @@ public class MainForm {
 					actualizeButtons();
 					dateChooser.setDate(new Date());
 					
-					JOptionPane.showMessageDialog(frame, "Se ha cerrado el dia " +  currentDate.toString("yyyy-MM-dd"), "Info", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(frmRegistradorDeOfertas, "Se ha cerrado el dia " +  currentDate.toString("yyyy-MM-dd"), "Info", JOptionPane.INFORMATION_MESSAGE);
 					
 					currentDate = DateTime.now();
 					

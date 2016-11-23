@@ -4,6 +4,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import java.awt.Component;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,10 +55,12 @@ public class CierreForm extends JDialog{
 	private CierreForm thisRef;
 	
 	public CierreForm(Component parent, List<OfertaData> listData, List<OfertaData> obligatorios, DateTime date) {
+		setTitle("Soluciones");
 		getContentPane().setLayout(null);
 		setSize(new Dimension(745, 420));
 		setLocationRelativeTo(parent);
 		
+		this.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
 		this.date = date;
 		this.listData = listData;
 		this.obligatorios = obligatorios;
