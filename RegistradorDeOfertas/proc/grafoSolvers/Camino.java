@@ -82,6 +82,7 @@ public class Camino <T extends Distanciable<T>>{
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

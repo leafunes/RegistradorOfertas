@@ -3,10 +3,6 @@ package grafoSolvers;
 import grafo.DiGraph;
 import grafo.Distanciable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class PathSolver{
 	
 	private static PathSolver current;
